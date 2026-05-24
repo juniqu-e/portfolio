@@ -13,7 +13,7 @@
 
 ## Current State (sync timestamp: 2026-05-25)
 
-- [head] **in_progress** — 3 스트림 병행 조율: reviewer (Phase 4 6-게이트), infra (Phase 9 사전 인프라), documenter (ROADMAP/CHANGELOG/README). reviewer PASS 시 commit + push + Phase 5 위임
+- [head] **in_progress** — Phase 4 머지 3 commits 완료 (governance, phase-4, infra-phase9-prep). reviewer 3 WARN 일괄 처리 (Header 터치타깃, skip-link, API contract align, pnpm-workspace 삭제). next.config.ts `output: 'standalone'` 추가 (infra 통지 대응). Phase 5 frontend dispatch 중
 - [frontend] **ready-for-review** — Phase 4 완료: Next.js 15.5 + React 19 + TS strict + Tailwind 3.4 토큰화 + 폰트 3종 로드 + 레이아웃 shell + types/index.ts. typecheck/lint/build PASS. **fix**: Header.tsx glassmorphism (안티패턴 #2) 제거 → bg/blur 모두 삭제, border-b만 유지 (option B). /check-design-rule PASS. First Load JS 106KB.
 - [backend] **idle** — bootstrapped, awaiting task (Phase 6+ guestbook/OG/sitemap 시점 활성)
 - [infrastructure] **ready-for-review** — Phase 9 사전 인프라 초안 완료. 신규 파일: `Dockerfile` (multi-stage node:22-slim + corepack pnpm@9.15.0 + non-root + node fetch healthcheck) / `.dockerignore` / `deploy/docker-compose.yml` (GHCR image + portfolio-data volume + env_file + external npm-network + 로그회전 + 메모리 limit) / `.github/workflows/ci.yml` (matrix typecheck/lint/build, Node 22, pnpm cache) / `deploy/nginx-proxy-manager/notes.md` (NPM UI 체크리스트). YAML lint PASS. **🚨 head에 통지**: `next.config.ts` 에 `output: 'standalone'` 추가 필요 (frontend 권한 — 직접 수정 X). 실제 `docker build` 검증은 Phase 5+ Hero 작성 후. hadolint 미설치 → 수동 review 권장.
