@@ -66,3 +66,13 @@ export type GuestbookEntry = {
   body: string;
   createdAt: string;
 };
+
+export type ParaSegment = { text: string; emphasis?: boolean };
+export type Paragraph = ParaSegment[];
+
+export type IdentityRow = { label: string; value: string };
+
+export type Profile = {
+  aboutBody: Paragraph[];
+  identitySummary: IdentityRow[];
+};
