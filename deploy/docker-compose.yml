@@ -78,5 +78,5 @@ volumes:
 networks:
   npm-network:
     external: true
-    # NPM 이 사용하는 기존 네트워크 이름이 다르면 여기서 name: 지정
-    # name: nginx-proxy-manager_default
+    # 실제 NPM 네트워크 이름은 `npm-proxy` (compose 내부 reference 만 npm-network)
+    name: npm-proxy
