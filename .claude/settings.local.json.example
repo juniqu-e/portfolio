@@ -1,0 +1,8 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "_comment": "이 파일은 settings.local.json의 템플릿. 본인 로컬 실험용 설정을 settings.local.json에 작성 (gitignore됨). 팀 공유 설정은 settings.json에.",
+  "permissions": {
+    "allow": [],
+    "deny": []
+  }
+}
