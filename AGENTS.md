@@ -8,27 +8,31 @@
 
 ## 에이전트 명단
 
-| Agent | Role | 한 줄 요약 |
-|---|---|---|
-| **head** | 두뇌 / PM | 전체 흐름 계획, 작업 배분, 통합 결정 |
-| **frontend** | 프론트엔드 빌더 | UI 컴포넌트 / 페이지 / 디자인 토큰 구현 |
-| **backend** | 백엔드 빌더 | API route handler, 서버 로직 (portfolio에선 최소) |
-| **infrastructure** | 인프라 / 배포 | Docker, CI/CD, 홈서버 배포 |
-| **reviewer** | 머지 리뷰어 | 통합 직전 코드/디자인/접근성 게이트 |
-| **documenter** | 문서화 | ROADMAP/CHANGELOG 동기화, 콘텐츠 다듬기 |
+| Agent              | Role            | 한 줄 요약                                        |
+| ------------------ | --------------- | ------------------------------------------------- |
+| **head**           | 두뇌 / PM       | 전체 흐름 계획, 작업 배분, 통합 결정              |
+| **frontend**       | 프론트엔드 빌더 | UI 컴포넌트 / 페이지 / 디자인 토큰 구현           |
+| **backend**        | 백엔드 빌더     | API route handler, 서버 로직 (portfolio에선 최소) |
+| **infrastructure** | 인프라 / 배포   | Docker, CI/CD, 홈서버 배포                        |
+| **reviewer**       | 머지 리뷰어     | 통합 직전 코드/디자인/접근성 게이트               |
+| **documenter**     | 문서화          | ROADMAP/CHANGELOG 동기화, 콘텐츠 다듬기           |
 
 ---
 
 ## 핵심 규칙
 
 ### 1. **단일 파일 소유 원칙 (Single Writer)**
+
 한 파일은 한 agent만 쓴다. 다른 agent가 같은 파일을 만져야 하면:
+
 - 먼저 `STATUS.md`에 `[locked-by: <agent>]` 표시
 - 해당 agent가 작업 끝낼 때까지 대기
 - 충돌 발생 시 head가 조율
 
 ### 2. **공유 문서 read-only 정책**
+
 병렬 작업 중 다음 문서는 **변경 금지**:
+
 - `DESIGN.md` — 디자인 시스템 (source of truth)
 - `CONTENT.md` — 콘텐츠 원본
 - `CLAUDE.md` — Claude 컨텍스트
@@ -36,27 +40,33 @@
 - `types/index.ts` — 공유 타입 (Phase 4 이후 동결)
 
 변경 필요 시:
+
 - 작업 일시 정지 → `STATUS.md`에 `[paused-for-doc-change]` 기록
 - head/사람에게 보고
 - 일괄 업데이트 → 재개
 
 ### 3. **STATUS.md 상시 동기화**
+
 모든 agent는 작업 시작/끝/블록될 때 `STATUS.md`에 한 줄 업데이트:
+
 ```
 - [agent-name] <status> <touching-files> <eta>
   e.g., - [frontend] in_progress, components/sections/Hero.tsx, ~30min
 ```
 
 ### 4. **타입 우선 (Contract-First)**
+
 구현 전에 `types/` 에 인터페이스 정의 → 모든 agent가 동일 타입 따름.
 타입 정의 권한은 head + frontend lead만.
 
 ### 5. **머지는 head만**
+
 각 agent가 자기 worktree/브랜치에서 작업.
 머지는 head(또는 사람)가 단일 지점에서 순차 진행.
 agent는 자기 브랜치 외부로 push/merge 금지.
 
 ### 6. **DESIGN.md 가드레일 절대 준수**
+
 모든 agent는 작업 시작 전 `DESIGN.md`의 안티패턴 12개를 인지하고 회피.
 reviewer agent는 머지 전 이를 강제 검사.
 
@@ -79,37 +89,48 @@ reviewer agent는 머지 전 이를 강제 검사.
 
 ## 파일 소유 매트릭스 (Write Permissions)
 
-| 디렉토리/파일 | 주 소유자 | 보조 가능 |
-|---|---|---|
-| `components/sections/` | frontend | — |
-| `components/ui/` | frontend | — |
-| `app/` (페이지/레이아웃) | frontend | backend (API routes only) |
-| `app/api/` | backend | — |
-| `lib/` | frontend | backend |
-| `tailwind.config.ts` | frontend | — |
-| `next.config.ts` | frontend | infrastructure (deploy 관련) |
-| `Dockerfile`, `.dockerignore` | infrastructure | — |
-| `.github/workflows/` | infrastructure | — |
-| `deploy/` (배포 스크립트, nginx config) | infrastructure | — |
-| `types/` | head + frontend | — |
-| `CHANGELOG.md` | documenter | — |
-| `ROADMAP.md` (status section) | documenter | head |
-| `STATUS.md` | all (각자 자기 줄) | — |
-| `DESIGN.md`, `CONTENT.md`, `CLAUDE.md`, `AGENTS.md`, `README.md` | head + 사람 | — |
+| 디렉토리/파일                                                    | 주 소유자          | 보조 가능                    |
+| ---------------------------------------------------------------- | ------------------ | ---------------------------- |
+| `components/sections/`                                           | frontend           | —                            |
+| `components/ui/`                                                 | frontend           | —                            |
+| `app/` (페이지/레이아웃)                                         | frontend           | backend (API routes only)    |
+| `app/api/`                                                       | backend            | —                            |
+| `lib/`                                                           | frontend           | backend                      |
+| `tailwind.config.ts`                                             | frontend           | —                            |
+| `next.config.ts`                                                 | frontend           | infrastructure (deploy 관련) |
+| `Dockerfile`, `.dockerignore`                                    | infrastructure     | —                            |
+| `.github/workflows/`                                             | infrastructure     | —                            |
+| `deploy/` (배포 스크립트, nginx config)                          | infrastructure     | —                            |
+| `types/`                                                         | head + frontend    | —                            |
+| `CHANGELOG.md`                                                   | documenter         | —                            |
+| `ROADMAP.md` (status section)                                    | documenter         | head                         |
+| `STATUS.md`                                                      | all (각자 자기 줄) | —                            |
+| `DESIGN.md`, `CONTENT.md`, `CLAUDE.md`, `AGENTS.md`, `README.md` | head + 사람        | —                            |
 
 ---
 
 ## 보고/에스컬레이션 프로토콜
 
-agent가 다음 상황 마주치면 즉시 `STATUS.md` + head 메모로 보고:
+### ⚠️ 사용자 직접 소통은 head 전용
 
-| 상황 | 대응 |
-|---|---|
-| 자기 권한 외 파일 수정 필요 | 대기 + 보고 → head가 위임 또는 조율 |
-| DESIGN.md 안티패턴 위반 위험 발견 | 대기 + 보고 |
-| 타입 정의 부족/모호 | 대기 + 보고 → 타입 먼저 확정 |
-| CONTENT.md 누락/오류 발견 | 보고 (작업 계속하지 말 것) |
-| 다른 agent의 출력에 의존하는데 미완료 | STATUS.md에 `blocked-by: <agent>` 표시 |
+`head`를 제외한 모든 agent(frontend/backend/infrastructure/reviewer/documenter)는 **사용자(사람)에게 직접 질문/확인 요청 금지**.
+
+- 막힘/모호함 발견 시: (a) 합리적 기본값으로 자율 결정 또는 (b) STATUS.md `blocked-by: <원인>` + head 메모로 에스컬레이션
+- 다중 agent가 동시에 사용자에게 질문하면 멀티 인스턴스 워크플로우가 깨짐. head가 단일 인터페이스
+- 모든 "보고"는 사용자가 아닌 **head**에게
+
+### 일반 에스컬레이션 표
+
+agent가 다음 상황 마주치면 즉시 `STATUS.md` + head 메모로 보고 (사용자가 아님):
+
+| 상황                                    | 대응                                                      |
+| --------------------------------------- | --------------------------------------------------------- |
+| 자기 권한 외 파일 수정 필요             | 대기 + head 보고 → head가 위임 또는 조율                  |
+| DESIGN.md 안티패턴 위반 위험 발견       | 대기 + head 보고                                          |
+| 타입 정의 부족/모호                     | 대기 + head 보고 → 타입 먼저 확정                         |
+| CONTENT.md 누락/오류 발견               | head 보고 (작업 계속하지 말 것)                           |
+| 다른 agent의 출력에 의존하는데 미완료   | STATUS.md에 `blocked-by: <agent>` 표시                    |
+| 설계 선택지가 둘 이상 (예: 옵션 A vs B) | 자율 결정 (합리적 기본값) + 결정 근거를 STATUS 로그에 1줄 |
 
 ---
 
