@@ -9,6 +9,7 @@
 ## Phase 0 — Foundation 문서 (현재)
 
 **산출물**:
+
 - ✅ DESIGN.md — 디자인 시스템 정의
 - ✅ CONTENT.md — 콘텐츠 원본
 - ✅ README.md — 프로젝트 소개 (개정)
@@ -22,6 +23,7 @@
 ## Phase 1 — Harness 세팅
 
 **산출물**:
+
 - `portfolio/.claude/settings.json` — 프로젝트 권한, 모델, 환경
 - `portfolio/.claude/settings.local.json` (gitignore) — 로컬 실험 설정
 - 유용한 hook 설정:
@@ -37,6 +39,7 @@
 ## Phase 2 — bkit 설치 및 검증
 
 **산출물**:
+
 - `claude plugin install bkit` 실행
 - `/control level` 적정 설정 (초기 L1 또는 L2 권장)
 - bkit가 제공하는 38 skills / 36 agents 카탈로그 확인
@@ -49,6 +52,7 @@
 ## Phase 3 — 커스텀 Skill / Agent
 
 **산출물**:
+
 - `portfolio/.claude/skills/` 디렉토리에 본 프로젝트 특화 skill 1~2개
   - 예: `/refresh-content` — CONTENT.md 변경 시 영향받는 컴포넌트 식별
   - 예: `/check-design-rule` — 작성한 컴포넌트가 DESIGN.md 안티패턴 위반 여부 검사
@@ -63,20 +67,25 @@
 ## Phase 4 — Next.js 프로젝트 초기화 + 디자인 토큰
 
 **산출물**:
-- `pnpm create next-app` (App Router + TS + Tailwind)
-- `tailwind.config.ts`에 DESIGN.md 토큰 입력 (컬러, 폰트, 스페이싱)
-- `app/layout.tsx`에 Pretendard / Schibsted Grotesk / JetBrains Mono 로드
-- Phosphor + Lordicon 설치
-- Framer Motion 설치
-- 기본 layout shell (헤더/푸터 골격)
 
-**검증**: `pnpm dev`로 빈 페이지가 디자인 토큰 적용된 상태로 렌더링. 폰트 정상 표시.
+- ✅ Next.js 15.5 + React 19 + TypeScript strict + App Router (`pnpm create next-app` 대신 수동 구성)
+- ✅ `tailwind.config.ts` — DESIGN.md 토큰 입력 (컬러 9개 / 폰트 3종 / `out-quart` easing / `prose` max-width)
+- ✅ `app/fonts.ts` + `app/layout.tsx` — Pretendard (local woff2) + Schibsted Grotesk + JetBrains Mono 로드
+- ✅ Phosphor (`@phosphor-icons/react`) + Lordicon (`lord-icon-element` + `lottie-web`) 설치
+- ✅ Motion (구 Framer Motion) 설치
+- ✅ 기본 layout shell — `components/sections/Header.tsx` + `Footer.tsx` (Header는 reviewer 지적으로 glassmorphism 제거 → border-b만 유지)
+- ✅ `types/index.ts` — Project / Skill / Experience / Award / Education / Guestbook 등 contract types 동결
+- ✅ `lib/utils.ts` — `cn()` 헬퍼 (clsx + tailwind-merge)
+- ✅ Prettier + `prettier-plugin-tailwindcss` 설정 (`.prettierrc.json` / `.prettierignore`)
+
+**검증**: ✅ typecheck / lint / build PASS. First Load JS 106KB. `/check-design-rule` PASS (12 안티패턴 무위반).
 
 ---
 
 ## Phase 5 — Hero 섹션 구현 (시그니처 검증)
 
 **산출물**:
+
 - `components/sections/Hero.tsx`
 - try/catch/finally 코드 블록 시그니처 시각화
 - 이름 + 역할 + 모토
@@ -89,6 +98,7 @@
 ## Phase 6 — About / Tech Stack 섹션
 
 **산출물**:
+
 - `components/sections/About.tsx` — 본문 + 정체성 요약 표
 - `components/sections/TechStack.tsx` — 6개 카테고리 아이콘 그리드
 - 아이콘 호버 인터랙션
@@ -100,6 +110,7 @@
 ## Phase 7 — Experience / Projects 섹션
 
 **산출물**:
+
 - `components/sections/Experience.tsx` — SSAFY 실습코치 상세
 - `components/sections/Projects.tsx` — 4개 그룹, 6개 프로젝트 카드
 - 프로젝트 상세 페이지 또는 모달
@@ -112,6 +123,7 @@
 ## Phase 8 — Awards / Education / Contact / Footer
 
 **산출물**:
+
 - `components/sections/Awards.tsx`
 - `components/sections/Education.tsx`
 - `components/sections/Contact.tsx`
@@ -125,6 +137,7 @@
 ## Phase 9 — 배포 (홈서버)
 
 **산출물**:
+
 - 빌드 + 홈서버 배포 파이프라인 (Docker / Caddy / Nginx 중 선택)
 - `wnsdlr.com` 도메인 연결
 - HTTPS 설정 (Let's Encrypt)
@@ -137,6 +150,7 @@
 ## Phase 10+ — 후속 개선
 
 보류 항목:
+
 - 다크모드 추가
 - 유료 아이콘 팩 도입 (Streamline / Untitled UI Icons)
 - 시그니처 일러스트/Lottie 자체 제작
@@ -150,16 +164,16 @@
 
 각 phase 시작 시 해당 섹션의 ✅ 체크. 막힘이 생기면 해당 phase 내 메모로 기록.
 
-| Phase | 상태 |
-|---|---|
-| 0 — Foundation 문서 | ✅ 완료 |
-| 1 — Harness 세팅 | ✅ 완료 |
-| 2 — bkit 설치 | ✅ 완료 |
-| 2.5 — 멀티에이전트 인프라 (AGENTS/STATUS + 6 agents) | ✅ 완료 |
-| 3 — 커스텀 skill/agent | ✅ 완료 (design-auditor + check-design-rule + refresh-content) |
-| 4 — Next.js 초기화 | ⚪ 대기 |
-| 5 — Hero 구현 | ⚪ 대기 |
-| 6 — About / Tech Stack | ⚪ 대기 |
-| 7 — Experience / Projects | ⚪ 대기 |
-| 8 — Awards / Education / Contact / Footer | ⚪ 대기 |
-| 9 — 배포 | ⚪ 대기 |
+| Phase                                                | 상태                                                           |
+| ---------------------------------------------------- | -------------------------------------------------------------- |
+| 0 — Foundation 문서                                  | ✅ 완료                                                        |
+| 1 — Harness 세팅                                     | ✅ 완료                                                        |
+| 2 — bkit 설치                                        | ✅ 완료                                                        |
+| 2.5 — 멀티에이전트 인프라 (AGENTS/STATUS + 6 agents) | ✅ 완료                                                        |
+| 3 — 커스텀 skill/agent                               | ✅ 완료 (design-auditor + check-design-rule + refresh-content) |
+| 4 — Next.js 초기화                                   | ✅ 완료 (15.5 + React 19 + Tailwind 토큰화 + 폰트 3종 + shell) |
+| 5 — Hero 구현                                        | 🔜 다음                                                        |
+| 6 — About / Tech Stack                               | ⚪ 대기                                                        |
+| 7 — Experience / Projects                            | ⚪ 대기                                                        |
+| 8 — Awards / Education / Contact / Footer            | ⚪ 대기                                                        |
+| 9 — 배포                                             | ⚪ 대기                                                        |

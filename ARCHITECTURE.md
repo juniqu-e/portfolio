@@ -30,22 +30,22 @@
 
 ### 1. Next.js App Router + Server Components 우선
 
-| Why | 결정 |
-|---|---|
-| 정적 콘텐츠 위주이지만 방명록 = 일부 서버 필요 | App Router의 RSC + Route Handler 조합 |
-| SEO 중요 (구직용) | SSR 가능 |
-| 빠른 페이지 로드 | 정적 페이지는 Static, 방명록 API는 dynamic |
-| 본인 학습 가치 | 최신 패턴 익히기 |
+| Why                                            | 결정                                       |
+| ---------------------------------------------- | ------------------------------------------ |
+| 정적 콘텐츠 위주이지만 방명록 = 일부 서버 필요 | App Router의 RSC + Route Handler 조합      |
+| SEO 중요 (구직용)                              | SSR 가능                                   |
+| 빠른 페이지 로드                               | 정적 페이지는 Static, 방명록 API는 dynamic |
+| 본인 학습 가치                                 | 최신 패턴 익히기                           |
 
 → 모든 페이지는 기본 Server Component, 인터랙션 필요한 컴포넌트만 `"use client"`.
 
 ### 2. TypeScript Strict
 
-| 항목 | 설정 |
-|---|---|
-| `strict` | `true` |
-| `noUncheckedIndexedAccess` | `true` (배열 액세스 안전) |
-| `any` 사용 | 금지 (필요 시 `unknown`으로 좁히기) |
+| 항목                       | 설정                                |
+| -------------------------- | ----------------------------------- |
+| `strict`                   | `true`                              |
+| `noUncheckedIndexedAccess` | `true` (배열 액세스 안전)           |
+| `any` 사용                 | 금지 (필요 시 `unknown`으로 좁히기) |
 
 ### 3. 스타일
 
@@ -77,12 +77,12 @@
 
 ### 7. 방명록 데이터 저장
 
-| 옵션 | 평가 |
-|---|---|
+| 옵션                           | 평가                                                                  |
+| ------------------------------ | --------------------------------------------------------------------- |
 | **SQLite + better-sqlite3** ✅ | 단순, 파일 기반, 동시성 낮은 방명록에 적합, Docker volume 영속화 쉬움 |
-| Postgres | 과잉, 별도 컨테이너 필요 |
-| 외부 BaaS (Supabase 등) | 외부 의존, 비용/벤더락 |
-| KV (Upstash) | 쓰기 패턴엔 가능하나 쿼리 약함 |
+| Postgres                       | 과잉, 별도 컨테이너 필요                                              |
+| 외부 BaaS (Supabase 등)        | 외부 의존, 비용/벤더락                                                |
+| KV (Upstash)                   | 쓰기 패턴엔 가능하나 쿼리 약함                                        |
 
 **결정**: SQLite. ORM은 `drizzle-orm` (가볍고 타입 안전) 또는 raw queries.
 **경로**: `/data/guestbook.db` (Docker volume `portfolio-data:/data`).
@@ -91,6 +91,7 @@
 ### 8. 폼 보호 (방명록)
 
 다층 방어:
+
 1. **Length cap** — 100자 hard limit (클라이언트 + 서버 검증)
 2. **Honeypot field** — 봇이 채우는 hidden field. 채워져 있으면 silent drop
 3. **Rate limit** — IP당 5분에 1회. Edge middleware 또는 LRU map (서버 메모리, 컨테이너 재시작 시 reset OK)
@@ -194,6 +195,7 @@ portfolio/
 ## 데이터 흐름
 
 ### 정적 콘텐츠 (Hero/About/Skills 등)
+
 ```
 CONTENT.md → 사람이 content/*.ts로 옮김 → typed 데이터로 import
             → Server Component가 직접 import 후 렌더
@@ -201,6 +203,7 @@ CONTENT.md → 사람이 content/*.ts로 옮김 → typed 데이터로 import
 ```
 
 ### 방명록 작성
+
 ```
 브라우저 → Client Component (form) → POST /api/guestbook
        → Route Handler에서:
@@ -213,6 +216,7 @@ CONTENT.md → 사람이 content/*.ts로 옮김 → typed 데이터로 import
 ```
 
 ### 방명록 조회
+
 ```
 Server Component (Guestbook 섹션) → GET /api/guestbook?limit=10
                                   → approved=true && deleted=false 인 것만
@@ -221,6 +225,7 @@ Server Component (Guestbook 섹션) → GET /api/guestbook?limit=10
 ```
 
 ### 관리자 승인/삭제
+
 ```
 방법 1: 별도 어드민 UI 만들지 않음 (학습 부담)
 방법 2: GitHub Issues 방식 — 새 방명록 작성 시 webhook으로 디스코드/슬랙/이메일 알림
@@ -237,15 +242,16 @@ Server Component (Guestbook 섹션) → GET /api/guestbook?limit=10
 
 Lighthouse 95+ 달성을 위한 가이드:
 
-| 메트릭 | 목표 |
-|---|---|
-| LCP (Largest Contentful Paint) | < 1.5s |
-| FID / INP (Interaction to Next Paint) | < 200ms |
-| CLS (Cumulative Layout Shift) | < 0.05 |
-| Initial JS bundle (gzip) | < 100KB |
-| 페이지 weight (initial) | < 500KB (HTML+CSS+JS) |
+| 메트릭                                | 목표                  |
+| ------------------------------------- | --------------------- |
+| LCP (Largest Contentful Paint)        | < 1.5s                |
+| FID / INP (Interaction to Next Paint) | < 200ms               |
+| CLS (Cumulative Layout Shift)         | < 0.05                |
+| Initial JS bundle (gzip)              | < 100KB               |
+| 페이지 weight (initial)               | < 500KB (HTML+CSS+JS) |
 
 대응:
+
 - 이미지는 `next/image` + 적절한 sizes
 - 폰트 `font-display: swap`, subset
 - Lordicon은 lazy load (Intersection Observer)
@@ -255,15 +261,16 @@ Lighthouse 95+ 달성을 위한 가이드:
 
 ## 보안 모델
 
-| 영역 | 대응 |
-|---|---|
-| **방명록 spam** | honeypot + rate limit + length cap + 모더레이션 |
-| **XSS** | React 기본 escape + 방명록 텍스트는 plain text only (HTML 입력 X) |
-| **CSRF** | same-origin POST + 헤더 검증. /api/guestbook은 same-origin enforce |
-| **시크릿 노출** | `.env.local` (gitignore), 클라이언트 노출 변수만 `NEXT_PUBLIC_` prefix |
-| **관리자 작업** | 환경변수 토큰 (`ADMIN_TOKEN`), DELETE 엔드포인트는 헤더 검증 |
-| **HTTPS** | NPM이 Let's Encrypt 자동. 모든 트래픽 HTTPS |
-| **Cookie** | GA4 쿠키만, 동의 필요 |
+| 영역              | 대응                                                                                                                          |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| **방명록 spam**   | honeypot + rate limit + length cap + 모더레이션                                                                               |
+| **IP 프라이버시** | rate-limit/어뷰즈 추적용 IP는 raw 저장 X. `SHA-256(ip + IP_HASH_SALT)` 해시만 저장. salt 변경 금지 (변경 시 기존 매칭 무력화) |
+| **XSS**           | React 기본 escape + 방명록 텍스트는 plain text only (HTML 입력 X)                                                             |
+| **CSRF**          | same-origin POST + 헤더 검증. /api/guestbook은 same-origin enforce                                                            |
+| **시크릿 노출**   | `.env.local` (gitignore), 클라이언트 노출 변수만 `NEXT_PUBLIC_` prefix                                                        |
+| **관리자 작업**   | 환경변수 토큰 (`ADMIN_TOKEN`), DELETE 엔드포인트는 헤더 검증                                                                  |
+| **HTTPS**         | NPM이 Let's Encrypt 자동. 모든 트래픽 HTTPS                                                                                   |
+| **Cookie**        | GA4 쿠키만, 동의 필요                                                                                                         |
 
 ---
 

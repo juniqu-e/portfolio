@@ -10,13 +10,14 @@
 
 ## Stack
 
-- **Next.js** (App Router) + **TypeScript** (strict)
-- **Tailwind CSS** (DESIGN.md 토큰)
-- **Pretendard** (한글 본문) + **Schibsted Grotesk** (영문 디스플레이) + **JetBrains Mono** (코드)
-- **Phosphor Icons** (정적) + **Lordicon** (애니메이션)
-- **Framer Motion** (인터랙션)
-- **SQLite** (방명록 저장)
-- **Docker Compose + Nginx Proxy Manager** (배포)
+- **Next.js 15.5** (App Router) + **React 19** + **TypeScript 5.7** (strict)
+- **Tailwind CSS 3.4** (DESIGN.md 토큰 매핑) + `class-variance-authority` / `clsx` / `tailwind-merge`
+- **Pretendard** (한글 본문, local woff2) + **Schibsted Grotesk** (영문 디스플레이) + **JetBrains Mono** (코드)
+- **Phosphor Icons** (`@phosphor-icons/react`, 정적) + **Lordicon** (`lord-icon-element` + `lottie-web`, 애니메이션)
+- **Motion** (구 Framer Motion, 인터랙션)
+- **Prettier 3** + `prettier-plugin-tailwindcss`, **ESLint 9** + `eslint-config-next`
+- **SQLite** (방명록 저장, Phase 6+ 예정)
+- **Docker Compose + Nginx Proxy Manager** (배포, Phase 9 예정)
 
 ---
 
@@ -24,18 +25,18 @@
 
 본 프로젝트는 코드보다 문서를 먼저 정의한다. 모든 구현 결정은 아래 문서를 참조한다.
 
-| 문서 | 내용 |
-|---|---|
-| [DESIGN.md](./DESIGN.md) | 디자인 시스템 — 컬러/타이포/모션/안티패턴 |
-| [CONTENT.md](./CONTENT.md) | 포트폴리오 콘텐츠 원본 |
-| [ARCHITECTURE.md](./ARCHITECTURE.md) | 기술 아키텍처 |
-| [SPEC.md](./SPEC.md) | 기능 명세 + 수락 기준 |
-| [API.md](./API.md) | API 명세 (방명록, OG, sitemap) |
-| [DEPLOYMENT.md](./DEPLOYMENT.md) | 배포 가이드 (Docker + NPM) |
-| [AGENTS.md](./AGENTS.md) | 멀티에이전트 협업 헌장 |
-| [STATUS.md](./STATUS.md) | 실시간 에이전트 상태 보드 |
-| [CLAUDE.md](./CLAUDE.md) | Claude Code용 프로젝트 컨텍스트 |
-| [ROADMAP.md](./ROADMAP.md) | 구현 단계 및 진행 상황 |
+| 문서                                 | 내용                                      |
+| ------------------------------------ | ----------------------------------------- |
+| [DESIGN.md](./DESIGN.md)             | 디자인 시스템 — 컬러/타이포/모션/안티패턴 |
+| [CONTENT.md](./CONTENT.md)           | 포트폴리오 콘텐츠 원본                    |
+| [ARCHITECTURE.md](./ARCHITECTURE.md) | 기술 아키텍처                             |
+| [SPEC.md](./SPEC.md)                 | 기능 명세 + 수락 기준                     |
+| [API.md](./API.md)                   | API 명세 (방명록, OG, sitemap)            |
+| [DEPLOYMENT.md](./DEPLOYMENT.md)     | 배포 가이드 (Docker + NPM)                |
+| [AGENTS.md](./AGENTS.md)             | 멀티에이전트 협업 헌장                    |
+| [STATUS.md](./STATUS.md)             | 실시간 에이전트 상태 보드                 |
+| [CLAUDE.md](./CLAUDE.md)             | Claude Code용 프로젝트 컨텍스트           |
+| [ROADMAP.md](./ROADMAP.md)           | 구현 단계 및 진행 상황                    |
 
 ---
 
@@ -45,27 +46,27 @@
 
 ### Agent 역할 (`.claude/agents/`)
 
-| Agent | 별칭 | 책임 | 모델 |
-|---|---|---|---|
-| **head** | lead, pm | 작업 계획, 위임, 머지, 타입 정의 | opus |
-| **frontend** | fe, front | UI 컴포넌트, 페이지, 디자인 토큰 | sonnet |
-| **backend** | be, back | API route, 서버 로직, DB | sonnet |
-| **infrastructure** | infra, ops, devops | Docker, CI/CD, 배포 | sonnet |
-| **reviewer** | review, qa | 6-게이트 검사, PASS/FAIL 보고 | opus |
-| **documenter** | docs, doc | ROADMAP/CHANGELOG/CONTENT 갱신 | haiku |
+| Agent              | 별칭               | 책임                             | 모델   |
+| ------------------ | ------------------ | -------------------------------- | ------ |
+| **head**           | lead, pm           | 작업 계획, 위임, 머지, 타입 정의 | opus   |
+| **frontend**       | fe, front          | UI 컴포넌트, 페이지, 디자인 토큰 | sonnet |
+| **backend**        | be, back           | API route, 서버 로직, DB         | sonnet |
+| **infrastructure** | infra, ops, devops | Docker, CI/CD, 배포              | sonnet |
+| **reviewer**       | review, qa         | 6-게이트 검사, PASS/FAIL 보고    | opus   |
+| **documenter**     | docs, doc          | ROADMAP/CHANGELOG/CONTENT 갱신   | haiku  |
 
 ### 커스텀 슬래시 명령 (`.claude/skills/`)
 
-| 명령 | 용도 | 누가 사용 |
-|---|---|---|
-| `/start <role>` | agent 부트스트랩 (관련 문서 자동 로드) | 모든 인스턴스 첫 명령 |
-| `/develop <feature>` | feature 작업 (역할별 다르게 동작) | 작업 진행 시 |
-| `/review <feature>` | 6-게이트 검사 | reviewer 전용 |
-| `/end [<state>]` | 작업 마무리 + STATUS.md 갱신 + 인계 안내 | 작업 종료 시 |
-| `/status [<agent>]` | STATUS.md 빠른 조회 | 누구든 어디서든 |
-| `/serve [<port>]` | Next.js dev 서버 실행 | frontend / 운영 |
-| `/logs [<target>]` | 로그 조회 (dev / docker / npm) | 누구든 |
-| `/build [--docker]` | 프로덕션 빌드 | infrastructure / frontend |
+| 명령                 | 용도                                     | 누가 사용                 |
+| -------------------- | ---------------------------------------- | ------------------------- |
+| `/start <role>`      | agent 부트스트랩 (관련 문서 자동 로드)   | 모든 인스턴스 첫 명령     |
+| `/develop <feature>` | feature 작업 (역할별 다르게 동작)        | 작업 진행 시              |
+| `/review <feature>`  | 6-게이트 검사                            | reviewer 전용             |
+| `/end [<state>]`     | 작업 마무리 + STATUS.md 갱신 + 인계 안내 | 작업 종료 시              |
+| `/status [<agent>]`  | STATUS.md 빠른 조회                      | 누구든 어디서든           |
+| `/serve [<port>]`    | Next.js dev 서버 실행                    | frontend / 운영           |
+| `/logs [<target>]`   | 로그 조회 (dev / docker / npm)           | 누구든                    |
+| `/build [--docker]`  | 프로덕션 빌드                            | infrastructure / frontend |
 
 ---
 
@@ -181,6 +182,7 @@ window 7: 로그            → /home/zz262zz/homeserver/portfolio          (doc
 ### 예시 4: 상태 모니터링
 
 언제든 어느 윈도우든:
+
 ```
 /status
 
@@ -224,6 +226,7 @@ window 7: 로그            → /home/zz262zz/homeserver/portfolio          (doc
 ## 🔧 운영 명령
 
 ### dev 서버
+
 ```
 /serve              # 기본 :3000
 /serve 3001         # 다른 포트
@@ -231,6 +234,7 @@ window 7: 로그            → /home/zz262zz/homeserver/portfolio          (doc
 ```
 
 ### 로그
+
 ```
 /logs               # 자동 감지 (dev 또는 docker)
 /logs dev           # dev 서버만
@@ -240,6 +244,7 @@ window 7: 로그            → /home/zz262zz/homeserver/portfolio          (doc
 ```
 
 ### 빌드
+
 ```
 /build              # pnpm build
 /build --docker     # Docker 이미지까지
@@ -250,32 +255,37 @@ window 7: 로그            → /home/zz262zz/homeserver/portfolio          (doc
 
 ## 🛡️ 충돌 방지 규칙 (`AGENTS.md` 요약)
 
-| 규칙 | 의미 |
-|---|---|
-| **단일 파일 소유** | 한 파일은 한 agent만 쓴다. STATUS.md에 잠금 표시 |
-| **공유 문서 read-only** | 병렬 중 DESIGN/CONTENT/CLAUDE/AGENTS는 변경 금지 |
-| **STATUS.md 상시 동기화** | 작업 시작/끝/블록 시 자기 줄 갱신 |
-| **타입 우선** | types/index.ts 인터페이스 먼저, 그 후 구현 |
-| **머지는 head만** | 다른 agent는 push만, merge X |
-| **DESIGN.md 가드레일** | 안티패턴 12개 절대 위반 금지 (reviewer 강제) |
+| 규칙                      | 의미                                             |
+| ------------------------- | ------------------------------------------------ |
+| **단일 파일 소유**        | 한 파일은 한 agent만 쓴다. STATUS.md에 잠금 표시 |
+| **공유 문서 read-only**   | 병렬 중 DESIGN/CONTENT/CLAUDE/AGENTS는 변경 금지 |
+| **STATUS.md 상시 동기화** | 작업 시작/끝/블록 시 자기 줄 갱신                |
+| **타입 우선**             | types/index.ts 인터페이스 먼저, 그 후 구현       |
+| **머지는 head만**         | 다른 agent는 push만, merge X                     |
+| **DESIGN.md 가드레일**    | 안티패턴 12개 절대 위반 금지 (reviewer 강제)     |
 
 ---
 
-## 📋 Development (코드 작업 직접 — Phase 4 후)
+## 📋 Development (Phase 4 완료 ✅ — 코드 작업 가능)
 
 ```bash
 pnpm install
-pnpm dev                          # 개발 서버
+pnpm dev                          # 개발 서버 (http://localhost:3000)
 pnpm build                        # 프로덕션 빌드
+pnpm start                        # 빌드 결과 서빙
 pnpm typecheck                    # tsc --noEmit
-pnpm lint                         # ESLint
+pnpm lint                         # ESLint (next lint)
+pnpm format                       # Prettier (--write)
 ```
+
+> Node `>=20`, 패키지 매니저는 **pnpm** 고정.
 
 ---
 
 ## 🌐 Hosting
 
 홈서버에서 호스팅. 두 도메인 동시 노출:
+
 - `wnsdlr.com` (canonical)
 - `leejunik.com` → wnsdlr.com 301 redirect
 
