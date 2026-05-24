@@ -1,108 +1,96 @@
 import type { ComponentType, SVGAttributes } from "react";
-import {
-  Anchor,
-  AndroidLogo,
-  ArrowsClockwise,
-  Atom,
-  ChatsCircle,
-  Cloud,
-  Code,
-  Coffee,
-  Cube,
-  FigmaLogo,
-  FileCode,
-  GitBranch,
-  GithubLogo,
-  GitlabLogo,
-  Globe,
-  Kanban,
-  Leaf,
-  LinuxLogo,
-  ShieldCheck,
-  SlackLogo,
-  Stack,
-  Wrench,
-} from "@phosphor-icons/react/dist/ssr";
+import { Code, ShieldCheck } from "@phosphor-icons/react/dist/ssr";
 
-type PhosphorWeight = "thin" | "light" | "regular" | "bold" | "fill" | "duotone";
+// Brand icons (devicon @latest via jsdelivr, downloaded to /public/icons/).
+// 직접 `<img>` 렌더링 — 정적 SVG라 next/image 최적화 효과 미미하고 RSC 단순함이 더 큼.
+// devicon에 없는 OPA는 Phosphor ShieldCheck (policy enforcement 의미)로 fallback.
+const BRAND_ICONS = new Set<string>([
+  "linux",
+  "docker",
+  "kubernetes",
+  "nginx",
+  "jenkins",
+  "github-actions",
+  "helm",
+  "argo-cd",
+  "aws",
+  "terraform",
+  "python",
+  "typescript",
+  "javascript",
+  "java",
+  "react",
+  "vue",
+  "android",
+  "django",
+  "spring",
+  "git",
+  "github",
+  "gitlab",
+  "figma",
+  "jira",
+  "mattermost",
+  "slack",
+]);
+
+type PhosphorWeight =
+  | "thin"
+  | "light"
+  | "regular"
+  | "bold"
+  | "fill"
+  | "duotone";
 
 type PhosphorIconProps = SVGAttributes<SVGElement> & {
   size?: number | string;
   weight?: PhosphorWeight;
-  mirrored?: boolean;
 };
 
 type PhosphorIcon = ComponentType<PhosphorIconProps>;
 
-// Phosphor에 공식 브랜드 마크가 있는 경우 그대로 사용한다.
-// 그 외에는 의미상 가장 가까운 generic icon으로 대체한다 (Phase 8 follow-up: simple-icons 또는 public/icons/ 로 정식 SVG 교체).
-const REGISTRY: Record<string, PhosphorIcon> = {
-  // DevOps / Platform
-  linux: LinuxLogo,
-  docker: Cube, // brand SVG follow-up
-  kubernetes: Cube, // brand SVG follow-up
-  nginx: Globe, // generic web server proxy
-  jenkins: Wrench, // generic build/automation
-  "github-actions": GithubLogo,
-  helm: Anchor, // helm = ship's wheel → anchor (closest)
-  "argo-cd": ArrowsClockwise, // GitOps continuous reconciliation
-  opa: ShieldCheck, // policy/security
-
-  // Cloud / Infrastructure
-  aws: Cloud, // brand SVG follow-up
-  terraform: Stack, // infra as layered stack
-
-  // Languages
-  python: FileCode,
-  typescript: FileCode,
-  javascript: FileCode,
-  java: Coffee, // java = coffee pun
-
-  // Frontend / Mobile
-  react: Atom, // React logo is atomic
-  vue: FileCode,
-  android: AndroidLogo,
-
-  // Backend
-  django: FileCode,
-  spring: Leaf, // Spring brand color/leaf motif
-
-  // Tools & Collaboration
-  git: GitBranch,
-  github: GithubLogo,
-  gitlab: GitlabLogo,
-  figma: FigmaLogo,
-  jira: Kanban,
-  mattermost: ChatsCircle, // no official mattermost icon
-  slack: SlackLogo,
+const PHOSPHOR_FALLBACK_BY_SLUG: Record<string, PhosphorIcon> = {
+  opa: ShieldCheck,
 };
 
-const FALLBACK: PhosphorIcon = Code;
+const DEFAULT_PHOSPHOR: PhosphorIcon = Code;
 
 export type IconProps = {
   slug?: string;
   size?: number;
   weight?: PhosphorWeight;
   className?: string;
-  ariaHidden?: boolean;
   ariaLabel?: string;
 };
 
 export function Icon({
   slug,
-  size = 24,
+  size = 32,
   weight = "regular",
   className,
-  ariaHidden = true,
   ariaLabel,
 }: IconProps) {
-  const Component = (slug && REGISTRY[slug]) || FALLBACK;
+  if (slug && BRAND_ICONS.has(slug)) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={`/icons/${slug}.svg`}
+        alt={ariaLabel ?? ""}
+        width={size}
+        height={size}
+        loading="lazy"
+        decoding="async"
+        className={className}
+      />
+    );
+  }
+
+  const Phosphor = (slug && PHOSPHOR_FALLBACK_BY_SLUG[slug]) || DEFAULT_PHOSPHOR;
   return (
-    <Component
+    <Phosphor
       size={size}
       weight={weight}
       className={className}
-      aria-hidden={ariaHidden ? true : undefined}
+      aria-hidden={ariaLabel ? undefined : true}
       aria-label={ariaLabel}
       role={ariaLabel ? "img" : undefined}
     />

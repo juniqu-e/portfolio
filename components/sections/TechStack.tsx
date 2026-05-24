@@ -29,14 +29,14 @@ export function TechStack() {
                 <ul className="mt-5 grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
                   {skills.map((skill) => (
                     <li key={skill.name}>
-                      <div className="group flex flex-col items-center gap-2 rounded-lg border border-transparent px-2 py-4 transition-[transform,border-color,background-color] duration-200 ease-out hover:scale-[1.03] hover:border-line hover:bg-page">
+                      <div className="group flex flex-col items-center gap-2 rounded-lg border border-transparent px-2 py-4 transition-[transform,border-color,background-color] duration-200 ease-out hover:scale-[1.03] hover:border-line-strong hover:bg-page">
                         <Icon
                           slug={skill.iconSlug}
                           size={32}
                           weight="regular"
-                          className="text-ink transition-colors duration-200 ease-out group-hover:text-accent-blue"
+                          className="h-8 w-8"
                         />
-                        <span className="text-center text-sm text-muted transition-colors duration-200 ease-out group-hover:text-ink">
+                        <span className="text-center text-sm text-muted transition-colors duration-200 ease-out group-hover:text-accent-blue">
                           {skill.name}
                         </span>
                       </div>
