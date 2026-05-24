@@ -299,7 +299,7 @@ RATE_LIMIT_MAX_REQUESTS=1            # 5분당 1회
 
 ## 의존성 정책
 
-- **추가 시 review 필요**: 새 라이브러리는 ARCHITECTURE.md에 추가 + orchestrator 승인
+- **추가 시 review 필요**: 새 라이브러리는 ARCHITECTURE.md에 추가 + head 승인
 - **Lock file**: pnpm-lock.yaml commit
 - **번들 크기 영향 모니터링**: `pnpm build` 시 출력 사이즈 체크
 - **License**: MIT/Apache-2.0/ISC만. GPL/AGPL 도입 시 사용자 확인

@@ -1,6 +1,6 @@
 ---
 name: start
-description: "Bootstrap this Claude instance as a specific project agent. Usage: /start <role> where role is orchestrator | frontend | backend | infra | reviewer | docs. Reads the matching .claude/agents/*.md plus AGENTS.md, DESIGN.md, SPEC.md, STATUS.md, and other relevant docs. Use at the START of every new Claude Code session in any tmux window/worktree. Triggers: /start, start orchestrator, start frontend, start backend, start infra, start reviewer, start docs."
+description: "Bootstrap this Claude instance as a specific project agent. Usage: /start <role> where role is head | frontend | backend | infra | reviewer | docs. Reads the matching .claude/agents/*.md plus AGENTS.md, DESIGN.md, SPEC.md, STATUS.md, and other relevant docs. Use at the START of every new Claude Code session in any tmux window/worktree. Triggers: /start, start head, start frontend, start backend, start infra, start reviewer, start docs."
 ---
 
 # /start — Agent Bootstrap
@@ -13,7 +13,7 @@ description: "Bootstrap this Claude instance as a specific project agent. Usage:
 
 | role | 별칭 |
 |---|---|
-| `orchestrator` | `orch`, `pm`, `lead` |
+| `head` | `lead`, `pm` |
 | `frontend` | `fe`, `front` |
 | `backend` | `be`, `back` |
 | `infra` | `infrastructure`, `ops`, `devops` |
@@ -38,7 +38,7 @@ role을 지정하지 않으면 사용 가능한 role 목록을 제시하고 사�
 
    | role | 필독 |
    |---|---|
-   | orchestrator | `.claude/agents/orchestrator.md`, `ARCHITECTURE.md`, `SPEC.md`, `DESIGN.md`, `CONTENT.md` |
+   | head | `.claude/agents/head.md`, `ARCHITECTURE.md`, `SPEC.md`, `DESIGN.md`, `CONTENT.md` |
    | frontend | `.claude/agents/frontend.md`, `DESIGN.md`, `SPEC.md`, `CONTENT.md`, `ARCHITECTURE.md` |
    | backend | `.claude/agents/backend.md`, `API.md`, `ARCHITECTURE.md`, `SPEC.md` |
    | infra | `.claude/agents/infrastructure.md`, `DEPLOYMENT.md`, `ARCHITECTURE.md` |

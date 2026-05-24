@@ -30,7 +30,7 @@ description: "Finalize current work and update STATUS.md with completion. Option
 | frontend / backend / infra | `ready-for-review` |
 | reviewer | PASS 또는 FAIL (검사 결과 기반) |
 | docs | `done` |
-| orchestrator | `idle` (다음 위임 대기) |
+| head | `idle` (다음 위임 대기) |
 
 사용자가 명시했으면 그대로 사용.
 
@@ -67,7 +67,7 @@ activity log에 한 줄 추가:
 
 다음 단계:
   1. reviewer 윈도우에서: /review <feature>
-  2. 게이트 통과 시 orchestrator 윈도우에서 머지
+  2. 게이트 통과 시 head 윈도우에서 머지
 
 영향 파일: <files>
 브랜치: <current branch>
@@ -76,7 +76,7 @@ activity log에 한 줄 추가:
 **PASS (reviewer)**:
 ```
 ✅ <feature> 검사 통과
-다음: orchestrator 윈도우에서 머지 진행:
+다음: head 윈도우에서 머지 진행:
   git checkout main
   git merge --no-ff feat/<feature>
   docs 윈도우에서: /develop changelog-<feature>
@@ -95,13 +95,13 @@ activity log에 한 줄 추가:
 ⏸ 블록 상태로 표시.
 이유: <reason>
 필요한 조치: <what's needed>
-사용자/orchestrator의 개입 대기.
+사용자/head의 개입 대기.
 ```
 
 ## 절대 금지
 
 - 자기 작업이 안 끝났는데 ready-for-review 표시
-- 머지를 직접 수행 (orchestrator 또는 사람만 가능)
+- 머지를 직접 수행 (head 또는 사람만 가능)
 - 다른 agent 줄 수정
 - 검사 안 했는데 PASS 표시 (reviewer)
 

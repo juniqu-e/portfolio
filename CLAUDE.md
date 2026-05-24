@@ -40,7 +40,7 @@
 
 | 명령 | 용도 |
 |---|---|
-| `/start <role>` | 새 Claude 인스턴스를 특정 agent로 부트스트랩 (orchestrator/frontend/backend/infra/reviewer/docs) |
+| `/start <role>` | 새 Claude 인스턴스를 특정 agent로 부트스트랩 (head/frontend/backend/infra/reviewer/docs) |
 | `/develop <feature>` | 현재 agent 역할로 feature 작업 |
 | `/review <feature>` | reviewer 전용 6-게이트 검사 |
 | `/end [<state>]` | 작업 마무리 + STATUS.md 갱신 + 다음 agent 인계 |

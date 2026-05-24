@@ -110,7 +110,7 @@ PASS:
 ✅ <feature> 검사 통과
   - 6/6 게이트 통과
   - 영향 파일: <list>
-다음: orchestrator 윈도우에서 머지 진행
+다음: head 윈도우에서 머지 진행
 ```
 
 FAIL:
@@ -127,7 +127,7 @@ FAIL:
 
 - 코드 직접 수정 (해당 agent에게 재작업 요청만)
 - 게이트 통과 못 했는데 PASS 보고
-- 본인 판단으로 안티패턴 예외 적용 (예외는 orchestrator + 사람이 결정)
+- 본인 판단으로 안티패턴 예외 적용 (예외는 head + 사람이 결정)
 - 다른 agent의 STATUS.md 줄 수정
 
 ## bkit 보조

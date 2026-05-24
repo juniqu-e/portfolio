@@ -30,7 +30,7 @@ description: "Display current state of all agents from STATUS.md as a quick summ
 
 | Agent          | Status              | Files                         | Note     |
 |---             |---                  |---                            |---       |
-| orchestrator   | 🟢 idle             | —                             |          |
+| head   | 🟢 idle             | —                             |          |
 | frontend       | 🔵 in_progress      | components/sections/Hero.tsx  | ~30min   |
 | backend        | ⚪ idle             | —                             |          |
 | infrastructure | ⚪ idle             | —                             |          |
@@ -43,8 +43,8 @@ description: "Display current state of all agents from STATUS.md as a quick summ
 
 📜 최근 활동 (최대 5개):
   • frontend: Hero 구현 시작 (HH:MM)
-  • orchestrator: AGENTS/STATUS 작성 완료 (HH:MM)
-  • orchestrator: bkit 설치 완료 (HH:MM)
+  • head: AGENTS/STATUS 작성 완료 (HH:MM)
+  • head: bkit 설치 완료 (HH:MM)
 ```
 
 ### 3. 상태 아이콘 매핑
@@ -62,7 +62,7 @@ description: "Display current state of all agents from STATUS.md as a quick summ
 
 상태 분석 후 적절한 다음 액션을 사용자에게 제안:
 
-- 모두 idle → "다음 작업 결정 필요. orchestrator 윈도우에서 `/develop <feature>`"
+- 모두 idle → "다음 작업 결정 필요. head 윈도우에서 `/develop <feature>`"
 - frontend ready-for-review → "reviewer 윈도우에서 `/review <feature>`"
 - reviewer FAIL → "해당 agent 윈도우에서 수정 후 `/end`"
 - 블록 발생 → "어디가 블록인지 보고 + 해결"

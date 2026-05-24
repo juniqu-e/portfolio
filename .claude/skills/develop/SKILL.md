@@ -29,7 +29,7 @@ description: "Implement a feature based on the current agent's role. Usage: /dev
 
 ## Role별 동작
 
-### orchestrator
+### head
 1. SPEC.md / API.md / DEPLOYMENT.md 에서 feature 정의 확인
 2. 어떤 agent들이 협업해야 하는지 식별 (예: guestbook = frontend + backend)
 3. 작업 단위를 분해하여 STATUS.md에 등록

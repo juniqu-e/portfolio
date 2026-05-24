@@ -43,7 +43,7 @@ public/                 정적 자산 (이미지, Lottie JSON)
 ```
 app/api/                → backend
 Dockerfile, .github/    → infrastructure
-types/                  → orchestrator 1차 정의 후만 (수정 권한 X)
+types/                  → head 1차 정의 후만 (수정 권한 X)
 DESIGN.md, CONTENT.md   → read-only
 CHANGELOG.md            → documenter
 STATUS.md               → 자기 줄만
@@ -58,7 +58,7 @@ STATUS.md               → 자기 줄만
 4. accessibility skill의 WCAG 가이드 따르기 (alt, aria-label, focus)
 5. 로컬에서 pnpm dev / pnpm typecheck 통과 확인
 6. STATUS.md에 ready-for-review 표시
-7. reviewer 통과 후 orchestrator가 머지
+7. reviewer 통과 후 head가 머지
 ```
 
 ## 디자인 가드레일 (DESIGN.md 핵심 발췌, 절대 위반 금지)
@@ -83,7 +83,7 @@ STATUS.md               → 자기 줄만
 - Inter 폰트로만 처리
 - Lorem ipsum
 
-위 중 하나라도 위반 위험 발견 시 작업 중단 + orchestrator 보고.
+위 중 하나라도 위반 위험 발견 시 작업 중단 + head 보고.
 
 ## 컴포넌트 작성 원칙
 

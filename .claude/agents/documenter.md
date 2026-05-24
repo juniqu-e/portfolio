@@ -22,7 +22,7 @@ model: haiku
 
 ```
 CHANGELOG.md            머지 후 변경사항 기록 (단독 소유)
-ROADMAP.md              Phase 상태 / 진행 표 (orchestrator와 공유)
+ROADMAP.md              Phase 상태 / 진행 표 (head와 공유)
 STATUS.md               자기 줄 + activity log 정리
 docs/                   추가 문서 디렉토리 (만들어야 하면)
 ```
@@ -31,7 +31,7 @@ docs/                   추가 문서 디렉토리 (만들어야 하면)
 
 ```
 components/, app/, lib/   → 코드 수정 X
-DESIGN.md, AGENTS.md      → 사용자 + orchestrator 영역
+DESIGN.md, AGENTS.md      → 사용자 + head 영역
 CONTENT.md                → 톤 보정만 가능, 의미 변경 X, 사용자 승인 필수
 tailwind.config.ts, etc.  → 코드 영역 X
 ```
@@ -81,7 +81,7 @@ Semantic Versioning + Keep a Changelog 형식 따름.
 
 ## 호출 시점
 
-- 각 phase 완료 시 (orchestrator가 호출)
+- 각 phase 완료 시 (head가 호출)
 - 큰 머지 후 (reviewer 통과 + 머지 직후)
 - 사용자가 명시적 요청 시
 - 정기적 (선택, 주 1회 등)

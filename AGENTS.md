@@ -10,7 +10,7 @@
 
 | Agent | Role | 한 줄 요약 |
 |---|---|---|
-| **orchestrator** | 두뇌 / PM | 전체 흐름 계획, 작업 배분, 통합 결정 |
+| **head** | 두뇌 / PM | 전체 흐름 계획, 작업 배분, 통합 결정 |
 | **frontend** | 프론트엔드 빌더 | UI 컴포넌트 / 페이지 / 디자인 토큰 구현 |
 | **backend** | 백엔드 빌더 | API route handler, 서버 로직 (portfolio에선 최소) |
 | **infrastructure** | 인프라 / 배포 | Docker, CI/CD, 홈서버 배포 |
@@ -25,7 +25,7 @@
 한 파일은 한 agent만 쓴다. 다른 agent가 같은 파일을 만져야 하면:
 - 먼저 `STATUS.md`에 `[locked-by: <agent>]` 표시
 - 해당 agent가 작업 끝낼 때까지 대기
-- 충돌 발생 시 orchestrator가 조율
+- 충돌 발생 시 head가 조율
 
 ### 2. **공유 문서 read-only 정책**
 병렬 작업 중 다음 문서는 **변경 금지**:
@@ -37,7 +37,7 @@
 
 변경 필요 시:
 - 작업 일시 정지 → `STATUS.md`에 `[paused-for-doc-change]` 기록
-- orchestrator/사람에게 보고
+- head/사람에게 보고
 - 일괄 업데이트 → 재개
 
 ### 3. **STATUS.md 상시 동기화**
@@ -49,11 +49,11 @@
 
 ### 4. **타입 우선 (Contract-First)**
 구현 전에 `types/` 에 인터페이스 정의 → 모든 agent가 동일 타입 따름.
-타입 정의 권한은 orchestrator + frontend lead만.
+타입 정의 권한은 head + frontend lead만.
 
-### 5. **머지는 orchestrator만**
+### 5. **머지는 head만**
 각 agent가 자기 worktree/브랜치에서 작업.
-머지는 orchestrator(또는 사람)가 단일 지점에서 순차 진행.
+머지는 head(또는 사람)가 단일 지점에서 순차 진행.
 agent는 자기 브랜치 외부로 push/merge 금지.
 
 ### 6. **DESIGN.md 가드레일 절대 준수**
@@ -65,13 +65,13 @@ reviewer agent는 머지 전 이를 강제 검사.
 ## 작업 흐름 (Lifecycle)
 
 ```
-1. orchestrator: 작업 정의 + STATUS.md에 task 등록
-2. orchestrator: 적합한 agent 선정 → 작업 위임
+1. head: 작업 정의 + STATUS.md에 task 등록
+2. head: 적합한 agent 선정 → 작업 위임
 3. 해당 agent: STATUS.md 업데이트 → 작업 시작
-4. 해당 agent: 작업 중 다른 agent와 충돌 가능성 발견 → orchestrator 보고
+4. 해당 agent: 작업 중 다른 agent와 충돌 가능성 발견 → head 보고
 5. 해당 agent: 작업 완료 → STATUS.md에 `ready-for-review` 표시
 6. reviewer: 게이트 검사 → pass/fail 결정
-7. orchestrator: pass 시 머지, fail 시 해당 agent에 재작업 지시
+7. head: pass 시 머지, fail 시 해당 agent에 재작업 지시
 8. documenter: 머지 후 ROADMAP / CHANGELOG 업데이트
 ```
 
@@ -91,21 +91,21 @@ reviewer agent는 머지 전 이를 강제 검사.
 | `Dockerfile`, `.dockerignore` | infrastructure | — |
 | `.github/workflows/` | infrastructure | — |
 | `deploy/` (배포 스크립트, nginx config) | infrastructure | — |
-| `types/` | orchestrator + frontend | — |
+| `types/` | head + frontend | — |
 | `CHANGELOG.md` | documenter | — |
-| `ROADMAP.md` (status section) | documenter | orchestrator |
+| `ROADMAP.md` (status section) | documenter | head |
 | `STATUS.md` | all (각자 자기 줄) | — |
-| `DESIGN.md`, `CONTENT.md`, `CLAUDE.md`, `AGENTS.md`, `README.md` | orchestrator + 사람 | — |
+| `DESIGN.md`, `CONTENT.md`, `CLAUDE.md`, `AGENTS.md`, `README.md` | head + 사람 | — |
 
 ---
 
 ## 보고/에스컬레이션 프로토콜
 
-agent가 다음 상황 마주치면 즉시 `STATUS.md` + orchestrator 메모로 보고:
+agent가 다음 상황 마주치면 즉시 `STATUS.md` + head 메모로 보고:
 
 | 상황 | 대응 |
 |---|---|
-| 자기 권한 외 파일 수정 필요 | 대기 + 보고 → orchestrator가 위임 또는 조율 |
+| 자기 권한 외 파일 수정 필요 | 대기 + 보고 → head가 위임 또는 조율 |
 | DESIGN.md 안티패턴 위반 위험 발견 | 대기 + 보고 |
 | 타입 정의 부족/모호 | 대기 + 보고 → 타입 먼저 확정 |
 | CONTENT.md 누락/오류 발견 | 보고 (작업 계속하지 말 것) |

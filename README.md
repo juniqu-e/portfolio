@@ -47,7 +47,7 @@
 
 | Agent | 별칭 | 책임 | 모델 |
 |---|---|---|---|
-| **orchestrator** | orch, pm, lead | 작업 계획, 위임, 머지, 타입 정의 | opus |
+| **head** | lead, pm | 작업 계획, 위임, 머지, 타입 정의 | opus |
 | **frontend** | fe, front | UI 컴포넌트, 페이지, 디자인 토큰 | sonnet |
 | **backend** | be, back | API route, 서버 로직, DB | sonnet |
 | **infrastructure** | infra, ops, devops | Docker, CI/CD, 배포 | sonnet |
@@ -82,12 +82,12 @@ git worktree add ../portfolio-backend  -b feat/backend
 git worktree add ../portfolio-infra    -b feat/infra
 ```
 
-reviewer / orchestrator / documenter는 메인 트리 공유 (각자 다른 파일만 만짐).
+reviewer / head / documenter는 메인 트리 공유 (각자 다른 파일만 만짐).
 
 ### 2) tmux 윈도우 매핑
 
 ```
-window 1: 오케스트레이터  → /home/zz262zz/homeserver/portfolio          (main)
+window 1: 헤드  → /home/zz262zz/homeserver/portfolio          (main)
 window 2: 개발            → 3 panes:
   pane 0: frontend       → /home/zz262zz/homeserver/portfolio-frontend
   pane 1: backend        → /home/zz262zz/homeserver/portfolio-backend
@@ -106,7 +106,7 @@ window 7: 로그            → /home/zz262zz/homeserver/portfolio          (doc
 ### 3) 각 윈도우에서 `claude` 실행 + `/start <role>`
 
 ```
-[window 1 오케스트레이터]   claude → /start orchestrator
+[window 1 헤드]   claude → /start head
 [window 2 개발 pane 0]      claude → /start frontend
 [window 2 개발 pane 1]      claude → /start backend
 [window 2 개발 pane 2]      claude → /start infra
@@ -123,13 +123,13 @@ window 7: 로그            → /home/zz262zz/homeserver/portfolio          (doc
 ### 예시 1: Phase 4 — Next.js 초기화 (단일 agent)
 
 ```
-[orchestrator]: "Phase 4 시작. frontend가 nextjs-init 수행"
+[head]: "Phase 4 시작. frontend가 nextjs-init 수행"
 [frontend]:     /develop nextjs-init
    ↓ pnpm create next-app + Tailwind config + 폰트 + Phosphor 설치
 [frontend]:     /end ready-for-review
 [reviewer]:     /review nextjs-init
    ↓ 6게이트 검사 → PASS
-[orchestrator]: git merge --no-ff feat/frontend
+[head]: git merge --no-ff feat/frontend
 [docs]:         /develop changelog-nextjs-init
    ↓ CHANGELOG.md + ROADMAP.md Phase 4 상태 갱신
 [docs]:         /end
@@ -138,7 +138,7 @@ window 7: 로그            → /home/zz262zz/homeserver/portfolio          (doc
 ### 예시 2: Hero 섹션 구현 (단일 agent + 리뷰)
 
 ```
-[orchestrator]: "Phase 5 Hero 구현 진행"
+[head]: "Phase 5 Hero 구현 진행"
 [frontend]:     /develop hero
    ↓ SPEC.md §1 Hero 사양 확인
    ↓ components/sections/Hero.tsx 작성 (try/catch/finally 시그니처 포함)
@@ -153,14 +153,14 @@ window 7: 로그            → /home/zz262zz/homeserver/portfolio          (doc
                 /end ready-for-review
 [reviewer]:     /review hero      # 재검사
    ↓ 6/6 PASS
-[orchestrator]: git merge
+[head]: git merge
 [docs]:         /develop changelog-hero
 ```
 
 ### 예시 3: 방명록 (frontend + backend 동시 작업)
 
 ```
-[orchestrator]: /develop guestbook
+[head]: /develop guestbook
    ↓ SPEC.md §8 + API.md §1 확인
    ↓ 계획: frontend=UI, backend=API 분담
    ↓ STATUS.md에 두 작업 등록
@@ -170,12 +170,12 @@ window 7: 로그            → /home/zz262zz/homeserver/portfolio          (doc
 [backend]:      /develop guestbook-api   # POST/GET endpoint + 보안
 
   ※ 두 agent가 같은 STATUS.md 보면서 동시 진행
-  ※ types/index.ts 의 GuestbookEntry 타입은 orchestrator가 사전 정의 (contract-first)
+  ※ types/index.ts 의 GuestbookEntry 타입은 head가 사전 정의 (contract-first)
 
 [frontend]:     /end ready-for-review
 [backend]:      /end ready-for-review
 [reviewer]:     /review guestbook        # 두 브랜치 합쳐서 검사
-[orchestrator]: git merge feat/frontend feat/backend
+[head]: git merge feat/frontend feat/backend
 ```
 
 ### 예시 4: 상태 모니터링
@@ -189,7 +189,7 @@ window 7: 로그            → /home/zz262zz/homeserver/portfolio          (doc
 
 | Agent          | Status              | Files                              | Note   |
 |---             |---                  |---                                 |---     |
-| orchestrator   | 🟢 idle             | —                                  |        |
+| head   | 🟢 idle             | —                                  |        |
 | frontend       | 🔵 in_progress      | components/sections/Hero.tsx       | ~30min |
 | backend        | 🟢 idle             | —                                  |        |
 | infrastructure | 🟢 idle             | —                                  |        |
@@ -202,7 +202,7 @@ window 7: 로그            → /home/zz262zz/homeserver/portfolio          (doc
 ### 예시 5: 배포 (Phase 9)
 
 ```
-[orchestrator]: "Phase 9 배포 시작"
+[head]: "Phase 9 배포 시작"
 [infra]:        /develop dockerfile
    ↓ DEPLOYMENT.md 따라 Dockerfile 작성
 [infra]:        /develop docker-compose-entry
@@ -213,7 +213,7 @@ window 7: 로그            → /home/zz262zz/homeserver/portfolio          (doc
    ↓ .github/workflows/deploy.yml 작성
 [infra]:        /end ready-for-review
 [reviewer]:     /review deployment
-[orchestrator]: git merge feat/infra
+[head]: git merge feat/infra
 [infra]:        /develop npm-proxy-host
    ↓ Nginx Proxy Manager UI 안내 (수동 입력)
 [infra]:        /logs portfolio          # 배포 후 검증
@@ -256,7 +256,7 @@ window 7: 로그            → /home/zz262zz/homeserver/portfolio          (doc
 | **공유 문서 read-only** | 병렬 중 DESIGN/CONTENT/CLAUDE/AGENTS는 변경 금지 |
 | **STATUS.md 상시 동기화** | 작업 시작/끝/블록 시 자기 줄 갱신 |
 | **타입 우선** | types/index.ts 인터페이스 먼저, 그 후 구현 |
-| **머지는 orchestrator만** | 다른 agent는 push만, merge X |
+| **머지는 head만** | 다른 agent는 push만, merge X |
 | **DESIGN.md 가드레일** | 안티패턴 12개 절대 위반 금지 (reviewer 강제) |
 
 ---

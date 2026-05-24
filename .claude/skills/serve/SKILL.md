@@ -75,7 +75,7 @@ bash_id 기록.
 
 ## 사용 예시
 
-frontend 또는 orchestrator 윈도우에서:
+frontend 또는 head 윈도우에서:
 ```
 /serve
 # 또는

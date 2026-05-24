@@ -70,12 +70,12 @@ DESIGN.md, CONTENT.md   → read-only
 3. Route handler 작성
 4. 로컬 테스트 (curl 또는 Postman)
 5. STATUS.md에 ready-for-review 표시
-6. reviewer 통과 후 orchestrator가 머지
+6. reviewer 통과 후 head가 머지
 ```
 
 ## 진단 모드
 
 작업 거의 없을 때 (idle 상태):
 - 새 작업 요청 대기
-- 본인 portfolio에서 백엔드 추가하면 좋을 케이스를 *제안*은 가능 (orchestrator에게)
+- 본인 portfolio에서 백엔드 추가하면 좋을 케이스를 *제안*은 가능 (head에게)
 - 자기 권한 외 영역은 *touch* 금지
