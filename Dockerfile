@@ -26,7 +26,7 @@ WORKDIR /app
 RUN corepack enable && corepack prepare pnpm@9.15.0 --activate
 
 # Lockfile + manifest 만 먼저 복사 → 의존성 layer 캐싱
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY package.json pnpm-lock.yaml ./
 
 # frozen-lockfile 로 재현 가능한 설치
 RUN pnpm install --frozen-lockfile

@@ -43,26 +43,32 @@
 
 ```dockerfile
 # ---- Stage 1: deps ----
-FROM node:22-alpine AS deps
+FROM node:22-slim AS deps
 WORKDIR /app
+RUN corepack enable && corepack prepare pnpm@9.15.0 --activate
 COPY package.json pnpm-lock.yaml ./
-RUN corepack enable && pnpm install --frozen-lockfile --prod=false
+RUN pnpm install --frozen-lockfile
 
-# ---- Stage 2: build ----
-FROM node:22-alpine AS builder
+# ---- Stage 2: builder ----
+FROM node:22-slim AS builder
 WORKDIR /app
+RUN corepack enable && corepack prepare pnpm@9.15.0 --activate
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-RUN corepack enable && pnpm build
+ENV NEXT_TELEMETRY_DISABLED=1
+RUN pnpm build
 
 # ---- Stage 3: runner ----
-FROM node:22-alpine AS runner
+FROM node:22-slim AS runner
 WORKDIR /app
 ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
 ENV PORT=3000
+ENV HOSTNAME=0.0.0.0
 
-# Non-root user
-RUN addgroup -S nodejs -g 1001 && adduser -S nextjs -u 1001 -G nodejs
+# Non-root user (Debian-slim 계열: groupadd/useradd)
+RUN groupadd --system --gid 1001 nodejs \
+ && useradd --system --uid 1001 --gid nodejs nextjs
 
 # Next.js standalone 출력 복사
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
@@ -75,17 +81,23 @@ RUN mkdir -p /data && chown nextjs:nodejs /data
 USER nextjs
 EXPOSE 3000
 
-HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
-  CMD wget --no-verbose --tries=1 --spider http://localhost:3000/api/health || exit 1
+# Node 22 글로벌 fetch 사용 — wget/curl 추가 설치 불필요
+HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \
+  CMD node -e "fetch('http://127.0.0.1:'+process.env.PORT+'/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
 
 CMD ["node", "server.js"]
 ```
+
+> **base image 선택 (Debian-slim vs Alpine)**: Alpine은 musl libc 기반이라
+> Next.js / sharp / 일부 native module 호환성 이슈가 종종 보고됨. Debian-slim은
+> 사이즈가 약 50MB 더 크지만(전체 ~293MB) 호환성이 검증된 길. healthcheck는
+> Node.js 글로벌 fetch로 처리하여 wget/curl 추가 설치 불필요.
 
 ### 사전 요구: `next.config.ts`
 
 ```ts
 const nextConfig = {
-  output: 'standalone',     // Docker 배포 위해 필수
+  output: "standalone", // Docker 배포 위해 필수
   // ... 기타
 };
 ```
@@ -95,7 +107,7 @@ const nextConfig = {
 ```ts
 // app/api/health/route.ts
 export async function GET() {
-  return new Response('ok', { status: 200 });
+  return new Response("ok", { status: 200 });
 }
 ```
 
@@ -103,43 +115,69 @@ export async function GET() {
 
 ## Docker Compose 통합
 
-### 기존 docker-compose.yml에 service 추가
+### `deploy/docker-compose.yml` (별도 파일)
+
+`.env.example` 의 변수명(`ADMIN_TOKEN`, `IP_HASH_SALT` 등)을 그대로 사용하여 `env_file`로 일괄 주입한다. `PORTFOLIO_*` prefix 패턴은 폐기 — single-app 환경에서 불필요한 충돌 방지 레이어였음.
 
 ```yaml
-services:
-  # ... 기존 services (npm, 다른 앱들)
+# compose 프로젝트 이름 고정 — 디렉토리명에 의존하지 않게 함
+name: portfolio
 
+services:
   portfolio:
-    image: ghcr.io/juniqu-e/portfolio:latest
+    image: ghcr.io/juniqu-e/portfolio:${PORTFOLIO_IMAGE_TAG:-latest}
     container_name: portfolio
     restart: unless-stopped
+
+    # 모든 시크릿/설정은 같은 디렉토리의 `.env` 에서 주입 (이 파일에 평문 X)
+    env_file:
+      - .env
+
+    # .env 와 무관하게 항상 고정되어야 하는 런타임 변수
     environment:
-      - NODE_ENV=production
-      - PORT=3000
-      - DB_PATH=/data/guestbook.db
-      - ADMIN_TOKEN=${PORTFOLIO_ADMIN_TOKEN}
-      - IP_HASH_SALT=${PORTFOLIO_IP_HASH_SALT}
-      - NEXT_PUBLIC_GA_ID=${PORTFOLIO_GA_ID}
-      - NEXT_PUBLIC_SITE_URL=https://wnsdlr.com
-      - RATE_LIMIT_WINDOW_MS=300000
-      - RATE_LIMIT_MAX_REQUESTS=1
+      NODE_ENV: production
+      PORT: 3000
+      HOSTNAME: 0.0.0.0
+
     volumes:
-      - portfolio-data:/data
-    networks:
-      - npm-network         # NPM이 접근 가능한 네트워크
+      - portfolio-data:/data # DB_PATH=/data/guestbook.db 와 매칭
+
     expose:
-      - "3000"              # 외부 노출 X. NPM만 접근.
+      - "3000" # 외부 직접 노출 X. NPM 만 내부 네트워크로 접근.
+
+    networks:
+      - npm-network
+
+    # 로그 회전 (호스트 디스크 보호)
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "5"
+
+    # 컨테이너 리소스 가드
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 128M
 
 volumes:
   portfolio-data:
+    name: portfolio-data
     driver: local
 
 networks:
   npm-network:
-    external: true          # NPM에서 만든 기존 네트워크
+    external: true # NPM 이 사용하는 기존 네트워크
 ```
 
-**환경변수**: 호스트의 `.env` (docker-compose 같은 디렉토리)에 정의. 또는 NPM과 같은 시크릿 매니저 방식.
+**환경변수 패턴**:
+
+- 시크릿/배포별 값(`ADMIN_TOKEN`, `IP_HASH_SALT`, `NEXT_PUBLIC_GA_ID`, `NEXT_PUBLIC_SITE_URL`, `DB_PATH`, `RATE_LIMIT_*`)은 같은 디렉토리 `.env` (gitignore) — `env_file` 로 일괄 주입.
+- 컨테이너 런타임 고정값(`NODE_ENV=production`, `PORT=3000`, `HOSTNAME=0.0.0.0`)은 `environment` 에 명시 — `.env` 가 잘못되어도 보장.
+- 이미지 태그는 `PORTFOLIO_IMAGE_TAG` 환경변수로 override. 기본값 `latest`, 롤백 시 git SHA 지정: `PORTFOLIO_IMAGE_TAG=<sha> docker compose up -d portfolio`.
 
 ---
 
@@ -148,24 +186,27 @@ networks:
 UI에서 수동 입력 (코드화 안 됨). 두 도메인 각각 proxy host 등록:
 
 ### Host 1: wnsdlr.com
-| 필드 | 값 |
-|---|---|
-| Domain Names | `wnsdlr.com`, `www.wnsdlr.com` |
-| Scheme | `http` |
-| Forward Hostname / IP | `portfolio` |
-| Forward Port | `3000` |
-| Cache Assets | ✅ |
-| Block Common Exploits | ✅ |
-| Websockets Support | ✅ |
-| SSL Certificate | Request new (Let's Encrypt, auto-renew) |
-| Force SSL | ✅ |
-| HTTP/2 Support | ✅ |
-| HSTS Enabled | ✅ |
+
+| 필드                  | 값                                      |
+| --------------------- | --------------------------------------- |
+| Domain Names          | `wnsdlr.com`, `www.wnsdlr.com`          |
+| Scheme                | `http`                                  |
+| Forward Hostname / IP | `portfolio`                             |
+| Forward Port          | `3000`                                  |
+| Cache Assets          | ✅                                      |
+| Block Common Exploits | ✅                                      |
+| Websockets Support    | ✅                                      |
+| SSL Certificate       | Request new (Let's Encrypt, auto-renew) |
+| Force SSL             | ✅                                      |
+| HTTP/2 Support        | ✅                                      |
+| HSTS Enabled          | ✅                                      |
 
 ### Host 2: leejunik.com
+
 동일 설정. Domain Names 만 `leejunik.com`, `www.leejunik.com` 으로.
 
 ### SEO 처리 (둘 다 같은 사이트 가리킴 → 중복 콘텐츠 페널티 회피)
+
 - **Canonical URL**: 한 도메인을 정식으로. 다른 쪽은 canonical link로 정식 도메인을 가리킴
 - **결정**: `wnsdlr.com`을 canonical로
 - Next.js `metadataBase` 또는 `alternates.canonical` 사용
@@ -187,56 +228,85 @@ NPM Redirect Host 추가:
 
 ## CI/CD — GitHub Actions
 
-### `.github/workflows/build.yml` — PR + main 푸시
+### `.github/workflows/ci.yml` — typecheck / lint / build matrix
+
+PR + master push 시 매트릭스로 병렬 실행. 세 task 가 모두 PASS 해야 머지 가능.
 
 ```yaml
-name: build
+name: ci
+
 on:
-  pull_request:
   push:
-    branches: [main]
+    branches: [master]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  build:
+  check:
+    name: ${{ matrix.task }} (Node ${{ matrix.node-version }})
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [22]
+        task: [typecheck, lint, build]
+
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-        with: { version: 9 }
+
+      - name: Enable corepack + pin pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@9.15.0 --activate
+
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: ${{ matrix.node-version }}
           cache: pnpm
+
       - run: pnpm install --frozen-lockfile
-      - run: pnpm typecheck
-      - run: pnpm lint
-      - run: pnpm build
+
+      - if: matrix.task == 'typecheck'
+        run: pnpm typecheck
+      - if: matrix.task == 'lint'
+        run: pnpm lint
+      - if: matrix.task == 'build'
+        env:
+          NEXT_TELEMETRY_DISABLED: "1"
+        run: pnpm build
 ```
 
-### `.github/workflows/deploy.yml` — main 푸시 시 배포
+### `.github/workflows/deploy.yml` — **미구현 (Phase 9 후속 작업)**
+
+현재 배포는 [`deploy/DEPLOY_RUNBOOK.md`](./deploy/DEPLOY_RUNBOOK.md) 의 수동 절차로 진행. GHCR build/push + 홈서버 SSH 자동 배포 워크플로우는 첫 배포 후 안정화되면 추가 예정.
+
+자동화 시 예상 구조:
 
 ```yaml
 name: deploy
 on:
   push:
-    branches: [main]
+    branches: [master]
+  workflow_dispatch:
 
 jobs:
-  deploy:
+  build-push:
     runs-on: ubuntu-latest
-    needs: build
+    needs: [check] # ci.yml matrix 모두 PASS 후
+    permissions:
+      contents: read
+      packages: write
     steps:
       - uses: actions/checkout@v4
-
-      - name: Login to GHCR
-        uses: docker/login-action@v3
+      - uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build & push
-        uses: docker/build-push-action@v5
+      - uses: docker/build-push-action@v5
         with:
           context: .
           push: true
@@ -246,20 +316,24 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Deploy to homeserver
-        uses: appleboy/ssh-action@v1
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [build-push]
+    steps:
+      - uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd ~/homeserver
+            cd ~/homeserver/portfolio/deploy
             docker compose pull portfolio
             docker compose up -d portfolio
             docker image prune -f
 ```
 
-**필요한 GitHub Secrets**:
+**자동화 시 필요한 GitHub Secrets**:
+
 - `SSH_HOST` — 홈서버 주소
 - `SSH_USER` — SSH 사용자
 - `SSH_KEY` — private key (배포용 별도 키 생성 권장)
@@ -289,6 +363,7 @@ find "$BACKUP_DIR" -name "*.db" -mtime +30 -delete
 ```
 
 ### 시크릿 백업
+
 - `.env` 파일은 1Password / Bitwarden 등에 따로 보관
 - `IP_HASH_SALT` 변경 금지 (변경 시 기존 rate-limit 데이터 무효화)
 
@@ -297,6 +372,7 @@ find "$BACKUP_DIR" -name "*.db" -mtime +30 -delete
 ## 모니터링
 
 ### 로그
+
 ```bash
 docker compose logs -f portfolio       # 실시간
 docker compose logs --tail=200 portfolio
@@ -305,11 +381,13 @@ docker compose logs --tail=200 portfolio
 향후 로그 수집은 Loki + Promtail 추가 가능. 1차에는 표준 docker 로그만.
 
 ### Uptime
+
 - 외부: UptimeRobot 또는 자체 호스팅 Uptime Kuma
 - 체크 URL: `https://wnsdlr.com/api/health`
 - 알림: 이메일 또는 슬랙
 
 ### 에러 트래킹
+
 - 1차 미도입. 필요 시 Sentry (`@sentry/nextjs`)
 
 ---
@@ -317,6 +395,7 @@ docker compose logs --tail=200 portfolio
 ## 롤백 절차
 
 ### 옵션 1: 이전 이미지 태그로 복귀
+
 ```bash
 cd ~/homeserver
 # docker-compose.yml에서 image 태그를 이전 SHA로 변경
@@ -324,6 +403,7 @@ docker compose up -d portfolio
 ```
 
 ### 옵션 2: SQLite DB 복구
+
 ```bash
 # 컨테이너 정지
 docker compose stop portfolio

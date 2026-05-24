@@ -21,6 +21,9 @@
 #   PORTFOLIO_IMAGE_TAG=<sha> docker compose up -d portfolio
 # =============================================================================
 
+# compose 프로젝트 이름 고정 — 디렉토리명에 의존하지 않게 함
+name: portfolio
+
 services:
   portfolio:
     image: ghcr.io/juniqu-e/portfolio:${PORTFOLIO_IMAGE_TAG:-latest}
