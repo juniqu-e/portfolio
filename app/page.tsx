@@ -1,4 +1,7 @@
 import { About } from "@/components/sections/About";
+import { Awards } from "@/components/sections/Awards";
+import { Contact } from "@/components/sections/Contact";
+import { Education } from "@/components/sections/Education";
 import { Experience } from "@/components/sections/Experience";
 import { Footer } from "@/components/sections/Footer";
 import { Header } from "@/components/sections/Header";
@@ -16,15 +19,9 @@ export default function HomePage() {
         <TechStack />
         <Experience />
         <Projects />
-        <section
-          id="contact"
-          aria-label="Contact"
-          className="mx-auto max-w-prose px-6 py-24"
-        >
-          <p className="font-mono text-sm text-subtle">
-            {`// Contact — Phase 8+`}
-          </p>
-        </section>
+        <Awards />
+        <Education />
+        <Contact />
       </main>
       <Footer />
     </>

@@ -47,6 +47,17 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "이준익",
+  alternateName: "Lee Junik",
+  jobTitle: "DevOps / Platform Engineer",
+  url: siteUrl,
+  email: "mailto:zz262zzx@gmail.com",
+  sameAs: ["https://github.com/juniqu-e", "https://velog.io/@juniqu_e"],
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
@@ -62,6 +73,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           본문으로 건너뛰기
         </a>
         {children}
+        <script
+          type="application/ld+json"
+          // schema.org Person — SEO 구조화 데이터 (SPEC G3 AC6)
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+        />
       </body>
     </html>
   );
