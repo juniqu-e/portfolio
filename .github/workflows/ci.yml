@@ -1,0 +1,74 @@
+# =============================================================================
+# CI — typecheck / lint / build
+# =============================================================================
+#
+# 트리거:
+#   - master 브랜치 push
+#   - 모든 pull_request
+#
+# 구조:
+#   matrix 로 typecheck/lint/build 를 병렬 실행.
+#   각 job 은 pnpm install (cached) 후 자기 task 한 개만 수행.
+#   하나라도 실패하면 머지 차단.
+#
+# pnpm 버전 정책:
+#   package.json `packageManager` 미정 → workflow 에서 corepack prepare 로 핀.
+#   Dockerfile 과 동일한 9.15.0 사용 (드리프트 방지).
+# =============================================================================
+
+name: ci
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+# 동일 ref 의 이전 실행 자동 취소 (PR 새 커밋 시 비용 절감)
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: ${{ matrix.task }} (Node ${{ matrix.node-version }})
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [22]
+        task: [typecheck, lint, build]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Enable corepack + pin pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@9.15.0 --activate
+          pnpm --version
+
+      - name: Setup Node ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: pnpm
+
+      - name: Install deps (frozen lockfile)
+        run: pnpm install --frozen-lockfile
+
+      # ---- Task switch ----
+      - name: Run typecheck
+        if: matrix.task == 'typecheck'
+        run: pnpm typecheck
+
+      - name: Run lint
+        if: matrix.task == 'lint'
+        run: pnpm lint
+
+      - name: Run build
+        if: matrix.task == 'build'
+        env:
+          NEXT_TELEMETRY_DISABLED: "1"
+        run: pnpm build

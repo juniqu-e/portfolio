@@ -1,0 +1,74 @@
+# =============================================================================
+# .dockerignore — Docker build context 에서 제외할 파일
+# =============================================================================
+# 목적: build context 최소화 → 빌드 속도 ↑, 시크릿 유출 방지
+
+# ---- VCS ----
+.git
+.gitignore
+.gitattributes
+
+# ---- Dependencies / Build artifacts ----
+node_modules
+.pnpm-store
+.next
+out
+build
+dist
+*.tsbuildinfo
+
+# ---- Environment / Secrets ----
+# .env.example 는 의도적으로 포함 (참조용). 실제 값 파일은 모두 제외.
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# ---- Docker / Deploy 메타 ----
+Dockerfile
+.dockerignore
+docker-compose*.yml
+deploy
+
+# ---- CI / Editor ----
+.github
+.vscode
+.idea
+*.swp
+*.swo
+
+# ---- Test / Logs ----
+coverage
+*.log
+npm-debug.log*
+yarn-debug.log*
+.pnpm-debug.log*
+
+# ---- OS ----
+.DS_Store
+Thumbs.db
+
+# ---- Claude Code 메타 (private) ----
+.claude
+CLAUDE.md
+AGENTS.md
+STATUS.md
+
+# ---- Docs (런타임 불필요) ----
+# README/ARCHITECTURE/DESIGN 등 빌드 산출물 무관. 이미지 슬림화.
+README.md
+ARCHITECTURE.md
+DESIGN.md
+CONTENT.md
+ROADMAP.md
+SPEC.md
+API.md
+DEPLOYMENT.md
+
+# ---- SQLite 데이터 (volume 으로 마운트) ----
+data
+*.db
+*.db-journal
+*.db-wal
+*.db-shm

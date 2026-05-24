@@ -1,0 +1,79 @@
+# =============================================================================
+# portfolio — Production docker-compose (홈서버용)
+# =============================================================================
+#
+# 위치: 홈서버의 ~/homeserver/docker-compose.yml 에 service 로 머지하거나,
+#       독립 파일로 두고 별도로 띄울 수 있다.
+#
+# 전제:
+#   1) 같은 디렉토리에 `.env` 존재 (env_file 참조).
+#      .env 는 `.env.example` 을 복사해서 실제 시크릿으로 채운 것.
+#   2) NPM 컨테이너가 사용하는 외부 네트워크 `npm-network` 가 이미 생성되어 있음.
+#      없으면:  docker network create npm-network
+#   3) `ghcr.io/juniqu-e/portfolio` 패키지에 pull 권한이 있는 GHCR 로그인 완료.
+#
+# 운영:
+#   docker compose pull portfolio
+#   docker compose up -d portfolio
+#   docker compose logs -f portfolio
+#
+# 롤백 (이전 SHA 태그로):
+#   PORTFOLIO_IMAGE_TAG=<sha> docker compose up -d portfolio
+# =============================================================================
+
+services:
+  portfolio:
+    image: ghcr.io/juniqu-e/portfolio:${PORTFOLIO_IMAGE_TAG:-latest}
+    container_name: portfolio
+    restart: unless-stopped
+
+    # 모든 시크릿/설정은 호스트의 .env 에서 주입 (이 파일에 평문 X)
+    env_file:
+      - .env
+
+    # .env 와 무관하게 항상 고정되어야 하는 런타임 변수
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      HOSTNAME: 0.0.0.0
+
+    volumes:
+      # SQLite 영속 — DB_PATH=/data/guestbook.db 와 매칭
+      - portfolio-data:/data
+
+    # 외부 직접 포트 노출 X. NPM 만 내부 네트워크로 접근.
+    expose:
+      - "3000"
+
+    networks:
+      - npm-network
+
+    # Dockerfile 의 HEALTHCHECK 그대로 사용. compose 에서 override 안 함.
+
+    # 로그 회전 (호스트 디스크 보호)
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "5"
+
+    # 컨테이너 리소스 가드 (홈서버 보호용 — 필요 시 조정)
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 128M
+
+
+volumes:
+  portfolio-data:
+    name: portfolio-data
+    driver: local
+
+
+networks:
+  npm-network:
+    external: true
+    # NPM 이 사용하는 기존 네트워크 이름이 다르면 여기서 name: 지정
+    # name: nginx-proxy-manager_default
