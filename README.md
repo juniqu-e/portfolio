@@ -266,7 +266,7 @@ window 7: 로그            → /home/zz262zz/homeserver/portfolio          (doc
 
 ---
 
-## 📋 Development (Phase 4 완료 ✅ — 코드 작업 가능)
+## 📋 Development (Phase 8 완료 ✅ — 8 섹션 + 메타데이터 마운트, Phase 9 배포 진행 중)
 
 ```bash
 pnpm install

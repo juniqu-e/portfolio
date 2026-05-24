@@ -86,12 +86,14 @@
 
 **산출물**:
 
-- `components/sections/Hero.tsx`
-- try/catch/finally 코드 블록 시그니처 시각화
-- 이름 + 역할 + 모토
-- 미세한 인터랙션 (호버 등)
+- ✅ `components/sections/Hero.tsx` (RSC)
+- ✅ `components/ui/CodeBlock.tsx` — 자체 mini-highlighter (라이브러리 의존 X)
+- ✅ try/catch/finally 코드 블록 시그니처 시각화 (JetBrains Mono + DESIGN 토큰 컬러)
+- ✅ 이름 + 역할 + 모토 (CONTENT.md Identity 그대로)
+- ✅ CSS-only 호버 인터랙션 (motion 라이브러리 미사용)
+- ✅ `app/page.tsx` — anchor placeholder 구조 도입
 
-**검증**: 본인이 봐서 *"이게 내 정체성을 표현한다"*고 느낌. AI 클리셰 없음. DESIGN.md 가드레일 통과.
+**검증**: ✅ 4 게이트 (typecheck / lint / build / `/check-design-rule`) PASS. First Load JS 106KB 유지. AI 클리셰 없음.
 
 ---
 
@@ -99,11 +101,14 @@
 
 **산출물**:
 
-- `components/sections/About.tsx` — 본문 + 정체성 요약 표
-- `components/sections/TechStack.tsx` — 6개 카테고리 아이콘 그리드
-- 아이콘 호버 인터랙션
+- ✅ `components/sections/About.tsx` (RSC) — 본문 + 정체성 요약 표 (dl 2-col, `bg-accent-blue/5` 호버)
+- ✅ `components/sections/TechStack.tsx` (RSC) — 6 카테고리 grid (2/3/4/6 컬럼 반응형, `bg-panel`, `scale-1.03` 호버)
+- ✅ `components/ui/Icon.tsx` — brand-first / Phosphor-fallback wrapper (registry 패턴)
+- ✅ `content/profile.ts`, `content/skills.ts` — 데이터 분리
+- ✅ types 확장 — `Profile` / `ParaSegment` / `IdentityRow`
+- ✅ **follow-up**: `public/icons/` 26 devicon 브랜드 SVG + Phosphor placeholder 대체 (OPA→ShieldCheck). 호버 멀티컬러 호환을 위해 icon 색 전환 제거, 컨테이너 `border-line-strong` + 라벨 `text-accent-blue`로 시각 피드백 유지
 
-**검증**: 모바일/데스크탑 모두 자연스러움. 진행도 바 없음.
+**검증**: ✅ 4 게이트 PASS. First Load JS 106KB 유지. 진행도 바 0건.
 
 ---
 
@@ -111,12 +116,13 @@
 
 **산출물**:
 
-- `components/sections/Experience.tsx` — SSAFY 실습코치 상세
-- `components/sections/Projects.tsx` — 4개 그룹, 6개 프로젝트 카드
-- 프로젝트 상세 페이지 또는 모달
-- 수상 프로젝트 강조 표시
+- ✅ `components/sections/Experience.tsx` (RSC) — SSAFY 13기 · 14기 실습코치 상세
+- ✅ `components/sections/Projects.tsx` (RSC, `bg-panel`) — 4 그룹 / 6 카드
+- ✅ `components/ui/ProjectCard.tsx` (client, `scale-1.02` 호버) — 수상 trophy 강조 + 모달 trigger
+- ✅ `components/ui/ProjectModal.tsx` (client) — native `<dialog>` + `forwardRef` + `useImperativeHandle` + problem / solution / tech 구조
+- ✅ `content/experience.ts` / `content/projects.ts` (6 프로젝트) / `content/project-groups.ts` — 데이터 분리
 
-**검증**: 모든 프로젝트가 problem→solution→tech 구조로 노출. 스크린샷 또는 placeholder 이미지 포함.
+**검증**: ✅ 4 게이트 PASS. 번들: page 3.46→6.76KB, First Load 106→109KB (모달 클라이언트 컴포넌트 도입 비용).
 
 ---
 
@@ -124,13 +130,15 @@
 
 **산출물**:
 
-- `components/sections/Awards.tsx`
-- `components/sections/Education.tsx`
-- `components/sections/Contact.tsx`
-- `components/Footer.tsx` (모토 재등장)
-- 메타데이터 (OG image, favicon, sitemap)
+- ✅ `components/sections/Awards.tsx` — 3행 (1등 1건 + 2등 2건), 1등 `accent-blue` 강조 + Trophy 라벨, 행 hover tint
+- ✅ `components/sections/Education.tsx` — CKA/정처기 진행중은 `accent-pink/15` pill, 정치외교학과는 "학사" (reviewer WARN 해소: `kind === "education" && status === "completed" → "학사"` 분기)
+- ✅ `components/sections/Contact.tsx` — 3 링크 (Email mailto / GitHub / Velog), `aria-label` + external `rel="noopener noreferrer"`
+- ✅ `components/sections/Footer.tsx` 보강 — mini 2-line try/catch/finally 시그니처 + 모토 (Hero와 1글자 일치) + copyright
+- ✅ `content/{awards,education,contact}.ts` — 데이터 분리
+- ✅ 메타데이터: `app/icon.tsx` (favicon "L." + accent-blue dot) / `app/opengraph-image.tsx` (1200×630, 시스템 sans + 인라인 토큰 hex) / `app/sitemap.ts` / `app/robots.ts` / `app/layout.tsx` Person JSON-LD
+- ✅ `app/page.tsx` — 8 섹션 전체 마운트 (placeholder 제거)
 
-**검증**: 모든 섹션 완성. Lighthouse 점수 90+ (Performance/Accessibility/SEO).
+**검증**: ✅ reviewer 6-게이트 PASS (1 WARN 해소 후). 8 routes 정적 prerender. page 6.76KB / First Load JS 109KB 유지. OG/icon/themeColor raw hex 모두 DESIGN.md 토큰 정확 매핑. 사용자 시각 검증 PASS.
 
 ---
 
@@ -172,8 +180,8 @@
 | 2.5 — 멀티에이전트 인프라 (AGENTS/STATUS + 6 agents) | ✅ 완료                                                        |
 | 3 — 커스텀 skill/agent                               | ✅ 완료 (design-auditor + check-design-rule + refresh-content) |
 | 4 — Next.js 초기화                                   | ✅ 완료 (15.5 + React 19 + Tailwind 토큰화 + 폰트 3종 + shell) |
-| 5 — Hero 구현                                        | 🔜 다음                                                        |
-| 6 — About / Tech Stack                               | ⚪ 대기                                                        |
-| 7 — Experience / Projects                            | ⚪ 대기                                                        |
-| 8 — Awards / Education / Contact / Footer            | ⚪ 대기                                                        |
-| 9 — 배포                                             | ⚪ 대기                                                        |
+| 5 — Hero 구현                                        | ✅ 완료 (Hero RSC + CodeBlock 자체 highlighter)                |
+| 6 — About / Tech Stack                               | ✅ 완료 (About + TechStack + Icon wrapper + devicon 26)        |
+| 7 — Experience / Projects                            | ✅ 완료 (Experience + 6 프로젝트 카드 + native dialog modal)   |
+| 8 — Awards / Education / Contact / Footer            | ✅ 완료 (4 섹션 + OG/icon/sitemap/robots/Person JSON-LD)       |
+| 9 — 배포                                             | 🔜 다음 (infra: Docker + CI 사전 완료, 실제 배포 검증 진행)    |
