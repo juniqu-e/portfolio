@@ -84,6 +84,7 @@
       "Bash(ps:*)",
       "Bash(tmux:*)",
       "Bash(corepack:*)",
+      "Bash(*)",
       "Read",
       "Write",
       "Edit",
