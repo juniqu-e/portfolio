@@ -156,7 +156,7 @@
 | 1 — Harness 세팅 | ✅ 완료 |
 | 2 — bkit 설치 | ✅ 완료 |
 | 2.5 — 멀티에이전트 인프라 (AGENTS/STATUS + 6 agents) | ✅ 완료 |
-| 3 — 커스텀 skill/agent | 🟢 진행 중 (design-auditor 등) |
+| 3 — 커스텀 skill/agent | ✅ 완료 (design-auditor + check-design-rule + refresh-content) |
 | 4 — Next.js 초기화 | ⚪ 대기 |
 | 5 — Hero 구현 | ⚪ 대기 |
 | 6 — About / Tech Stack | ⚪ 대기 |
