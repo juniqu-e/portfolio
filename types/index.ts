@@ -72,6 +72,20 @@ export type GuestbookListResponse = {
   nextCursor: number | null;
 };
 
+export type GuestbookStatus = "pending" | "approved" | "deleted";
+
+export type GuestbookAdminEntry = GuestbookEntry & {
+  status: GuestbookStatus;
+  ipHash: string;
+  updatedAt: string;
+};
+
+export type GuestbookAdminListResponse = {
+  items: GuestbookAdminEntry[];
+  nextCursor: number | null;
+  counts: { pending: number; approved: number; deleted: number };
+};
+
 export type ParaSegment = { text: string; emphasis?: boolean };
 export type Paragraph = ParaSegment[];
 
