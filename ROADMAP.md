@@ -142,16 +142,21 @@
 
 ---
 
-## Phase 9 — 배포 (홈서버)
+## Phase 9 — 배포 (홈서버) ✅
 
 **산출물**:
 
-- 빌드 + 홈서버 배포 파이프라인 (Docker / Caddy / Nginx 중 선택)
-- `wnsdlr.com` 도메인 연결
-- HTTPS 설정 (Let's Encrypt)
-- 모니터링 기본 (uptime, error 트래킹)
+- ✅ Dockerfile (multi-stage node:22-slim + corepack pnpm + non-root + node fetch healthcheck)
+- ✅ `.dockerignore` + `deploy/docker-compose.yml` (GHCR image + portfolio-data volume + env_file + npm-proxy 외부 네트워크 + 로그회전 + 메모리 limit)
+- ✅ `.github/workflows/ci.yml` (matrix typecheck/lint/build, Node 22 + pnpm cache)
+- ✅ `deploy/DEPLOY_RUNBOOK.md` (사용자 9-단계 실배포 절차 + 롤백 + 트러블슈팅)
+- ✅ GHCR `ghcr.io/juniqu-e/portfolio` (public) — `:latest` + git SHA 태그
+- ✅ 홈서버 배포 (Cloudflare Tunnel → NPM → portfolio:3000)
+- ✅ 4 도메인 연결: `wnsdlr.com`, `www.wnsdlr.com`, `leejunik.com`, `www.leejunik.com` (NPM 단일 Proxy Host 4 Domain Names)
+- ✅ HTTPS (Cloudflare 종단, NPM 자체 SSL X — 기존 인프라 일관)
+- ⏳ 모니터링 (uptime/error) — 후속 (Phase 10+)
 
-**검증**: 외부에서 wnsdlr.com 정상 접근. Mobile에서 정상 렌더링.
+**검증**: ✅ 외부 4 도메인 모두 HTTP 200, Brotli 압축, `x-nextjs-cache: HIT`, 한글 콘텐츠 정상. 메타 라우트 4종 (`/sitemap.xml`, `/robots.txt`, `/opengraph-image`, `/icon`) 모두 200. 컨테이너 47MB / 512MB, 0.02% CPU.
 
 ---
 
@@ -184,4 +189,4 @@
 | 6 — About / Tech Stack                               | ✅ 완료 (About + TechStack + Icon wrapper + devicon 26)        |
 | 7 — Experience / Projects                            | ✅ 완료 (Experience + 6 프로젝트 카드 + native dialog modal)   |
 | 8 — Awards / Education / Contact / Footer            | ✅ 완료 (4 섹션 + OG/icon/sitemap/robots/Person JSON-LD)       |
-| 9 — 배포                                             | 🔜 다음 (infra: Docker + CI 사전 완료, 실제 배포 검증 진행)    |
+| 9 — 배포                                             | ✅ 완료 (CF Tunnel → NPM → portfolio, 4 도메인, GHCR public)   |
