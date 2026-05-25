@@ -160,7 +160,26 @@
 
 ---
 
-## Phase 10+ — 후속 개선
+## Phase 10 — 방명록 (Guestbook) + /api/health ✅
+
+**산출물**:
+
+- ✅ `lib/db.ts` — better-sqlite3 싱글톤 + WAL + CREATE TABLE IF NOT EXISTS + 인덱스 2건 + HMR-safe globalThis
+- ✅ `lib/ip-hash.ts` — SHA-256(ip + IP_HASH_SALT), salt<16 throw, extractIp 헬퍼
+- ✅ `lib/rate-limit.ts` — 메모리 Map + lazy sweep (Redis 미도입), retryAfterSec
+- ✅ `lib/admin-auth.ts` — Bearer + timingSafeEqual, ADMIN_TOKEN<16 거부
+- ✅ `app/api/health/route.ts` — Dockerfile HEALTHCHECK 의존 해소 (healthy 전환)
+- ✅ `app/api/guestbook/route.ts` — POST(Zod + honeypot silent + rate-limit + INSERT approved=0) / GET(approved∧¬deleted, cursor pagination, Cache-Control)
+- ✅ `app/api/guestbook/[id]/route.ts` — admin DELETE soft (404 동시성 안전)
+- ✅ `app/api/guestbook/[id]/approve/route.ts` — admin PATCH
+- ✅ `components/sections/Guestbook.tsx` + `components/ui/{GuestbookForm,GuestbookList}.tsx` + `lib/relative-time.ts` (한국어 상대시간)
+- ✅ types/index.ts `+GuestbookListResponse`, pnpm-workspace.yaml 부활 (pnpm v10+ onlyBuiltDependencies 요구)
+
+**검증**: ✅ reviewer 6-게이트 PASS 0 WARN. 보안 A~G 전부 ✅ (IP hash / admin timing-safe / honeypot pre-DB / rate-limit / Zod / XSS / 계약 정합). docker build PASS 295MB. 로컬 15 curl 시나리오 PASS. 라이브 검증: `/api/health` 200, GET 빈, POST 201, honeypot silent 201, rate-limit 429, admin 401/200/200, soft delete + 동시성 404. 컨테이너 healthy 전환 (Phase 9 unhealthy 해소). 번들 page 6.76→9.05KB / First Load 109→111KB.
+
+---
+
+## Phase 11+ — 후속 개선
 
 보류 항목:
 
@@ -170,6 +189,9 @@
 - 블로그 섹션 또는 Velog 임베드
 - i18n (영문 버전)
 - Lighthouse 100점 튜닝
+- `.github/workflows/deploy.yml` 자동화 (현재 수동 docker push + compose up)
+- 모니터링 통합 (Uptime Kuma / Sentry)
+- 방명록 admin UI (`/admin/guestbook`) — 현재는 curl PATCH/DELETE
 
 ---
 
@@ -190,3 +212,4 @@
 | 7 — Experience / Projects                            | ✅ 완료 (Experience + 6 프로젝트 카드 + native dialog modal)   |
 | 8 — Awards / Education / Contact / Footer            | ✅ 완료 (4 섹션 + OG/icon/sitemap/robots/Person JSON-LD)       |
 | 9 — 배포                                             | ✅ 완료 (CF Tunnel → NPM → portfolio, 4 도메인, GHCR public)   |
+| 10 — 방명록 + /api/health                            | ✅ 완료 (SQLite + Zod + rate-limit + admin auth, 라이브 검증)  |
