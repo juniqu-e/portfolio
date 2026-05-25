@@ -25,18 +25,19 @@
 
 본 프로젝트는 코드보다 문서를 먼저 정의한다. 모든 구현 결정은 아래 문서를 참조한다.
 
-| 문서                                 | 내용                                      |
-| ------------------------------------ | ----------------------------------------- |
-| [DESIGN.md](./DESIGN.md)             | 디자인 시스템 — 컬러/타이포/모션/안티패턴 |
-| [CONTENT.md](./CONTENT.md)           | 포트폴리오 콘텐츠 원본                    |
-| [ARCHITECTURE.md](./ARCHITECTURE.md) | 기술 아키텍처                             |
-| [SPEC.md](./SPEC.md)                 | 기능 명세 + 수락 기준                     |
-| [API.md](./API.md)                   | API 명세 (방명록, OG, sitemap)            |
-| [DEPLOYMENT.md](./DEPLOYMENT.md)     | 배포 가이드 (Docker + NPM)                |
-| [AGENTS.md](./AGENTS.md)             | 멀티에이전트 협업 헌장                    |
-| [STATUS.md](./STATUS.md)             | 실시간 에이전트 상태 보드                 |
-| [CLAUDE.md](./CLAUDE.md)             | Claude Code용 프로젝트 컨텍스트           |
-| [ROADMAP.md](./ROADMAP.md)           | 구현 단계 및 진행 상황                    |
+| 문서                                                   | 내용                                      |
+| ------------------------------------------------------ | ----------------------------------------- |
+| [DESIGN.md](./DESIGN.md)                               | 디자인 시스템 — 컬러/타이포/모션/안티패턴 |
+| [CONTENT.md](./CONTENT.md)                             | 포트폴리오 콘텐츠 원본                    |
+| [ARCHITECTURE.md](./ARCHITECTURE.md)                   | 기술 아키텍처                             |
+| [SPEC.md](./SPEC.md)                                   | 기능 명세 + 수락 기준                     |
+| [API.md](./API.md)                                     | API 명세 (방명록, OG, sitemap)            |
+| [DEPLOYMENT.md](./DEPLOYMENT.md)                       | 배포 아키텍처 (Docker + NPM + Cloudflare) |
+| [deploy/DEPLOY_RUNBOOK.md](./deploy/DEPLOY_RUNBOOK.md) | 실배포 9-단계 절차 + 롤백 / 트러블슈팅    |
+| [AGENTS.md](./AGENTS.md)                               | 멀티에이전트 협업 헌장                    |
+| [STATUS.md](./STATUS.md)                               | 실시간 에이전트 상태 보드                 |
+| [CLAUDE.md](./CLAUDE.md)                               | Claude Code용 프로젝트 컨텍스트           |
+| [ROADMAP.md](./ROADMAP.md)                             | 구현 단계 및 진행 상황                    |
 
 ---
 
@@ -266,7 +267,7 @@ window 7: 로그            → /home/zz262zz/homeserver/portfolio          (doc
 
 ---
 
-## 📋 Development (Phase 8 완료 ✅ — 8 섹션 + 메타데이터 마운트, Phase 9 배포 진행 중)
+## 📋 Development (Phase 9 배포 완료 🚀 — wnsdlr.com 라이브)
 
 ```bash
 pnpm install
@@ -284,13 +285,20 @@ pnpm format                       # Prettier (--write)
 
 ## 🌐 Hosting
 
-홈서버에서 호스팅. 두 도메인 동시 노출:
+홈서버에서 호스팅. NPM 단일 Proxy Host에 **4 도메인** 동시 노출:
 
-- `wnsdlr.com` (canonical)
-- `leejunik.com` → wnsdlr.com 301 redirect
+- `wnsdlr.com` / `www.wnsdlr.com`
+- `leejunik.com` / `www.leejunik.com`
 
-배포: Docker Compose + Nginx Proxy Manager (Let's Encrypt 자동).
-상세는 [DEPLOYMENT.md](./DEPLOYMENT.md).
+**트래픽 경로**: `사용자 → Cloudflare → cloudflared tunnel → localhost:80 (NPM) → portfolio:3000 (Next.js standalone)`
+
+- **이미지**: `ghcr.io/juniqu-e/portfolio:latest` (public)
+- **컨테이너**: Docker Compose (`deploy/docker-compose.yml`) — non-root, 메모리 limit, 로그회전
+- **SSL**: Cloudflare 종단 처리 (NPM 자체 SSL 미사용, 기존 홈서버 인프라 일관)
+- **DNS**: Cloudflare CNAME → tunnel
+- **운영 지표**: HTTP 200 / Brotli / `x-nextjs-cache: HIT`, 컨테이너 47MB · 0.02% CPU
+
+실배포 절차는 [deploy/DEPLOY_RUNBOOK.md](./deploy/DEPLOY_RUNBOOK.md), 아키텍처 근거는 [DEPLOYMENT.md](./DEPLOYMENT.md) 참조.
 
 ---
 

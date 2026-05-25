@@ -67,6 +67,11 @@ export type GuestbookEntry = {
   createdAt: string;
 };
 
+export type GuestbookListResponse = {
+  items: GuestbookEntry[];
+  nextCursor: number | null;
+};
+
 export type ParaSegment = { text: string; emphasis?: boolean };
 export type Paragraph = ParaSegment[];
 
