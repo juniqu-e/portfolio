@@ -214,3 +214,4 @@
 | 9 — 배포                                             | ✅ 완료 (CF Tunnel → NPM → portfolio, 4 도메인, GHCR public)   |
 | 10 — 방명록 + /api/health                            | ✅ 완료 (SQLite + Zod + rate-limit + admin auth, 라이브 검증)  |
 | 11 — 방명록 admin UI                                 | ✅ 완료 (/admin/guestbook + AdminGate + 4-탭 + admin API)      |
+| 12 — admin 세션 인증 (ID+PW + 쿠키)                  | ✅ 완료 (/admin/login + middleware + bcrypt + HMAC 24h 세션)   |

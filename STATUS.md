@@ -13,7 +13,7 @@
 
 ## Current State (sync timestamp: 2026-05-26)
 
-- [head] **in_progress** — Phase 12 머지 진행 (feat/backend + feat/frontend → master). STATUS 카오스 한 번에 정리. 머지 commit 후 build/push + 사용자 ID/PW 입력 → 해시 + secret 생성 → deploy/.env 갱신 → compose swap → 라이브 검증
+- [head] **idle** — **Phase 12 라이브 ✅** /admin 인증 동작. master 머지 (d832614 + 8f6ef37), GHCR push (ghcr.io 8f6ef37 295MB), 사용자 setup 스크립트 + compose force-recreate. 라이브 검증: /admin 307→login, /admin/login 200, wrong cred 401 일반화 메시지, .env 키 escape 정상 (HASH $$ escape → 컨테이너 60자 unescape). Phase 0~12 전 phase ✅
 - [frontend] **ready-for-review** — Phase 12 /admin 단일 + ID/PW 로그인 (e0d1bc9, feat/frontend). 신규 3 + 수정 1 + 삭제 2: app/admin/page.tsx, app/admin/login/page.tsx (Suspense + safeNext 오픈리다이렉트 가드 + router.refresh), AdminLogin.tsx (4-상태 + credentials:'include' + autoComplete). 삭제: AdminGate.tsx + admin/guestbook/page.tsx. 검증 tsc/lint/build/design-auditor PASS, 10 routes.
 - [backend] **ready-for-review** — Phase 12 admin 세션 인증 (00cf1ff, feat/backend). 신규 5 + 수정 9: lib/{admin-session,admin-password}.ts (Edge Web Crypto + bcryptjs 분리, middleware 번들 34.4kB), POST /api/admin/{login,logout}, middleware.ts (/admin/:path\*), 기존 4 admin 라우트 쿠키 검증으로, .env.example 갱신 (ADMIN_TOKEN 제거 → USERNAME/PASSWORD_HASH/SESSION_SECRET 3종), +bcryptjs. 검증: 16 routes, docker build PASS, 24 curl 시나리오 PASS.
 - [infrastructure] **idle** — Phase 9 사전 인프라 완료, 라이브.
