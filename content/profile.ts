@@ -34,7 +34,7 @@ export const PROFILE: Profile = {
       value: "Developer Productivity, CI/CD, Kubernetes, Internal Developer Platform",
     },
     { label: "Current", value: "SSAFY 13기 · 14기 실습코치 (2025.06 ~ 현재)" },
-    { label: "Certification", value: "CKA (진행중), 정보처리기사 (진행중)" },
+    { label: "Certification", value: "CKA (진행중), 정보처리기사 (취득)" },
     {
       label: "Motto",
       value: "Try the code, Catch the people, Finally make it reliable.",
