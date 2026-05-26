@@ -27,11 +27,10 @@ const TABS: { key: AdminStatus; label: string }[] = [
 const LIMIT = 20;
 
 type Props = {
-  token: string;
   onUnauthorized: () => void;
 };
 
-export function GuestbookAdminList({ token, onUnauthorized }: Props) {
+export function GuestbookAdminList({ onUnauthorized }: Props) {
   const liveRegionId = useId();
   const [activeStatus, setActiveStatus] = useState<AdminStatus>("pending");
   const [state, setState] = useState<FetchState>({ kind: "loading" });
@@ -48,7 +47,7 @@ export function GuestbookAdminList({ token, onUnauthorized }: Props) {
         if (cursor != null) url.searchParams.set("cursor", String(cursor));
 
         const res = await fetch(url.toString(), {
-          headers: { Authorization: `Bearer ${token}` },
+          credentials: "include",
           cache: "no-store",
         });
 
@@ -92,7 +91,7 @@ export function GuestbookAdminList({ token, onUnauthorized }: Props) {
         setState({ kind: "error", message: "네트워크 오류가 발생했습니다." });
       }
     },
-    [token, onUnauthorized],
+    [onUnauthorized],
   );
 
   useEffect(() => {
@@ -113,7 +112,7 @@ export function GuestbookAdminList({ token, onUnauthorized }: Props) {
 
       const res = await fetch(target.url, {
         method: target.method,
-        headers: { Authorization: `Bearer ${token}` },
+        credentials: "include",
       });
 
       if (res.status === 401) {
