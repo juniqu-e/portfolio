@@ -1,11 +1,7 @@
 import { z } from "zod";
 import { getDb, type GuestbookRow } from "@/lib/db";
-import { isAdminAuthorized, unauthorized } from "@/lib/admin-auth";
-import type {
-  GuestbookAdminEntry,
-  GuestbookAdminListResponse,
-  GuestbookStatus,
-} from "@/types";
+import { requireSession, unauthorized } from "@/lib/admin-auth";
+import type { GuestbookAdminEntry, GuestbookAdminListResponse, GuestbookStatus } from "@/types";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -42,8 +38,8 @@ function whereClause(status: "pending" | "approved" | "deleted" | "all"): string
   }
 }
 
-export function GET(req: Request) {
-  if (!isAdminAuthorized(req)) return unauthorized();
+export async function GET(req: Request) {
+  if (!(await requireSession(req))) return unauthorized();
 
   const url = new URL(req.url);
   const parsed = QuerySchema.safeParse({
@@ -68,9 +64,9 @@ export function GET(req: Request) {
          FROM guestbook
          WHERE ${where}
          ORDER BY id DESC LIMIT ?`;
-    const rows = (cursor
-      ? db.prepare(sql).all(cursor, limit + 1)
-      : db.prepare(sql).all(limit + 1)) as GuestbookRow[];
+    const rows = (
+      cursor ? db.prepare(sql).all(cursor, limit + 1) : db.prepare(sql).all(limit + 1)
+    ) as GuestbookRow[];
 
     const hasMore = rows.length > limit;
     const sliced = hasMore ? rows.slice(0, limit) : rows;
