@@ -213,3 +213,4 @@
 | 8 — Awards / Education / Contact / Footer            | ✅ 완료 (4 섹션 + OG/icon/sitemap/robots/Person JSON-LD)       |
 | 9 — 배포                                             | ✅ 완료 (CF Tunnel → NPM → portfolio, 4 도메인, GHCR public)   |
 | 10 — 방명록 + /api/health                            | ✅ 완료 (SQLite + Zod + rate-limit + admin auth, 라이브 검증)  |
+| 11 — 방명록 admin UI                                 | ✅ 완료 (/admin/guestbook + AdminGate + 4-탭 + admin API)      |
