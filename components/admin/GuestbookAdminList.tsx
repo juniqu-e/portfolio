@@ -27,9 +27,7 @@ type FetchState =
   | { kind: "empty" }
   | { kind: "error"; message: string };
 
-type ActionFeedback =
-  | { kind: "ok"; message: string }
-  | { kind: "error"; message: string };
+type ActionFeedback = { kind: "ok"; message: string } | { kind: "error"; message: string };
 
 const TABS: { key: AdminStatus; label: string }[] = [
   { key: "pending", label: "대기" },
@@ -41,11 +39,10 @@ const TABS: { key: AdminStatus; label: string }[] = [
 const LIMIT = 20;
 
 type Props = {
-  token: string;
   onUnauthorized: () => void;
 };
 
-export function GuestbookAdminList({ token, onUnauthorized }: Props) {
+export function GuestbookAdminList({ onUnauthorized }: Props) {
   const liveRegionId = useId();
   const [activeStatus, setActiveStatus] = useState<AdminStatus>("pending");
   const [state, setState] = useState<FetchState>({ kind: "loading" });
@@ -62,7 +59,7 @@ export function GuestbookAdminList({ token, onUnauthorized }: Props) {
         if (cursor != null) url.searchParams.set("cursor", String(cursor));
 
         const res = await fetch(url.toString(), {
-          headers: { Authorization: `Bearer ${token}` },
+          credentials: "include",
           cache: "no-store",
         });
 
@@ -85,8 +82,7 @@ export function GuestbookAdminList({ token, onUnauthorized }: Props) {
 
         const payload = (await res.json()) as Partial<AdminListResponse>;
         const items = Array.isArray(payload.items) ? payload.items : [];
-        const nextCursor =
-          typeof payload.nextCursor === "number" ? payload.nextCursor : null;
+        const nextCursor = typeof payload.nextCursor === "number" ? payload.nextCursor : null;
 
         if (cursor != null) {
           setState((prev) =>
@@ -107,7 +103,7 @@ export function GuestbookAdminList({ token, onUnauthorized }: Props) {
         setState({ kind: "error", message: "네트워크 오류가 발생했습니다." });
       }
     },
-    [token, onUnauthorized],
+    [onUnauthorized],
   );
 
   useEffect(() => {
@@ -115,10 +111,7 @@ export function GuestbookAdminList({ token, onUnauthorized }: Props) {
     load(activeStatus);
   }, [activeStatus, load]);
 
-  async function performAction(
-    entryId: number,
-    action: "approve" | "delete" | "restore",
-  ) {
+  async function performAction(entryId: number, action: "approve" | "delete" | "restore") {
     setPendingActionId(entryId);
     setFeedback(null);
     try {
@@ -131,7 +124,7 @@ export function GuestbookAdminList({ token, onUnauthorized }: Props) {
 
       const res = await fetch(target.url, {
         method: target.method,
-        headers: { Authorization: `Bearer ${token}` },
+        credentials: "include",
       });
 
       if (res.status === 401) {
@@ -146,8 +139,7 @@ export function GuestbookAdminList({ token, onUnauthorized }: Props) {
         return;
       }
 
-      const label =
-        action === "approve" ? "승인" : action === "delete" ? "삭제" : "복원";
+      const label = action === "approve" ? "승인" : action === "delete" ? "삭제" : "복원";
       setFeedback({ kind: "ok", message: `#${entryId} ${label} 완료` });
       await load(activeStatus);
     } catch {
@@ -297,8 +289,7 @@ function Row({ entry, pending, onApprove, onDelete, onRestore }: RowProps) {
         ? { label: "승인", className: "text-accent-blue" }
         : { label: "대기", className: "text-accent-pink" };
 
-  const displayName =
-    entry.name && entry.name.trim() !== "" ? entry.name : "익명";
+  const displayName = entry.name && entry.name.trim() !== "" ? entry.name : "익명";
   const ipTail = entry.ipHash.slice(-8);
 
   return (
