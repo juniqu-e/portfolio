@@ -1,5 +1,5 @@
 import { getDb } from "@/lib/db";
-import { isAdminAuthorized, notFound, unauthorized } from "@/lib/admin-auth";
+import { notFound, requireSession, unauthorized } from "@/lib/admin-auth";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 type RouteParams = { params: Promise<{ id: string }> };
 
 export async function DELETE(req: Request, { params }: RouteParams) {
-  if (!isAdminAuthorized(req)) return unauthorized();
+  if (!(await requireSession(req))) return unauthorized();
 
   const { id: rawId } = await params;
   const id = Number.parseInt(rawId, 10);
