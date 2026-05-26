@@ -33,7 +33,13 @@ export function Education() {
                     : "inline-flex self-start rounded-full bg-panel px-2.5 py-1 text-xs text-subtle sm:self-auto"
                 }
               >
-                {e.status === "in-progress" ? "진행중" : e.kind === "education" ? "학사" : "수료"}
+                {e.status === "in-progress"
+                  ? "진행중"
+                  : e.kind === "certification"
+                    ? "취득"
+                    : e.kind === "education"
+                      ? "학사"
+                      : "수료"}
               </span>
             </li>
           ))}

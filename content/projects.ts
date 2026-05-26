@@ -30,8 +30,7 @@ export const PROJECTS: Project[] = [
     responsibilities: [
       {
         area: "Issue Workflow",
-        detail:
-          "Jira API 기반 이슈 조회 및 이슈 키 기반 GitHub 브랜치 생성 자동화",
+        detail: "Jira API 기반 이슈 조회 및 이슈 키 기반 GitHub 브랜치 생성 자동화",
       },
       {
         area: "Pull Request",
@@ -39,49 +38,16 @@ export const PROJECTS: Project[] = [
       },
       {
         area: "Preview Environment",
-        detail:
-          "Kubernetes Namespace 단위 Preview Environment 생성 / 삭제 흐름 설계",
+        detail: "Kubernetes Namespace 단위 Preview Environment 생성 / 삭제 흐름 설계",
       },
       {
         area: "Policy Check",
-        detail:
-          "OPA / Conftest 기반 image tag, resource limit, securityContext 정책 검사",
+        detail: "OPA / Conftest 기반 image tag, resource limit, securityContext 정책 검사",
       },
       {
         area: "Feedback Loop",
         detail: "정책 위반 결과와 Preview URL을 Jira 댓글로 자동 등록",
       },
-    ],
-  },
-
-  // ── In Operation ───────────────────────────────────────────────────────
-  {
-    slug: "couple-diary",
-    group: "in-operation",
-    title: "Couple Diary",
-    tagline: "Personal Project · 운영 중",
-    description:
-      "단순한 웹 서비스 개발을 넘어 CI/CD, Docker, 배포 자동화, 모니터링, 장애 대응을 실습하기 위한 운영형 프로젝트입니다.\n\nCouple Diary는 서비스를 직접 운영하며 배포와 운영의 전체 흐름을 학습하기 위한 프로젝트입니다. 프론트엔드, 백엔드, 데이터베이스를 분리한 구조를 바탕으로 Docker Compose 기반 로컬 실행 환경을 구성하고, GitHub Actions를 활용한 테스트 및 배포 자동화를 적용하고 있습니다.",
-    repoUrl: "github.com/juniqu-e/couple-diary",
-    stack: ["Docker Compose", "GitHub Actions", "Nginx", "EC2", "Kubernetes"],
-    responsibilities: [
-      {
-        area: "Architecture",
-        detail: "Frontend / Backend / Database 분리 구조",
-      },
-      {
-        area: "Local Environment",
-        detail: "Docker Compose 기반 로컬 실행 환경",
-      },
-      {
-        area: "Automation",
-        detail: "GitHub Actions 기반 테스트 및 배포 자동화",
-      },
-      {
-        area: "Network",
-        detail: "Nginx Reverse Proxy 및 HTTPS 적용 예정",
-      },
-      { area: "Operation", detail: "로그 확인, 장애 대응, 운영 문서화" },
     ],
   },
 
@@ -100,8 +66,7 @@ export const PROJECTS: Project[] = [
     responsibilities: [
       {
         area: "Web Terminal",
-        detail:
-          "웹 터미널 서버와 프론트엔드를 연동하여 브라우저에서 명령 실행 결과 확인",
+        detail: "웹 터미널 서버와 프론트엔드를 연동하여 브라우저에서 명령 실행 결과 확인",
       },
       {
         area: "Deployment UX",

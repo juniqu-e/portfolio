@@ -11,7 +11,7 @@ export const EDUCATION: EducationEntry[] = [
   {
     kind: "certification",
     title: "정보처리기사",
-    status: "in-progress",
+    status: "completed",
   },
   {
     kind: "education",
