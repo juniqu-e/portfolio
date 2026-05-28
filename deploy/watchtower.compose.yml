@@ -1,0 +1,84 @@
+# =============================================================================
+# Watchtower — GHCR 이미지 자동 업데이트 (Phase 13 CI/CD 자동 배포의 홈서버 측)
+# =============================================================================
+#
+# 역할:
+#   GitHub Actions (.github/workflows/deploy.yml) 가 GHCR 로 새 이미지를
+#   push 하면, 본 컨테이너가 5 분 폴링으로 digest 변화를 감지하여
+#   `docker pull` + `docker compose up -d` 와 동등한 recreate 수행.
+#
+#   → 홈서버는 외부 incoming SSH 가 노출되지 않음 (Cloudflare Tunnel 환경).
+#   → push-based 배포 (Actions → SSH) 대신 pull-based (홈서버가 직접 가져옴).
+#
+# 감시 범위:
+#   `WATCHTOWER_LABEL_ENABLE=true` 로 한정 — `com.centurylinklabs.watchtower.enable=true`
+#   라벨이 붙은 컨테이너만 업데이트 (현재는 portfolio 만).
+#   NPM, cloudflared 등 기존 인프라 컨테이너는 영향 없음.
+#
+# 운영:
+#   docker compose -f watchtower.compose.yml up -d
+#   docker compose -f watchtower.compose.yml logs -f watchtower
+#   docker compose -f watchtower.compose.yml down
+#
+# 알림 (선택):
+#   shoutrrr URL 을 .env 에 `WATCHTOWER_NOTIFICATION_URL` 로 추가하면
+#   배포 결과를 Slack/Discord/Telegram 등으로 발송. 미설정 시 알림 없음.
+#   예: discord://token@id  /  slack://hook:secret@channel  등
+#   참조: https://containrrr.dev/shoutrrr/
+# =============================================================================
+
+# compose project 이름 고정 — `docker compose -f watchtower.compose.yml` 호출 위치 무관
+name: watchtower
+
+services:
+  watchtower:
+    # latest 핀 — Watchtower 자체는 매우 안정적. 특정 버전 핀 원하면 1.7.1 등 명시.
+    # (Watchtower 자기 자신은 label-enable 모드에서 라벨 없으면 자기 업데이트 안 함)
+    image: containrrr/watchtower:latest
+    container_name: watchtower
+    restart: unless-stopped
+
+    environment:
+      # 5 분 폴링 — portfolio 수정 빈도 대비 충분. 단축 원하면 60 (s) 까지 가능.
+      WATCHTOWER_POLL_INTERVAL: "300"
+
+      # 라벨 enable 된 컨테이너만 감시 (NPM/cloudflared 등 영향 X)
+      WATCHTOWER_LABEL_ENABLE: "true"
+
+      # 업데이트 후 이전 이미지 자동 prune (디스크 절약)
+      # → 롤백 시엔 deploy.yml 이 :<short-sha> 태그도 함께 push 하므로
+      #   GHCR 에서 pull 가능 (로컬 prune 무관)
+      WATCHTOWER_CLEANUP: "true"
+
+      # 컨테이너를 한 번에 하나씩 갱신 (단일 portfolio 이므로 효과 미미하나 명시)
+      WATCHTOWER_ROLLING_RESTART: "true"
+
+      # 로그 포맷 — Docker 로그 시스템에서 읽기 좋게
+      WATCHTOWER_LOG_FORMAT: "Pretty"
+
+      # 알림 (선택). .env 에 미설정이면 빈 값 → 알림 없음.
+      # WATCHTOWER_NOTIFICATION_URL 은 shoutrrr URL (discord://, slack://, smtp:// 등)
+      WATCHTOWER_NOTIFICATION_URL: "${WATCHTOWER_NOTIFICATION_URL:-}"
+
+      # 타임존 (로그 시각 한국 시간)
+      TZ: "Asia/Seoul"
+
+    volumes:
+      # Docker socket — Watchtower 가 컨테이너 inspect/recreate 위해 필요
+      - /var/run/docker.sock:/var/run/docker.sock
+
+    # 외부 네트워크 attach 불필요 — docker.sock 만 사용
+
+    logging:
+      driver: json-file
+      options:
+        max-size: "5m"
+        max-file: "3"
+
+    # 메모리 가드 (Watchtower 는 idle 시 ~10MB, 폴링 시 ~30MB 수준)
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+        reservations:
+          memory: 32M

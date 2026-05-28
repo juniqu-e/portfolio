@@ -1,22 +1,22 @@
-# DEPLOY_RUNBOOK.md — 홈서버 실배포 절차
+# DEPLOY_RUNBOOK.md — 홈서버 운영 가이드
 
-Phase 9 정식 배포 시 **사용자가 직접 수행**할 단계 모음. infra agent의 정적 자산(`Dockerfile`, `deploy/docker-compose.yml`, `.github/workflows/ci.yml`, `deploy/nginx-proxy-manager/notes.md`)은 모두 준비 완료. 본 런북은 그 자산들을 실제로 띄우는 운영 절차를 캡처한다.
+본 런북은 portfolio 의 홈서버 운영 절차를 캡처한다. Phase 9 (초기 배포) ~ Phase 13 (CI/CD 자동화) 까지의 모든 시나리오 포함.
 
-**현재 검증 완료 (infra A 단계)**:
+**현재 상태 (Phase 13 시점)**:
 
-- ✅ `docker build -t portfolio:test .` → 53초, **이미지 293MB** (Debian-slim 기반)
-- ✅ standalone 출력 정상 (60.1MB 서버 레이어)
-- ✅ non-root user `nextjs:1001` 정상 작동
-- ✅ Node v22.22.3 (Debian Bookworm)
-- ✅ 8 routes 정적 prerender (page 6.75 KB / First Load 109 KB — Phase 8 동일)
-- ✅ 컨테이너 122ms 부팅
-- ✅ HTTP 5 엔드포인트 200 OK: `/`, `/sitemap.xml`, `/robots.txt`, `/opengraph-image`, `/icon`
-- ✅ `.github/workflows/ci.yml` actionlint PASS (0 errors)
-- ✅ `deploy/docker-compose.yml` `docker compose config` PASS
+- ✅ wnsdlr.com / leejunik.com (+ www 4 도메인) 라이브
+- ✅ CI/CD 자동 배포 가동 — `git push master` → GitHub Actions (`deploy.yml`) → GHCR push → Watchtower pull/recreate
+- ✅ 컨테이너 healthy (Phase 10 `/api/health` 추가 이후)
+- ✅ Cloudflare Tunnel → NPM → portfolio:3000 토폴로지 안정
 
-**알려진 follow-up**:
+**파일 자산**:
 
-- ⚠️ `HEALTHCHECK`는 `/api/health` 의존 — **Phase 6 backend 작업 전엔 unhealthy 상태가 정상**. 컨테이너는 트래픽 처리 OK, Docker `--filter health=` 쿼리만 영향. backend가 `app/api/health/route.ts` 추가하면 자동 healthy 전환.
+- `Dockerfile` — multi-stage, 295MB, non-root, Node fetch healthcheck
+- `deploy/docker-compose.yml` — portfolio service + Watchtower label
+- `deploy/watchtower.compose.yml` — 자동 배포 데몬 (Phase 13 신규)
+- `.github/workflows/ci.yml` — typecheck/lint/build matrix (PR + master)
+- `.github/workflows/deploy.yml` — GHCR build & push (master 만, Phase 13 신규)
+- `deploy/nginx-proxy-manager/notes.md` — NPM Proxy Host 설정 노트
 
 ---
 
@@ -149,6 +149,8 @@ echo "<GITHUB_PAT_with_read:packages>" | docker login ghcr.io -u juniqu-e --pass
 
 ## 5단계 — 첫 배포 (수동)
 
+> 정상 운영 중인 환경이면 **이 단계는 한 번만 수행**하면 된다. 이후 변경은 [정상 흐름 — 자동 배포 (Phase 13+)](#정상-흐름--자동-배포-phase-13) 섹션을 따른다.
+
 ```bash
 # 홈서버:
 cd ~/homeserver/portfolio/deploy
@@ -172,6 +174,112 @@ docker compose logs -f portfolio
 # 5-4. NPM 네트워크 내부 health check
 docker exec <npm-container> wget -qO- http://portfolio:3000/
 # → HTML 일부 출력되면 OK
+```
+
+---
+
+## 정상 흐름 — 자동 배포 (Phase 13+)
+
+Watchtower 부트스트랩을 1회 마치면, 이후 변경은 사용자 액션 없이 자동.
+
+```
+사용자: git push origin master
+   │
+   ▼
+GitHub Actions (.github/workflows/deploy.yml)
+   1) docker build (Buildx, gha cache, 1~2분)
+   2) docker push:
+       - ghcr.io/juniqu-e/portfolio:latest
+       - ghcr.io/juniqu-e/portfolio:<short-sha>
+   │
+   ▼
+GHCR 새 digest 생성 (즉시)
+   │
+   ▼ (최대 5분 폴링 지연)
+Watchtower (홈서버 컨테이너)
+   - :latest digest 변경 감지
+   - docker pull ghcr.io/juniqu-e/portfolio:latest
+   - portfolio 컨테이너 stop + recreate (compose 라벨 + env 유지)
+   - 이전 이미지 prune (CLEANUP=true)
+   │
+   ▼
+새 버전 라이브 (총 소요: push 후 ~5-7분)
+```
+
+**관찰**:
+
+```bash
+# GitHub Actions 진행 확인 (브라우저)
+#   https://github.com/juniqu-e/portfolio/actions
+
+# 홈서버에서 Watchtower 로그 — 폴링 + pull/recreate 이벤트
+docker compose -f ~/homeserver/portfolio/deploy/watchtower.compose.yml \
+  logs -f watchtower
+
+# portfolio 컨테이너 재기동 시각 확인
+docker inspect portfolio --format '{{.State.StartedAt}}'
+
+# 현재 라이브 이미지 digest
+docker inspect portfolio --format '{{.Image}}'
+docker image inspect ghcr.io/juniqu-e/portfolio:latest --format '{{.RepoDigests}}'
+```
+
+**즉시 배포가 필요한 경우** (Watchtower 5분 대기 회피):
+
+```bash
+# 홈서버에서 즉시 pull/recreate
+cd ~/homeserver/portfolio/deploy
+docker compose pull portfolio && docker compose up -d portfolio
+```
+
+---
+
+## Watchtower 부트스트랩 (Phase 13 — 1회만)
+
+자동 배포를 처음 활성화할 때 사용자가 1회 수행.
+
+```bash
+# 0) 사전조건: deploy/.env 가 이미 준비되어 있어야 함 (2단계 완료 상태)
+cd ~/homeserver/portfolio/deploy
+
+# 1) 알림 사용할 경우 .env 에 추가 (선택). 안 쓰면 건너뜀.
+#    shoutrrr URL: https://containrrr.dev/shoutrrr/
+#    예시) Discord 웹훅:
+#      WATCHTOWER_NOTIFICATION_URL=discord://<token>@<webhook_id>
+#    예시) Slack:
+#      WATCHTOWER_NOTIFICATION_URL=slack://<bot-name>@<webhook-token>/<channel>
+
+# 2) Watchtower 컨테이너 기동
+docker compose -f watchtower.compose.yml up -d
+
+# 3) 정상 기동 확인 — "Starting Watchtower" + interval/label-enable 메시지
+docker compose -f watchtower.compose.yml logs --tail=30 watchtower
+
+# 4) 감시 대상 컨테이너 1개 (portfolio) 가 잡혔는지 확인
+#    로그에 "Checking all containers (except explicitly disabled with label)" 또는
+#    label-enable 모드: "Only checking containers which have a `..watchtower.enable` label"
+#    그리고 "Found 1 enabled containers" 같은 라인.
+
+# 5) 첫 폴링 검증 (5분 대기 또는 강제 트리거)
+#    Watchtower 컨테이너 재시작하면 즉시 1회 폴링부터 다시 시작:
+docker compose -f watchtower.compose.yml restart watchtower
+docker compose -f watchtower.compose.yml logs -f watchtower
+# → "Session done" 로그가 정상 (변경 없으면 "No updates")
+```
+
+**1회 부트스트랩 이후**: `git push master` 만으로 자동 배포 작동. 사용자 추가 액션 없음.
+
+**중단/재개**:
+
+```bash
+# 자동 배포 일시 정지 (이미지 push 는 계속 일어나도 홈서버는 동결)
+docker compose -f watchtower.compose.yml stop watchtower
+
+# 재개
+docker compose -f watchtower.compose.yml start watchtower
+
+# 완전 제거
+docker compose -f watchtower.compose.yml down
 ```
 
 ---
@@ -282,13 +390,37 @@ sudo chmod +x /etc/cron.daily/portfolio-backup
 
 ## 롤백 절차
 
-### 이미지 태그 되돌리기
+### 이미지 태그 되돌리기 (자동 배포 환경)
+
+`.github/workflows/deploy.yml` 이 매 푸시마다 `:latest` + `:<short-sha>` 두 태그를 GHCR 에 보관. 롤백은 `.env` 에 SHA 박는 것으로 충분 — Watchtower 는 SHA 태그의 digest 만 추종하므로 자동 갱신이 멈춘다.
 
 ```bash
 cd ~/homeserver/portfolio/deploy
-# 이전 SHA 태그로 — CI가 :latest 외에 :<sha>도 push 한 가정
-PORTFOLIO_IMAGE_TAG=<old-sha> docker compose up -d portfolio
+
+# 1) 되돌릴 SHA 확인 (GHCR UI 또는 git log)
+git log --oneline -10
+
+# 2) .env 에 한 줄 추가/수정
+echo "PORTFOLIO_IMAGE_TAG=<old-short-sha>" >> .env
+# (이미 있다면 vi/nano 로 값 교체)
+
+# 3) recreate
+docker compose up -d portfolio
 docker compose logs -f portfolio  # 정상 기동 확인
+
+# 4) 검증 후 정상 흐름 복구 — .env 에서 해당 줄 제거하면 다시 :latest 추종
+```
+
+### 자동 배포 자체를 즉시 멈추기
+
+배포가 진행 중인데 GHA 가 push 못 하게 막거나 (이미 push 된 상태라면) Watchtower 가 가져가지 못하게 동결:
+
+```bash
+# 옵션 A: Watchtower 정지 (이미지 push 는 계속, 홈서버만 동결)
+docker compose -f ~/homeserver/portfolio/deploy/watchtower.compose.yml stop watchtower
+
+# 옵션 B: GitHub Actions 비활성 (Repo > Actions > Disable workflows)
+#         또는 deploy.yml 파일을 revert
 ```
 
 ### SQLite DB 복원 (방명록 도입 후)
@@ -314,6 +446,10 @@ docker compose up -d portfolio
 | `docker compose up` 시 env not found | `.env` 파일이 `deploy/` 에 있어야 함 (compose 와 같은 위치) |
 | 페이지 한글이 깨짐 | Next.js 가 next/font 로 Pretendard 로드 — 정상. 클라이언트 캐시 무효화 시도 |
 | OG 이미지가 캐시된 옛 버전으로 노출 | SNS 캐시. Facebook Debugger / 카카오 OG Cache Clear 로 강제 갱신 |
+| push 후 5 분 지나도 라이브 반영 안 됨 | ① GitHub Actions `deploy` 워크플로우 PASS 여부 확인 ② `docker compose -f watchtower.compose.yml logs --tail=50 watchtower` — "Found new image" 메시지 / `denied` 또는 `unauthorized` 시 GHCR private 여부 + Watchtower 인증 점검 |
+| Watchtower 가 portfolio 를 안 잡음 | `docker inspect portfolio --format '{{.Config.Labels}}'` → `com.centurylinklabs.watchtower.enable:true` 확인. 누락 시 compose 재배포 (`docker compose up -d portfolio`) |
+| `.env` 에 `PORTFOLIO_IMAGE_TAG=<sha>` 박혀 있어 자동 배포가 안 되는 듯 | 의도된 동작. 롤백 모드 해제하려면 .env 에서 해당 줄 삭제 후 `docker compose up -d portfolio` |
+| GHCR private 으로 전환된 후 Watchtower 가 `pull access denied` | `WATCHTOWER_REPO_USER` / `WATCHTOWER_REPO_PASS` env 추가 (GitHub PAT with `read:packages`). 또는 호스트에 `docker login ghcr.io` 한 뒤 `~/.docker/config.json` 을 Watchtower 컨테이너에 마운트 |
 
 ---
 

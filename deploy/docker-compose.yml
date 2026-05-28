@@ -30,6 +30,12 @@ services:
     container_name: portfolio
     restart: unless-stopped
 
+    # Watchtower 자동 업데이트 대상으로 등록 (deploy/watchtower.compose.yml 참조).
+    # PORTFOLIO_IMAGE_TAG 가 :latest 일 때만 새 digest 가 적용됨. 롤백을 위해
+    # SHA 태그를 박아두면 Watchtower 는 그 태그의 digest 만 추적 (자동 갱신 정지).
+    labels:
+      com.centurylinklabs.watchtower.enable: "true"
+
     # 모든 시크릿/설정은 호스트의 .env 에서 주입 (이 파일에 평문 X)
     env_file:
       - .env

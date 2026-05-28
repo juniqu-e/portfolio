@@ -1,0 +1,105 @@
+# =============================================================================
+# Deploy — GHCR build & push (Watchtower 가 홈서버에서 pull/recreate)
+# =============================================================================
+#
+# 트리거:
+#   - master 브랜치 push (정상 흐름: PR → ci.yml PASS → 머지 → 자동 빌드/푸시)
+#   - workflow_dispatch (수동 재배포)
+#
+# 구조:
+#   1) Docker Buildx 셋업
+#   2) GHCR 로그인 (GITHUB_TOKEN — repo Settings 변경 불필요)
+#   3) docker build + push 두 태그:
+#        - ghcr.io/juniqu-e/portfolio:latest   ← Watchtower 가 폴링하는 대상
+#        - ghcr.io/juniqu-e/portfolio:<short>  ← 롤백 시 PORTFOLIO_IMAGE_TAG 로 지정
+#   4) GHA cache (cache-from/to: gha) 로 layer 재사용
+#
+# 홈서버 자동 반영:
+#   Watchtower 가 5 분마다 :latest digest 변화 감지 → docker pull + recreate.
+#   → 별도 SSH 접근 X (Cloudflare Tunnel 환경에서 외부 SSH 미노출).
+#
+# ci.yml 과의 관계:
+#   ci.yml = typecheck/lint/build (PR/master 모두) — 코드 정합성 검사
+#   deploy.yml = docker build + push (master 만) — 산출물 배포
+#   두 워크플로우는 master push 시 병렬로 실행되며 독립.
+#   docker build 자체가 `pnpm build` 를 포함하므로, ci.yml 의 build 가 실패하면
+#   본 워크플로우도 동일하게 실패한다 (이중 안전망).
+#
+# 롤백:
+#   1) deploy/.env 에 `PORTFOLIO_IMAGE_TAG=<short-sha>` 명시
+#   2) docker compose up -d portfolio
+#   → Watchtower 는 :short-sha 의 digest 만 모니터하므로 자동 업데이트 멈춤
+#   복구 시: .env 에서 PORTFOLIO_IMAGE_TAG 줄 제거 (다시 :latest 추종)
+# =============================================================================
+
+name: deploy
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+# 동시 실행 1개로 제한 — 배포는 취소하지 않고 큐잉 (이미지 누락 방지)
+concurrency:
+  group: deploy-master
+  cancel-in-progress: false
+
+# GHCR push 권한 + 소스 read
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build-push:
+    name: Build & push image
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Compute short SHA
+        id: meta
+        run: |
+          short="${GITHUB_SHA:0:7}"
+          echo "short_sha=${short}" >> "$GITHUB_OUTPUT"
+
+      - name: Build & push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: Dockerfile
+          push: true
+          platforms: linux/amd64
+          tags: |
+            ghcr.io/juniqu-e/portfolio:latest
+            ghcr.io/juniqu-e/portfolio:${{ steps.meta.outputs.short_sha }}
+          # GitHub Actions cache — layer 재사용으로 빌드 1~2분대로 단축
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          # OCI annotations — GHCR UI 에서 소스 추적
+          labels: |
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.url=${{ github.server_url }}/${{ github.repository }}
+
+      - name: Summary
+        run: |
+          {
+            echo "### Pushed images"
+            echo ""
+            echo "- \`ghcr.io/juniqu-e/portfolio:latest\`"
+            echo "- \`ghcr.io/juniqu-e/portfolio:${{ steps.meta.outputs.short_sha }}\`"
+            echo ""
+            echo "Watchtower 가 5 분 내 :latest 의 새 digest 를 감지하면 자동 pull + recreate."
+          } >> "$GITHUB_STEP_SUMMARY"
