@@ -12,6 +12,17 @@ Phase는 [ROADMAP.md](./ROADMAP.md)와 매칭되며, 머지 직후 commit hash�
 
 ### Changed
 
+- **Phase 14 — 인프라 엔지니어(서버·클라우드) 포지셔닝으로 콘텐츠 전면 개편** _(2026-10-12)_
+  - 소스: Obsidian 볼트 `30-Output/취업 - 인프라 SI/`(이력서·포트폴리오 마스터, 자소서 §0 데이터 팩트, 03 기술 스택 표) + `20-Wiki/Projects/`
+  - Hero: 역할 라벨 `Infrastructure Engineer · 서버 · 클라우드` + 한국어 훅 2줄. try/catch/finally 시그니처·모토 유지
+  - About: 본문 3문단 교체(홈서버 운영·측정 습관·RAPA 과정), **운영 기록 숫자 그리드 6칸** 신설(`Profile.numbers`), 요약표 Interest → Focus
+  - Tech Stack: 6카테고리 재편(Server/OS/Storage → Cloud/Edge → Container/Delivery → Observability/Availability → Network/Security → Languages & Tools). 근거 없는 Terraform·OPA·Django·Spring·Vue·Figma·Slack 제거, Ubuntu·Windows Server·Bash·Cloudflare·Prometheus·Grafana·Go·Kotlin devicon 추가, HAProxy·keepalived·Uptime Kuma·MinIO·Cisco·Storage·DNS·Obsidian은 Phosphor fallback. `Skill.note`를 title 속성으로 노출
+  - Projects: 그룹 `in-progress` → `infra-lab`. 홈서버 인프라 · ccna.wnsdlr.com · AI 지식관리 워크스테이션(운영 중) / 가용성 인프라 · Windows Server · Linux 서버 · 사내망 설계(구축·실습) / PADING(K8s 관점 재서술) · Mattermost / WhistleHub · Amoverse. DevFlow Harness 삭제(구현물 없음). `Project.period`·`Project.metrics` 추가 → 카드·모달에 숫자 노출, 모달 헤딩 Problem/Solution → Summary/What I did
+  - Experience: 실습코치 기간 2025.06 ~ 2026.06 확정, EKS 가이드 검수·개선 제안을 첫 항목으로
+  - Education: CCNA(2026.10)·정보처리기사(2026.09) 취득, AWS SAA·RHCSA 준비 중, RAPA 과정 수료 예정, SSAFY 수료. CKA 제거. `EducationEntry.detail`·`statusLabel` 추가(SSAFY가 "학사"로 찍히던 라벨 버그 수정)
+  - Footer: 한국어 한 줄 추가. layout 메타·OG 이미지·JSON-LD jobTitle 갱신
+  - 문서: CONTENT.md 전면 개정(Projects 상세는 `content/projects.ts`가 정본), CLAUDE.md·README·SPEC·DESIGN 역할 라벨 갱신
+
 - **Phase 12 — admin 인증 재설계 (Bearer → ID/PW + 쿠키 세션)** _(commits: 00cf1ff backend, e0d1bc9 frontend, d832614+8f6ef37 merges)_
   - URL: `/admin/guestbook` → `/admin` 단일 페이지 / `/admin/login` 신규
   - 인증: ADMIN_TOKEN Bearer 제거 → ADMIN_USERNAME + bcrypt PASSWORD_HASH + SESSION_SECRET (.env 3종 신규)

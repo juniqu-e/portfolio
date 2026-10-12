@@ -22,7 +22,15 @@ export function Hero() {
               Lee Junik
             </span>
           </h1>
-          <p className="mt-1 text-base text-muted sm:text-lg">DevOps / Platform Engineer</p>
+          <p className="mt-1 text-base text-muted sm:text-lg">
+            Infrastructure Engineer
+            <span className="text-subtle"> · 서버 · 클라우드</span>
+          </p>
+          <p className="mt-3 max-w-sm text-sm leading-relaxed text-muted sm:text-base">
+            인프라가 재밌어서 집에서도 서버를 돌립니다.
+            <br />
+            궁금하면 해 보고, 재 보고, 적어 둡니다.
+          </p>
         </div>
         <CodeBlock />
       </div>

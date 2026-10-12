@@ -36,6 +36,24 @@ export function About() {
         {PROFILE.aboutBody.map(renderParagraph)}
       </div>
 
+      <dl
+        aria-label="운영 기록 — 숫자로 보는 현재"
+        className="mt-12 grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-line bg-line sm:grid-cols-3"
+      >
+        {PROFILE.numbers.map((n) => (
+          <div
+            key={n.label}
+            className="flex flex-col gap-1 bg-page px-4 py-5 transition-colors duration-200 ease-out hover:bg-panel"
+          >
+            <dd className="order-1 font-display text-2xl font-semibold tracking-display text-ink sm:text-3xl">
+              {n.value}
+            </dd>
+            <dt className="order-2 text-sm text-ink">{n.label}</dt>
+            {n.sub && <dd className="order-3 text-xs text-subtle">{n.sub}</dd>}
+          </div>
+        ))}
+      </dl>
+
       <dl className="mt-12 divide-y divide-line border-y border-line">
         {PROFILE.identitySummary.map((row) => (
           <div

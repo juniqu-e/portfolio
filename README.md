@@ -1,6 +1,6 @@
 # Portfolio · wnsdlr.com / leejunik.com
 
-이준익 (Lee Junik) — DevOps / Platform Engineer 지향 — 의 개인 포트폴리오 사이트.
+이준익 (Lee Junik) — 인프라 엔지니어 (서버 · 클라우드) 지향 — 의 개인 포트폴리오 사이트.
 
 > **try: 코드로 도전하고, catch: 사람과 소통하며, finally: 신뢰할 수 있는 서비스를 만듭니다.**
 

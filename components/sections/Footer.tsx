@@ -12,6 +12,7 @@ export function Footer() {
           <span className="text-accent-blue">Catch</span> the people,{" "}
           <span className="text-accent-blue">Finally</span> make it reliable.
         </p>
+        <p className="text-sm text-subtle">궁금하면 해 보고, 재 보고, 적어 둡니다.</p>
         <p className="font-mono text-xs text-subtle">© {year} LeeJunik. All rights reserved.</p>
       </div>
     </footer>

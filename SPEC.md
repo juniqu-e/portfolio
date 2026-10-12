@@ -58,7 +58,7 @@
 
 ### 구성 요소
 - 이름 (`이준익 / Lee Junik`) — Display 폰트 (Schibsted Grotesk) + Pretendard 한글
-- 역할 라벨 (`DevOps / Platform Engineer`)
+- 역할 라벨 (`Infrastructure Engineer · 서버 · 클라우드`) + 한국어 훅 2줄 ("인프라가 재밌어서 집에서도 서버를 돌립니다. / 궁금하면 해 보고, 재 보고, 적어 둡니다.")
 - **try/catch/finally 코드 블록** (시그니처)
 - 모토 한 줄 ("Try the code, Catch the people, Finally make it reliable.")
 - 스크롤 유도 `↓` 아이콘 (Phosphor `ArrowDown`)
@@ -99,18 +99,18 @@
 본인의 기술 스택을 시각적으로 빠르게 전달. 텍스트 위주 X.
 
 ### 구성 요소
-6개 카테고리 그룹 (CONTENT.md 순서):
-1. DevOps / Platform
-2. Cloud / Infrastructure
-3. Languages
-4. Frontend / Mobile
-5. Backend
-6. Tools & Collaboration
+6개 카테고리 그룹 (CONTENT.md 순서, 2026-10-12 개편):
+1. Server / OS / Storage
+2. Cloud / Edge
+3. Container / Delivery
+4. Observability / Availability
+5. Network / Security
+6. Languages & Tools
 
 각 그룹 내부: 큰 아이콘 그리드.
 
 ### AC
-- **AC1**: 카테고리 순서는 DevOps / Platform이 가장 위 (정체성 우선)
+- **AC1**: 카테고리 순서는 Server / OS / Storage가 가장 위 (정체성 우선)
 - **AC2**: 각 기술은 공식 브랜드 SVG (있는 것) 또는 Phosphor 아이콘
 - **AC3**: 진행도 바, %, 별점 절대 없음
 - **AC4**: 호버 시 Lordicon 1회 재생 또는 미세 scale + 색 전환

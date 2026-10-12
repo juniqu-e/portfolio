@@ -29,7 +29,10 @@ export function TechStack() {
                 <ul className="mt-5 grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
                   {skills.map((skill) => (
                     <li key={skill.name}>
-                      <div className="group flex flex-col items-center gap-2 rounded-lg border border-transparent px-2 py-4 transition-[transform,border-color,background-color] duration-200 ease-out hover:scale-[1.03] hover:border-line-strong hover:bg-page">
+                      <div
+                        title={skill.note || undefined}
+                        className="group flex flex-col items-center gap-2 rounded-lg border border-transparent px-2 py-4 transition-[transform,border-color,background-color] duration-200 ease-out hover:scale-[1.03] hover:border-line-strong hover:bg-page"
+                      >
                         <Icon
                           slug={skill.iconSlug}
                           size={32}

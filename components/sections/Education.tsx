@@ -20,12 +20,15 @@ export function Education() {
           {EDUCATION.map((e) => (
             <li
               key={e.title}
-              className="grid items-center gap-2 px-2 py-4 transition-colors duration-200 ease-out hover:bg-accent-blue/5 sm:grid-cols-[140px_1fr_auto] sm:gap-6"
+              className="grid items-start gap-2 px-2 py-4 transition-colors duration-200 ease-out hover:bg-accent-blue/5 sm:grid-cols-[140px_1fr_auto] sm:items-center sm:gap-6"
             >
               <span className="font-mono text-xs uppercase tracking-widest text-subtle">
                 {KIND_LABEL[e.kind]}
               </span>
-              <span className="text-base text-ink">{e.title}</span>
+              <span className="flex flex-col gap-0.5">
+                <span className="text-base text-ink">{e.title}</span>
+                {e.detail && <span className="text-xs text-subtle">{e.detail}</span>}
+              </span>
               <span
                 className={
                   e.status === "in-progress"
@@ -33,13 +36,12 @@ export function Education() {
                     : "inline-flex self-start rounded-full bg-panel px-2.5 py-1 text-xs text-subtle sm:self-auto"
                 }
               >
-                {e.status === "in-progress"
-                  ? "진행중"
-                  : e.kind === "certification"
-                    ? "취득"
-                    : e.kind === "education"
-                      ? "학사"
-                      : "수료"}
+                {e.statusLabel ??
+                  (e.status === "in-progress"
+                    ? "진행중"
+                    : e.kind === "certification"
+                      ? "취득"
+                      : "수료")}
               </span>
             </li>
           ))}

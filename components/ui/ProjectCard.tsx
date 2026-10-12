@@ -17,9 +17,7 @@ export function ProjectCard({ project }: { project: Project }) {
         className="group flex h-full w-full flex-col gap-3 rounded-lg border border-line bg-page p-6 text-left transition-[transform,border-color,box-shadow] duration-200 ease-out hover:scale-[1.02] hover:border-line-strong hover:shadow-sm focus-visible:scale-[1.02] focus-visible:border-line-strong focus-visible:shadow-sm"
       >
         <div className="flex items-start justify-between gap-3">
-          <h4 className="font-display text-lg font-semibold text-ink">
-            {project.title}
-          </h4>
+          <h4 className="font-display text-lg font-semibold text-ink">{project.title}</h4>
           {project.award && (
             <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-accent-blue/10 px-2 py-0.5 text-xs font-medium text-accent-blue">
               <Trophy size={12} weight="regular" aria-hidden />
@@ -30,8 +28,23 @@ export function ProjectCard({ project }: { project: Project }) {
 
         <p className="text-sm leading-relaxed text-muted">{project.tagline}</p>
 
-        {project.role && (
-          <p className="text-xs text-subtle">{project.role}</p>
+        {(project.period || project.role) && (
+          <p className="text-xs text-subtle">
+            {project.period}
+            {project.period && project.role && " · "}
+            {project.role}
+          </p>
+        )}
+
+        {project.metrics && project.metrics.length > 0 && (
+          <dl className="flex flex-wrap gap-x-4 gap-y-1 pt-1">
+            {project.metrics.map((m) => (
+              <div key={m.label} className="flex items-baseline gap-1.5">
+                <dd className="font-display text-base font-semibold text-ink">{m.value}</dd>
+                <dt className="text-xs text-subtle">{m.label}</dt>
+              </div>
+            ))}
+          </dl>
         )}
 
         <ul className="mt-auto flex flex-wrap gap-1.5 pt-2">

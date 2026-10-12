@@ -192,24 +192,25 @@ CONTENT.md의 실제 콘텐츠에 맞게 정렬. 시각/아이콘 중심 + 시�
 
 ### 1. Hero
 - 좌측 상단: 이름 `이준익 / Lee Junik` (Schibsted Grotesk 큰 영문 + Pretendard 한글)
-- 그 아래: 역할 라벨 `DevOps / Platform Engineer`
+- 그 아래: 역할 라벨 `Infrastructure Engineer · 서버 · 클라우드` + 한국어 훅 2줄
 - 중앙/우측: **try/catch/finally 코드 블록** (시그니처 1번, 크게)
 - 하단: 모토 한 줄 "Try the code, Catch the people, Finally make it reliable."
 - 스크롤 유도: 미니멀 `↓` 아이콘
 
 ### 2. About
 - 자기소개 문단 (CONTENT.md About Me 본문)
-- **정체성 요약 표**: Role / Interest / Current / Certification / Motto (테이블 또는 카드 그리드)
+- **운영 기록 숫자 그리드** (6칸: 컨테이너·도메인·풀이·5xx·배포·문항 — 진행도 바 아님, 측정값만)
+- **정체성 요약 표**: Role / Focus / Current / Certification / Motto (테이블 또는 카드 그리드)
 - 키워드 아이콘 그리드는 NOT 별도 추가 (이미 콘텐츠 풍부)
 
 ### 3. Tech Stack
 - 6개 카테고리 그룹:
-  - DevOps / Platform (가장 위, 정체성 우선)
-  - Cloud / Infrastructure
-  - Languages
-  - Frontend / Mobile
-  - Backend
-  - Tools & Collaboration
+  - Server / OS / Storage (가장 위, 정체성 우선)
+  - Cloud / Edge
+  - Container / Delivery
+  - Observability / Availability
+  - Network / Security
+  - Languages & Tools
 - 각 그룹: 카테고리 제목 + 아이콘 그리드 (4~6 col desktop / 2~3 col mobile)
 - 각 아이콘: 공식 브랜드 SVG 또는 Phosphor `Regular`
 - 호버 시: Lordicon 재생 또는 미세 scale + 색 전환
