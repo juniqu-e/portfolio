@@ -148,3 +148,9 @@ Phase는 [ROADMAP.md](./ROADMAP.md)와 매칭되며, 머지 직후 commit hash�
 - `.claude/settings.json` + `.gitignore` + hooks (PostToolUse 자동 포맷, PreToolUse rm -rf 가드)
 - bkit 플러그인 설치 (40+ skills)
 - `tailwind-design-system` + `accessibility` skill 프로젝트 설치
+
+## Phase 14.2 — About 장면 전환 애니메이션
+
+- About 섹션을 스크롤 고정(sticky) 스토리텔링으로 변경: 철학 4문단이 스크롤 진행도에 따라 한 장면씩 교체 (Motion `useScroll`)
+- 상단 `01 / 04` 카운터 + 4칸 진행 막대 (막대 클릭 시 해당 문단으로 이동)
+- `prefers-reduced-motion` 사용자에게는 기존 정적 목록으로 렌더
