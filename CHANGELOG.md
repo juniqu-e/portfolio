@@ -12,6 +12,13 @@ Phase는 [ROADMAP.md](./ROADMAP.md)와 매칭되며, 머지 직후 commit hash�
 
 ### Changed
 
+- **Phase 14.1 — 단순화** _(2026-10-12)_
+  - 모토 폐기: Hero의 try/catch/finally 코드 블록(`CodeBlock.tsx` 삭제)·모토 줄, Footer 모토, 메타·OG 모토 제거. "궁금하면 해 보고…" 문구 제거
+  - About: 인프라 철학 4문단만. 숫자 그리드·정체성 요약표 삭제(`Profile`은 `aboutBody`만)
+  - Tech Stack: 4그룹 19개(Server/Cloud · Operations · Languages · Tools). Languages = Python·JavaScript·Java, Tools = Git·Jira·Notion·Slack·Mattermost·Figma
+  - Experience: 교안 제작 삭제 / Projects: 사내 네트워크 설계 삭제
+  - Education 섹션을 SSAFY·RAPA 상세 카드로 재작성, **Certifications 섹션 신설**(정보처리기사 → CCNA → 운전면허 → Running VCP)
+
 - **Phase 14 — 인프라 엔지니어(서버·클라우드) 포지셔닝으로 콘텐츠 전면 개편** _(2026-10-12)_
   - 소스: Obsidian 볼트 `30-Output/취업 - 인프라 SI/`(이력서·포트폴리오 마스터, 자소서 §0 데이터 팩트, 03 기술 스택 표) + `20-Wiki/Projects/`
   - Hero: 역할 라벨 `Infrastructure Engineer · 서버 · 클라우드` + 한국어 훅 2줄. try/catch/finally 시그니처·모토 유지

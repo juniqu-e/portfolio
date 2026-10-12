@@ -32,9 +32,7 @@ export function Contact() {
               <a
                 href={link.href}
                 aria-label={link.label}
-                {...(link.external
-                  ? { target: "_blank", rel: "noopener noreferrer" }
-                  : {})}
+                {...(link.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                 className="group inline-flex min-h-9 items-center gap-2.5 rounded-lg border border-line bg-page px-4 py-2 text-sm text-muted transition-[border-color,color,background-color] duration-200 ease-out hover:border-line-strong hover:bg-panel hover:text-accent-blue"
               >
                 <IconComponent size={18} weight="regular" aria-hidden />

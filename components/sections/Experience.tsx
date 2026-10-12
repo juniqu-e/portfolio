@@ -31,9 +31,7 @@ export function Experience() {
             </div>
 
             <div className="flex flex-col gap-6">
-              <p className="text-base leading-relaxed text-muted">
-                {entry.description}
-              </p>
+              <p className="text-base leading-relaxed text-muted">{entry.description}</p>
 
               <dl className="divide-y divide-line border-y border-line">
                 {entry.duties.map((d) => (

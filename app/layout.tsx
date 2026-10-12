@@ -11,8 +11,7 @@ export const metadata: Metadata = {
     default: "이준익 / Lee Junik — Infrastructure Engineer",
     template: "%s · 이준익 (Lee Junik)",
   },
-  description:
-    "궁금하면 해 보고, 재 보고, 적어 둡니다. 리눅스 홈서버 운영 · 서버 · 클라우드 — 이준익의 인프라 엔지니어 포트폴리오.",
+  description: "리눅스 홈서버 운영 · 서버 · 클라우드 — 이준익의 인프라 엔지니어 포트폴리오.",
   keywords: [
     "이준익",
     "Lee Junik",
@@ -36,12 +35,12 @@ export const metadata: Metadata = {
     url: siteUrl,
     siteName: "wnsdlr.com",
     title: "이준익 / Lee Junik — Infrastructure Engineer",
-    description: "Try the code, Catch the people, Finally make it reliable.",
+    description: "이준익의 인프라 엔지니어(서버 · 클라우드) 포트폴리오.",
   },
   twitter: {
     card: "summary_large_image",
     title: "이준익 / Lee Junik",
-    description: "Try the code, Catch the people, Finally make it reliable.",
+    description: "이준익의 인프라 엔지니어(서버 · 클라우드) 포트폴리오.",
   },
   robots: { index: true, follow: true },
 };

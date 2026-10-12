@@ -57,11 +57,7 @@ export const GuestbookList = forwardRef<GuestbookListHandle>(
     }
 
     if (state.kind === "empty") {
-      return (
-        <p className="text-sm text-muted">
-          첫 번째 방명록을 남겨주세요.
-        </p>
-      );
+      return <p className="text-sm text-muted">첫 번째 방명록을 남겨주세요.</p>;
     }
 
     return (
@@ -71,9 +67,7 @@ export const GuestbookList = forwardRef<GuestbookListHandle>(
             key={entry.id}
             className="rounded-lg border border-line bg-page p-4 transition-colors duration-200 ease-out hover:border-line-strong"
           >
-            <p className="whitespace-pre-line text-sm leading-relaxed text-ink">
-              {entry.body}
-            </p>
+            <p className="whitespace-pre-line text-sm leading-relaxed text-ink">{entry.body}</p>
             <p className="mt-3 flex items-center gap-2 font-mono text-xs text-subtle">
               <span>{entry.name && entry.name.trim() !== "" ? entry.name : "익명"}</span>
               <span aria-hidden>·</span>

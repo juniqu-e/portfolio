@@ -4,11 +4,7 @@ import { PROJECTS } from "@/content/projects";
 
 export function Projects() {
   return (
-    <section
-      id="projects"
-      aria-labelledby="projects-heading"
-      className="bg-panel"
-    >
+    <section id="projects" aria-labelledby="projects-heading" className="bg-panel">
       <div className="mx-auto max-w-prose px-6 py-16 sm:py-24">
         <h2
           id="projects-heading"
@@ -24,10 +20,7 @@ export function Projects() {
             return (
               <div key={group.id}>
                 <div className="flex items-center gap-3">
-                  <span
-                    aria-hidden
-                    className="h-1.5 w-1.5 rounded-full bg-accent-blue"
-                  />
+                  <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-accent-blue" />
                   <h3 className="font-mono text-xs uppercase tracking-widest text-subtle">
                     {group.label}
                   </h3>

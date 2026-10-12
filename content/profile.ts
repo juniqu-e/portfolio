@@ -1,58 +1,37 @@
 import type { Profile } from "@/types";
 
-// Source: CONTENT.md §About Me + §정체성 요약 표 + §운영 기록. 텍스트 1글자도 수정 X.
+// Source: CONTENT.md §About — 인프라 철학만. 텍스트 1글자도 수정 X.
 // Bold 강조는 CONTENT.md의 `**...**` 표기를 ParaSegment.emphasis=true로 보존한다.
 
 export const PROFILE: Profile = {
   aboutBody: [
     [
-      { text: "집에서도 Linux 서버를 직접 구축하고 운영할 만큼 " },
-      { text: "인프라를 재밌어 하는 사람", emphasis: true },
-      { text: "입니다. 궁금하면 직접 해 보고, 측정하고, 기록합니다." },
-    ],
-    [
-      { text: "리눅스 서버 한 대에 " },
-      { text: "Docker 컨테이너 25개", emphasis: true },
+      { text: "인프라는 잘 세우는 것으로 끝나지 않는다고 생각합니다. " },
+      { text: "멈추지 않게 하는 것", emphasis: true },
       {
-        text: "와 직접 만든 서비스·오픈소스 10개 이상을 올려 1년 넘게 운영하고 있습니다. 포트포워딩 없이 Cloudflare Tunnel로 도메인 20여 개를 공개하고, 전 도메인이 내려간 장애의 원인을 iptables 규칙 누락으로 밝혀 2분 주기 자가 복구 타이머로 재발을 막았습니다.",
+        text: "이 일의 대부분이고, 멈췄다면 원인을 찾아 같은 문제가 다시 일어나지 않게 만드는 데까지가 제 몫입니다.",
       },
     ],
     [
+      { text: "그래서 " },
+      { text: "추측하지 않고 측정합니다", emphasis: true },
       {
-        text: "서비스는 코드가 아니라 배포·캐시·방화벽·갱신 정책처럼 코드 바깥에서 깨진다는 것을 운영하면서 배웠습니다. 그래서 문제가 생기면 추측하지 않고 ",
-      },
-      { text: "앱 → 컨테이너 → 호스트 → 네트워크 순으로 측정", emphasis: true },
-      {
-        text: "해 원인을 좁히고, 증상·원인·조치·재발 방지를 기록으로 남깁니다. 지금은 한국전파진흥협회 클라우드 보안 전문가 과정에서 네트워크·보안·Windows/Linux 서버·스토리지·AWS를 실장비로 다루고 있습니다.",
+        text: ". 느리다는 말에 서버부터 키우지 않고, 앱과 컨테이너, 호스트, 네트워크를 차례로 재서 어디가 아닌지부터 확인합니다. 숫자가 원인을 가리키기 전에는 조치하지 않습니다.",
       },
     ],
-  ],
-  identitySummary: [
-    { label: "Role", value: "인프라 엔지니어 (서버 · 클라우드) 지향" },
-    {
-      label: "Focus",
-      value:
-        "Linux · Windows Server 운영, 스토리지, 컨테이너 배포, 모니터링·가용성, Cloudflare · AWS",
-    },
-    {
-      label: "Current",
-      value: "RAPA 클라우드 보안 전문가 양성과정 (2026.07 ~ 2026.12 수료 예정)",
-    },
-    {
-      label: "Certification",
-      value: "정보처리기사 (2026.09) · CCNA 200-301 (2026.10) · AWS SAA · RHCSA 준비 중",
-    },
-    {
-      label: "Motto",
-      value: "Try the code, Catch the people, Finally make it reliable.",
-    },
-  ],
-  numbers: [
-    { value: "25", label: "컨테이너", sub: "리눅스 서버 1대 · 1년+" },
-    { value: "20+", label: "공개 도메인", sub: "포트포워딩 0 · Cloudflare Tunnel" },
-    { value: "61,328", label: "문제 풀이", sub: "ccna.wnsdlr.com · 사용자 22명" },
-    { value: "0.02%", label: "5xx 비율", sub: "요청 21만 건 중" },
-    { value: "60+", label: "무중단 배포", sub: "blue/green · 12일" },
-    { value: "1,000+", label: "확인 문항", sub: "강의노트 50+ · 개념 위키 165" },
+    [
+      { text: "서비스는 코드보다 " },
+      { text: "코드 바깥에서 더 자주 깨집니다", emphasis: true },
+      {
+        text: ". 배포 방식, 캐시, 방화벽 규칙, 자동 갱신 같은 것들입니다. 모니터가 있다고 모니터링이 되는 것이 아니고, 복제가 있다고 백업이 되는 것도 아닙니다. 서비스를 올리기 전에 감시와 복구 수단부터 갖추려고 합니다.",
+      },
+    ],
+    [
+      { text: "마지막으로 " },
+      { text: "다른 사람이 그대로 따라 할 수 있게 기록합니다", emphasis: true },
+      {
+        text: ". 장애는 증상과 원인, 조치, 재발 방지 순으로 남깁니다. 혼자만 아는 운영은 그 사람이 없는 날 멈추기 때문입니다.",
+      },
+    ],
   ],
 };

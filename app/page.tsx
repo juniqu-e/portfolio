@@ -1,5 +1,6 @@
 import { About } from "@/components/sections/About";
 import { Awards } from "@/components/sections/Awards";
+import { Certifications } from "@/components/sections/Certifications";
 import { Contact } from "@/components/sections/Contact";
 import { Education } from "@/components/sections/Education";
 import { Experience } from "@/components/sections/Experience";
@@ -22,6 +23,7 @@ export default function HomePage() {
         <Projects />
         <Awards />
         <Education />
+        <Certifications />
         <Guestbook />
         <Contact />
       </main>

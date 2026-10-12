@@ -287,23 +287,6 @@ export const PROJECTS: Project[] = [
       },
     ],
   },
-  {
-    slug: "corp-network-design",
-    group: "infra-lab",
-    title: "사내 네트워크 설계 (80명 규모)",
-    tagline:
-      "요구사항과 검수 조건만 받고 정답 토폴로지 없이 직접 설계 — 설계 산출물 3종 (구축 전 단계)",
-    period: "2026.07 ~ 2026.08 · 설계 완료",
-    role: "설계 전담",
-    description:
-      "3층 경영지원·개발팀, 4층 영업팀·서버실·CCTV를 가진 가상의 중소기업 요구사항(부서별 VLAN 분리, 단일 장애 금지, 영업팀은 서버망 웹만 허용, CCTV망 접근 통제)을 받아 장비 배치·포트 연결·IP/VLAN·라우팅·접근제어를 전부 스스로 결정했습니다.\n\n물리/논리 토폴로지, IP·VLAN·포트맵, 검증 항목 25종을 설계서로 남겼습니다. 코어 L3 스위치 2대에 HSRP로 게이트웨이를 이중화하고, 경계 라우터 2대와 OSPF로 ISP에 연결하며, ACL로 부서 간 접근을 통제하는 구조입니다. 구축은 학습 우선순위 조정으로 진행하지 않았고, 설계까지가 최종 상태입니다.",
-    stack: ["Cisco Packet Tracer", "VLAN · Trunk", "HSRP", "OSPF", "STP", "DHCP", "ACL"],
-    responsibilities: [
-      { area: "요구사항 분석", detail: "고객 요구 8개 항목을 기술 요구(VLAN·이중화·ACL)로 번역" },
-      { area: "설계 산출물", detail: "물리/논리 토폴로지 · IP/VLAN/포트맵 · 검증 25종" },
-      { area: "범위 결정", detail: "구축·검증은 수행하지 않음을 명시 — 설계 경험으로만 기재" },
-    ],
-  },
 
   // ── Developer Tools ────────────────────────────────────────────────────
   {

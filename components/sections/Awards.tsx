@@ -25,13 +25,7 @@ export function Awards() {
             >
               <span className="font-mono text-xs text-subtle">{a.year}</span>
               <span className="text-sm text-muted">{a.category}</span>
-              <span
-                className={
-                  isFirst
-                    ? "text-base font-semibold text-ink"
-                    : "text-sm text-ink"
-                }
-              >
+              <span className={isFirst ? "text-base font-semibold text-ink" : "text-sm text-ink"}>
                 {a.project}
               </span>
               <span
@@ -41,11 +35,7 @@ export function Awards() {
                     : "inline-flex items-center gap-1.5 self-start rounded-full bg-panel px-2.5 py-1 text-xs font-medium text-muted sm:self-auto"
                 }
               >
-                <Trophy
-                  size={14}
-                  weight="regular"
-                  aria-hidden
-                />
+                <Trophy size={14} weight="regular" aria-hidden />
                 {a.rank}등
               </span>
             </li>

@@ -26,13 +26,7 @@ export type Project = {
   responsibilities?: { area: string; detail: string }[];
 };
 
-export type SkillCategory =
-  | "server"
-  | "cloud"
-  | "container"
-  | "observability"
-  | "network"
-  | "languages-tools";
+export type SkillCategory = "infra" | "operations" | "languages" | "tools";
 
 export type Skill = {
   name: string;
@@ -57,17 +51,20 @@ export type AwardEntry = {
   project: string;
 };
 
-export type EducationKind = "certification" | "education";
-export type EducationStatus = "in-progress" | "completed";
+export type CertificationEntry = {
+  title: string;
+  issuer: string;
+  /** 취득일 (running이면 목표 시점) */
+  date: string;
+  status: "acquired" | "running";
+};
 
 export type EducationEntry = {
-  kind: EducationKind;
-  title: string;
-  status: EducationStatus;
-  /** 기관·기간 등 보조 정보 */
-  detail?: string;
-  /** 상태 배지 문구 override (없으면 kind/status로 계산) */
-  statusLabel?: string;
+  organization: string;
+  course: string;
+  period: string;
+  description: string;
+  highlights: { area: string; detail: string }[];
 };
 
 export type GuestbookEntry = {
@@ -99,13 +96,6 @@ export type GuestbookAdminListResponse = {
 export type ParaSegment = { text: string; emphasis?: boolean };
 export type Paragraph = ParaSegment[];
 
-export type IdentityRow = { label: string; value: string };
-
-export type ProfileNumber = { value: string; label: string; sub?: string };
-
 export type Profile = {
   aboutBody: Paragraph[];
-  identitySummary: IdentityRow[];
-  /** 운영 기록 — 숫자로 보는 현재 */
-  numbers: ProfileNumber[];
 };

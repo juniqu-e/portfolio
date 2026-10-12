@@ -1,9 +1,7 @@
 import { ArrowDown } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
-import { CodeBlock } from "@/components/ui/CodeBlock";
 
-const MOTTO_KEYWORD = "transition-colors duration-200 ease-out group-hover/motto:text-accent-blue";
-
+// 모토 자리는 비워 둔다 — 새 모토가 정해지면 이름 아래에 들어간다.
 export function Hero() {
   return (
     <section
@@ -11,37 +9,21 @@ export function Hero() {
       aria-labelledby="hero-name"
       className="relative flex min-h-[calc(100dvh-3.5rem)] flex-col px-6 py-12 sm:py-16"
     >
-      <div className="mx-auto grid w-full max-w-prose flex-1 items-center gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
-        <div className="flex flex-col gap-3">
-          <h1
-            id="hero-name"
-            className="font-display text-5xl font-semibold tracking-display text-ink sm:text-6xl"
-          >
-            이준익
-            <span className="mt-2 block text-3xl font-medium text-ink/70 sm:text-4xl">
-              Lee Junik
-            </span>
-          </h1>
-          <p className="mt-1 text-base text-muted sm:text-lg">
-            Infrastructure Engineer
-            <span className="text-subtle"> · 서버 · 클라우드</span>
-          </p>
-          <p className="mt-3 max-w-sm text-sm leading-relaxed text-muted sm:text-base">
-            인프라가 재밌어서 집에서도 서버를 돌립니다.
-            <br />
-            궁금하면 해 보고, 재 보고, 적어 둡니다.
-          </p>
-        </div>
-        <CodeBlock />
+      <div className="mx-auto flex w-full max-w-prose flex-1 flex-col justify-center gap-3">
+        <h1
+          id="hero-name"
+          className="font-display text-6xl font-semibold tracking-display text-ink sm:text-8xl"
+        >
+          이준익
+          <span className="mt-3 block text-3xl font-medium text-ink/70 sm:text-5xl">Lee Junik</span>
+        </h1>
+        <p className="mt-4 text-lg text-muted sm:text-xl">
+          Infrastructure Engineer
+          <span className="text-subtle"> · 서버 · 클라우드</span>
+        </p>
       </div>
 
-      <div className="mx-auto mt-12 flex w-full max-w-prose flex-col items-start gap-8">
-        <p className="group/motto font-display text-lg leading-relaxed text-ink sm:text-xl">
-          <span className={MOTTO_KEYWORD}>Try</span> the code,{" "}
-          <span className={MOTTO_KEYWORD}>Catch</span> the people,{" "}
-          <span className={MOTTO_KEYWORD}>Finally</span> make it reliable.
-        </p>
-
+      <div className="mx-auto mt-12 flex w-full max-w-prose">
         <Link
           href="#about"
           aria-label="About 섹션으로 스크롤"

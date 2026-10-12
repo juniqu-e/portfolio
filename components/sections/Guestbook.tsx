@@ -28,9 +28,7 @@ export function Guestbook() {
       </div>
 
       <div className="mt-10">
-        <h3 className="font-mono text-xs uppercase tracking-widest text-subtle">
-          Recent
-        </h3>
+        <h3 className="font-mono text-xs uppercase tracking-widest text-subtle">Recent</h3>
         <div className="mt-4">
           <GuestbookList ref={listRef} />
         </div>

@@ -9,7 +9,7 @@ export const EXPERIENCE: ExperienceEntry[] = [
     role: "13기 · 14기 실습코치 — 교육생 개발·인프라 기술지원",
     period: "2025.06 ~ 2026.06",
     description:
-      "SSAFY 12기 수료 후 두 기수를 연속으로 지원했습니다. 교육생 팀 프로젝트의 개발환경·CI/CD·배포 문제를 함께 풀고, 교육용 Kubernetes(EKS) 가이드를 직접 따라 하며 검증해 운영 관점의 개선안을 제출했습니다. 전국 교육생 대상 기술 세션을 두 차례 진행했고, 삼성전자 AI 전문가 과정 교안 13개 차시를 제작했습니다.",
+      "SSAFY 12기 수료 후 두 기수를 연속으로 지원했습니다. 교육생 팀 프로젝트의 개발환경·CI/CD·배포 문제를 함께 풀고, 교육용 Kubernetes(EKS) 가이드를 직접 따라 하며 검증해 운영 관점의 개선안을 제출했습니다. 전국 교육생 대상 기술 세션도 두 차례 진행했습니다.",
     duties: [
       {
         area: "K8s 가이드 검수",
@@ -25,11 +25,6 @@ export const EXPERIENCE: ExperienceEntry[] = [
         area: "기술 세션 발표",
         detail:
           "전국 교육생 대상 2회 — 「모바일 개발 프로세스」(2025.09), 「Samsung Health Data SDK」(2026.04)",
-      },
-      {
-        area: "교안 제작",
-        detail:
-          "삼성전자 AI 전문가 과정 13개 차시 — LangChain · 자연어처리 · 이미지 파운데이션 모델 · Agent",
       },
       {
         area: "생산성 도구 개발",

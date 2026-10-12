@@ -25,10 +25,13 @@ function jsonError(
   details?: { field: string; issue: string }[],
   extraHeaders?: HeadersInit,
 ) {
-  return new Response(JSON.stringify({ error: { code, message, ...(details ? { details } : {}) } }), {
-    status,
-    headers: { "content-type": "application/json; charset=utf-8", ...extraHeaders },
-  });
+  return new Response(
+    JSON.stringify({ error: { code, message, ...(details ? { details } : {}) } }),
+    {
+      status,
+      headers: { "content-type": "application/json; charset=utf-8", ...extraHeaders },
+    },
+  );
 }
 
 export async function POST(req: Request) {
@@ -52,19 +55,18 @@ export async function POST(req: Request) {
 
   // Honeypot: 봇이 채우면 silent 200 (DB 접근 없음, 봇이 실패를 모르게)
   if (honeypot && honeypot.length > 0) {
-    return Response.json({ ok: true, pending: true, message: "후기가 등록되었습니다. 검토 후 노출됩니다." }, { status: 201 });
+    return Response.json(
+      { ok: true, pending: true, message: "후기가 등록되었습니다. 검토 후 노출됩니다." },
+      { status: 201 },
+    );
   }
 
   const ipHash = hashIp(extractIp(req));
   const rl = checkRateLimit(ipHash);
   if (!rl.allowed) {
-    return jsonError(
-      "RATE_LIMITED",
-      "잠시 후 다시 시도해주세요.",
-      429,
-      undefined,
-      { "retry-after": String(rl.retryAfterSec) },
-    );
+    return jsonError("RATE_LIMITED", "잠시 후 다시 시도해주세요.", 429, undefined, {
+      "retry-after": String(rl.retryAfterSec),
+    });
   }
 
   const normalizedBody = body.replace(/\r\n/g, "\n").trim();

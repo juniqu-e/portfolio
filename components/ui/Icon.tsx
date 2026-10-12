@@ -33,6 +33,7 @@ const BRAND_ICONS = new Set<string>([
   "grafana",
   "go",
   "kotlin",
+  "notion",
   "python",
   "typescript",
   "javascript",
