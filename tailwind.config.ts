@@ -30,6 +30,19 @@ const config: Config = {
         "line-strong": "#D4D4D4",
         "accent-blue": "#6B9BD2",
         "accent-pink": "#E8A5B7",
+        // /story 터미널 테마 전용
+        term: {
+          bg: "#0A0D0B",
+          panel: "#101511",
+          line: "#1E2921",
+          ink: "#D7E3DA",
+          muted: "#80907F",
+          dim: "#4A584D",
+          green: "#5CF08A",
+          amber: "#FFB454",
+          red: "#FF6B6B",
+          cyan: "#7CC7FF",
+        },
       },
       fontFamily: {
         sans: [

@@ -39,3 +39,28 @@
     }
   }
 }
+
+/* /story — 배경 빛 덩어리가 천천히 떠다니는 움직임 */
+@keyframes story-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(8vw, 6vh, 0) scale(1.12);
+  }
+}
+.story-orb {
+  animation: story-drift 18s ease-in-out infinite;
+}
+.story-orb-2 {
+  animation: story-drift 24s ease-in-out infinite reverse;
+}
+@keyframes story-marquee {
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+.story-marquee {
+  animation: story-marquee 28s linear infinite;
+}

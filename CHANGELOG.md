@@ -154,3 +154,9 @@ Phase는 [ROADMAP.md](./ROADMAP.md)와 매칭되며, 머지 직후 commit hash�
 - About 섹션을 스크롤 고정(sticky) 스토리텔링으로 변경: 철학 4문단이 스크롤 진행도에 따라 한 장면씩 교체 (Motion `useScroll`)
 - 상단 `01 / 04` 카운터 + 4칸 진행 막대 (막대 클릭 시 해당 문단으로 이동)
 - `prefers-reduced-motion` 사용자에게는 기존 정적 목록으로 렌더
+
+## Phase 15 (실험) — /story 터미널 컨셉 페이지
+
+- wedding.tonami-komuro.com 의 구성(프리로더 → 대형 글자 히어로 → 메시지 → 프로필 → 스토리 → 일시·장소 → RSVP → 크레딧)을 커리어로 옮긴 별도 경로 `/story`. 메인(`/`)은 그대로.
+- 터미널 테마(`term.*` 색 토큰), 부팅 프리로더(세션당 1회), INFRA 대형 글자, 철학 4장면, whoami, 가로 고정 타임라인, systemctl status, docker ps 형식 운영 서비스, 연락처, 흐르는 감사 문구.
+- Lenis 부드러운 스크롤 추가. `noindex` — 검색 노출 안 함. reduced-motion이면 프리로더·관성 스크롤 끔.
