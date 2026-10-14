@@ -31,6 +31,9 @@ function Card({ chapter, active }: { chapter: Chapter; active: boolean }) {
         <h3 className="mt-6 break-keep font-sans text-xl font-semibold text-term-ink sm:text-2xl">
           {chapter.title}
         </h3>
+        {chapter.url && (
+          <span className="mt-1 block text-xs text-term-cyan">{chapter.url}</span>
+        )}
         <p className="mt-3 break-keep font-sans text-sm leading-relaxed text-term-muted sm:text-base">
           {chapter.body}
         </p>
@@ -71,7 +74,7 @@ export function Timeline() {
   return (
     <section
       ref={ref}
-      id="timeline"
+      id="story"
       aria-label="커리어 타임라인"
       className="relative"
       style={{ height: `${CHAPTERS.length * 45 + 100}svh` }}

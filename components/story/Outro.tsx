@@ -5,7 +5,7 @@ import { Reveal, SectionHead } from "./Reveal";
 // 참고 사이트의 RSVP · Credits 대응 — 연락처, 이 사이트가 도는 경로, 흐르는 감사 문구.
 export function Contact() {
   return (
-    <section aria-label="연락처" className="relative px-4 py-32 sm:px-8">
+    <section id="contact" aria-label="연락처" className="relative px-4 py-32 sm:px-8">
       <div className="mx-auto max-w-5xl">
         <SectionHead cmd="ping -c 1 junik" title="contact" />
         <ul className="mt-12 border-t border-term-line">
@@ -38,10 +38,13 @@ export function Credits() {
   const text = MARQUEE.repeat(4);
   return (
     <footer className="relative pb-20 pt-16">
-      <div aria-hidden="true" className="overflow-hidden border-y border-term-line py-6">
-        <div className="story-marquee flex w-max whitespace-nowrap font-mono text-5xl font-bold text-term-ink/90 sm:text-8xl">
-          <span className="pr-8">{text}</span>
-          <span className="pr-8">{text}</span>
+      <div
+        aria-hidden="true"
+        className="overflow-hidden border-y border-term-line bg-term-bg py-4 [mask-image:linear-gradient(90deg,transparent,black_8%,black_92%,transparent)]"
+      >
+        <div className="story-marquee flex w-max whitespace-nowrap font-mono text-2xl font-bold uppercase tracking-[0.25em] text-term-green sm:text-4xl">
+          <span className="pr-10">{text}</span>
+          <span className="pr-10">{text}</span>
         </div>
       </div>
       <dl className="mx-auto mt-12 grid max-w-5xl gap-6 px-4 font-mono text-xs text-term-muted sm:grid-cols-3 sm:px-8">
@@ -51,7 +54,7 @@ export function Credits() {
         </div>
         <div>
           <dt className="text-term-dim">deployed by</dt>
-          <dd className="mt-1">GitHub Actions → GHCR → Watchtower</dd>
+          <dd className="mt-1">GitHub Actions → GHCR</dd>
         </div>
         <div>
           <dt className="text-term-dim">built with</dt>

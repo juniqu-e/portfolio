@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import { motion, useMotionValueEvent, useScroll } from "motion/react";
 import { PHILOSOPHY_SCENES } from "@/content/story";
 
-// 참고 사이트의 Message 대응 — 화면 고정 후 장면 전환. 두 모토(기술·삶)와 둘의 연결, 3장면.
+// 참고 사이트의 Message 대응 — 화면 고정 후 장면 전환. 두 모토(기술·삶) 2장면.
 const SCENES = PHILOSOPHY_SCENES;
 const COUNT = SCENES.length;
 const EASE = [0.16, 1, 0.3, 1] as const;

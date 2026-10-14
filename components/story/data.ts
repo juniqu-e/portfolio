@@ -2,8 +2,8 @@ import type { Project } from "@/types";
 import { PROJECTS } from "@/content/projects";
 
 // /story 전용 데이터. 날짜·수치는 content/*.ts 와 같은 출처(CONTENT.md)에서 가져온다.
-// 타임라인 10장 (2026-10-14 확정): SSAFY 입과 → PADING → WhistleHub → À moi → 실습코치
-// → 홈서버 → AI 지식관리 워크스테이션 → 정보처리기사 → CCNA → VCP 준비.
+// 타임라인 11장 (2026-10-14 확정): SSAFY 입과 → PADING → WhistleHub → À moi → 실습코치
+// → 홈서버 → RAPA 입과 → AI 지식관리 워크스테이션 → 정보처리기사 → CCNA · 문제은행 → VCP 준비.
 // 프로젝트 카드는 content/projects.ts 의 항목을 slug 로 끌어와 상세에 그대로 쓴다.
 
 export const CAREER_START = "2024-07-01T09:00:00+09:00";
@@ -43,6 +43,8 @@ export type Chapter = {
   tag: ChapterTag;
   title: string;
   body: string;
+  /** 카드 제목 아래에 보이는 주소 */
+  url?: string;
   /** content/projects.ts 의 slug — 있으면 상세의 기본값으로 쓴다 */
   projectSlug?: string;
   /** slug 로 가져온 값 위에 덮어쓰는 항목 */
@@ -133,7 +135,7 @@ export const CHAPTERS: Chapter[] = [
     date: "2024.07",
     tag: "INFO",
     title: "SSAFY 12기 입과",
-    body: "개발을 처음 배우기 시작. 화면(프론트엔드·모바일)부터. 1,600시간 과정.",
+    body: "개발을 처음 배우기 시작했습니다. 화면(프론트엔드·모바일)부터였습니다. 1,600시간 과정.",
     detail: {
       period: "2024.07 ~ 2025.06 · 삼성 청년 SW·AI 아카데미 12기 Python 트랙",
       role: "교육생 · 팀 프로젝트 3회 모두 발표 담당",
@@ -154,7 +156,7 @@ export const CHAPTERS: Chapter[] = [
     date: "2025.01",
     tag: "OK",
     title: "PADING",
-    body: "발표를 맡아 백엔드·인프라를 처음 공부. 컨테이너 위에서 코드가 실행·배포되는 경로를 Kubernetes로 구현.",
+    body: "발표를 맡아 백엔드·인프라를 처음 공부했습니다. 컨테이너 위에서 코드가 실행·배포되는 경로를 Kubernetes로 구현했습니다.",
     projectSlug: "pading",
   },
   {
@@ -162,7 +164,7 @@ export const CHAPTERS: Chapter[] = [
     date: "2025.03",
     tag: "OK",
     title: "WhistleHub",
-    body: "모바일 개발. 웹 서버와 컨테이너가 맞물려 도는 과정이 보이기 시작했다. 인증·세션, API 모듈화.",
+    body: "모바일 개발을 맡았습니다. 웹 서버와 컨테이너가 맞물려 도는 과정이 보이기 시작했습니다. 인증·세션, API 모듈화.",
     projectSlug: "whistlehub",
     detail: {
       summary: [
@@ -182,7 +184,7 @@ export const CHAPTERS: Chapter[] = [
     date: "2025.04",
     tag: "OK",
     title: "Amoverse (À moi)",
-    body: "모바일 개발자 셋 중 아키텍처 설계·디자인 패턴·핵심 기능을 주도. 온디바이스 AI 포스터.",
+    body: "모바일 개발자 셋 중 아키텍처 설계·디자인 패턴·핵심 기능을 주도했습니다. 온디바이스 AI 포스터.",
     projectSlug: "amoverse",
     detail: {
       role: "모바일 3명 중 아키텍처 설계 · 디자인 패턴 · 핵심 기능 주도 (공식 직함 없음)",
@@ -203,7 +205,7 @@ export const CHAPTERS: Chapter[] = [
     date: "2025.06",
     tag: "OK",
     title: "SSAFY 수료 → 실습코치",
-    body: "13·14기 교육생의 개발환경·CI/CD·배포 문제를 1년간 함께 풀었다. EKS 가이드 검수 · 운영 개선안.",
+    body: "13·14기 교육생의 개발환경·CI/CD·배포 문제를 1년간 함께 풀었습니다. EKS 가이드 검수 · 운영 개선안.",
     detail: {
       period: "2025.06 ~ 2026.06 · 두 기수 연속",
       role: "실습코치 — 교육생 개발 · 인프라 기술지원",
@@ -226,7 +228,7 @@ export const CHAPTERS: Chapter[] = [
     date: "2025.10",
     tag: "RUN",
     title: "홈서버 가동",
-    body: "내가 만든 것이 계속 돌아가는 모습을 보고 싶어 산 서버 1대. 컨테이너 27개 · 인바운드 포트 0으로 도메인 20여 개 공개.",
+    body: "만든 것이 계속 돌아가는 모습을 보고 싶어 서버 한 대를 들였습니다. 컨테이너 27개 · 인바운드 포트 0으로 도메인 20여 개 공개.",
     projectSlug: "homeserver",
     detail: {
       metrics: [
@@ -239,11 +241,34 @@ export const CHAPTERS: Chapter[] = [
     },
   },
   {
+    id: "rapa",
+    date: "2026.07",
+    tag: "INFO",
+    title: "RAPA 클라우드 보안 과정 입과",
+    body: "네트워크 · 보안 · Windows/Linux Server · AWS · 가상화를 실장비로 다루는 1,000시간. 개발에 쏟은 시간을 주 무기로 쓰지 못하게 된다는 것을 알면서 고른 길입니다.",
+    detail: {
+      period: "2026.07 ~ 2026.12 · 한국전파진흥협회 클라우드 보안 전문가 양성과정",
+      role: "교육생 · 매 구간 Final LAB 직접 구성",
+      summary: [
+        "2026년 7월에 시작한 1,000시간 과정입니다. 네트워크(Cisco 스위칭·라우팅)에서 보안(ACL · ASA · VPN · FTD), Windows Server와 Linux Server, AWS, 그리고 10월부터 vSphere 가상화까지 인프라 전 계층을 실장비로 다룹니다. 개발에 쏟은 시간을 주 무기로 쓰지 못하게 된다는 것을 알면서 고른 길입니다. 로우레벨을 이해하면 세상의 시스템이 어떻게 돌아가는지 이해하는 데 도움이 된다고 생각했습니다.",
+        "매일 수업이 끝나면 강의 자료와 필기를 개념 위키로 정리하고 확인 문항 20개를 만들어 풉니다. 이 과정 중에 정보처리기사와 CCNA를 취득했습니다.",
+      ],
+      itemsTitle: "curriculum",
+      items: [
+        { area: "네트워크", detail: "Cisco 스위칭(VLAN · STP · EtherChannel · FHRP) · 라우팅(OSPF · BGP · 재분배)" },
+        { area: "보안", detail: "ACL, ASA 방화벽 · NAT, IPsec · DMVPN · SSL VPN, FTD · IPS 정책" },
+        { area: "Windows Server", detail: "AD 포리스트 · 자식 도메인, DNS · DHCP Relay · NTP, RAID-5 · SMB · NFS · iSCSI, IIS · FTP · 메일" },
+        { area: "Linux Server", detail: "계정 · 권한, DHCP · BIND · chrony, nginx · SSH, 디스크 · 마운트, Samba · NFS" },
+        { area: "가상화 · Cloud", detail: "vSphere ESXi · vCenter (진행 중) · AWS EC2 · VPC · IAM · 부하분산 · 스토리지" },
+      ],
+    },
+  },
+  {
     id: "vault",
     date: "2026.08",
     tag: "RUN",
     title: "AI 지식관리 워크스테이션 구축",
-    body: "기록이 귀찮아서 만든 시스템 — 정리·조합은 AI, 인사이트 투입은 나. MinIO 단일 소스 + 양방향 동기화.",
+    body: "기록이 귀찮아서 만든 시스템입니다. 정리·조합은 AI에게, 인사이트 투입은 제가. MinIO 단일 소스 + 양방향 동기화.",
     projectSlug: "ai-knowledge-workstation",
     detail: {
       summary: [
@@ -259,7 +284,7 @@ export const CHAPTERS: Chapter[] = [
     date: "2026.09",
     tag: "OK",
     title: "정보처리기사",
-    body: "실기에서 여러 번 떨어졌다. 틀린 유형을 기록해 숫자로 보고 나서야 넘었다.",
+    body: "실기에서 여러 번 떨어졌습니다. 틀린 유형을 기록해 숫자로 본 뒤에야 넘었습니다.",
     detail: {
       period: "2026.09 취득 · 한국산업인력공단",
       summary: [
@@ -273,8 +298,9 @@ export const CHAPTERS: Chapter[] = [
     id: "ccna",
     date: "2026.10",
     tag: "OK",
-    title: "CCNA · ccna.wnsdlr.com",
-    body: "시험 12일 전 만든 문제은행을 동기 22명이 썼다. 사람별 기록 · 무중단 배포 · LAB 터미널. 10/02 취득.",
+    title: "CCNA · 문제은행",
+    url: "ccna.wnsdlr.com",
+    body: "시험 12일 전 만든 문제은행을 동기 22명이 썼습니다. 사람별 기록 · 무중단 배포 · LAB 터미널. 10/02 취득.",
     projectSlug: "ccna-quiz",
     detail: {
       period: "2026.09.22 ~ 10.03 운영 · CCNA 200-301 2026.10.02 취득",
@@ -286,12 +312,12 @@ export const CHAPTERS: Chapter[] = [
     date: "2026.11",
     tag: "RUN",
     title: "VMware VCP 준비",
-    body: "다음 목표. 10/13부터 vSphere(ESXi · vCenter) 수업 진행 중. 서버 → 클라우드 → 플랫폼으로.",
+    body: "다음 목표입니다. 10/13부터 vSphere(ESXi · vCenter) 수업이 진행 중입니다. 서버 → 클라우드 → 플랫폼으로.",
     detail: {
       period: "2026.10 ~ · RAPA 클라우드 보안 전문가 양성과정 (2026.07 ~ 2026.12) 가상화 구간",
       role: "준비 중",
       summary: [
-        "RAPA 과정의 서버 가상화 구간이 10월 13일에 시작됐습니다. ESXi 설치와 DCUI, Host Client, vCenter로 이어지는 수업을 따라가며 VCP 응시를 준비합니다. 개발에 쏟은 시간을 주 무기로 쓰지 못하게 된다는 것을 알면서 고른 길이고, 그 선택의 다음 칸입니다.",
+        "RAPA 과정의 서버 가상화 구간이 10월 13일에 시작됐습니다. ESXi 설치와 DCUI, Host Client, vCenter로 이어지는 수업을 따라가며 VCP 응시를 준비합니다. 인프라를 고른 선택의 다음 칸입니다.",
         "당장의 방향은 인프라·서버·시스템 엔지니어입니다. 서버에서 클라우드로, 장기적으로는 사람들이 더 쉽게 만들고 돌릴 수 있는 바탕을 짜는 플랫폼 영역까지 넓히려 합니다. 아직 기본기를 쌓는 중이고, 그 순서를 건너뛰지 않는 것도 선택의 일부입니다.",
       ],
       itemsTitle: "on the way",

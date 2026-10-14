@@ -38,7 +38,7 @@ export function Chrome() {
       <header className="pointer-events-none fixed inset-x-0 top-0 z-40 flex items-center justify-between bg-gradient-to-b from-term-bg via-term-bg/80 to-transparent px-4 pb-6 pt-3 font-mono text-[11px] text-term-muted sm:px-6 sm:text-xs">
         <Link href="/" className="pointer-events-auto transition-colors hover:text-term-green">
           <span className="text-term-green">junik@homeserver</span>:
-          <span className="text-term-cyan">~/story</span>$
+          <span className="text-term-cyan">~/whoami</span>$
         </Link>
         <p className="flex items-center gap-3">
           <span className="hidden tabular-nums sm:inline">{clock ?? "--:--:--"} KST</span>

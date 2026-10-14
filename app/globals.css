@@ -62,5 +62,6 @@
   }
 }
 .story-marquee {
-  animation: story-marquee 28s linear infinite;
+  animation: story-marquee 14s linear infinite;
+  will-change: transform;
 }

@@ -12,6 +12,13 @@ Phase는 [ROADMAP.md](./ROADMAP.md)와 매칭되며, 머지 직후 commit hash�
 
 ### Changed
 
+- **Phase 15.3 — /story 터미널 히어로 · 어조 · 구성 정리** _(2026-10-14)_
+  - 히어로에 **입력 가능한 터미널**(`Terminal.tsx`): `help` `ls` `cd <섹션>` `cat` `pwd` `whoami` `uptime` `clear`, Tab 자동완성 · ↑↓ 이력 · 빠른 명령 칩. `cd story` 등은 공유 Lenis 인스턴스(`lenis.ts`)로 스크롤
+  - 철학 2장면(03 link 삭제), 모토·본문을 "~라고 믿습니다 / 생각합니다" 어조로. `story.md` 절(`Story.tsx`) 삭제
+  - 좌상단 프롬프트 `junik@homeserver:~/whoami$`. whoami는 자격만(`certifications.ts`), 위치를 타임라인 뒤로
+  - 타임라인 11장: RAPA 과정 입과(2026.07) 추가, CCNA 카드 제목 "CCNA · 문제은행" + 주소 줄, 카드 문구 합니다체
+  - 크레딧: 전광판 마퀴(초록 모노 · 14s · 양끝 페이드), deployed by "GitHub Actions → GHCR"
+
 - **Phase 15.2 — /story 타임라인 10장 · 카드 상세 모달 · 방명록** _(2026-10-14)_
   - 타임라인을 10장으로 재구성: SSAFY 입과 → PADING → WhistleHub → Amoverse(À moi) → 실습코치 → 홈서버 → AI 지식관리 워크스테이션 → 정보처리기사 → CCNA·ccna.wnsdlr.com → VCP 준비
   - 카드 클릭 → `ChapterModal`(터미널 톤 native dialog). 프로젝트 카드는 `content/projects.ts`를 slug로 끌어와 summary · what i did · metrics · stack · 링크를 그대로 보여 주고, 장별 덮어쓰기(`Chapter.detail`) 가능
