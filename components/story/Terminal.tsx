@@ -10,9 +10,10 @@ export const PROMPT = "junik@homeserver:~/whoami$";
 
 type Line = { kind: "in" | "out" | "ok" | "err" | "dim"; text: string };
 
-const DIRS = ["philosophy", "story", "certifications", "stack", "guestbook", "contact"] as const;
+const DIRS = ["whoami", "philosophy", "story", "certifications", "stack", "guestbook", "contact"] as const;
 type Dir = (typeof DIRS)[number];
 const DIR_DESC: Record<Dir, string> = {
+  whoami: "메인 화면 (지금 여기)",
   philosophy: "기술과 삶의 철학",
   story: "2024.07부터의 타임라인 (카드를 누르면 자세히)",
   certifications: "자격증",
@@ -37,7 +38,7 @@ const BANNER: Line[] = [
   { kind: "dim", text: "Welcome to homeserver (Ubuntu 24.04 · N100 · 16GB)" },
   { kind: "out", text: "name    이준익 (Lee Junik)" },
   { kind: "out", text: "role    Infrastructure Engineer — 서버 · 클라우드" },
-  { kind: "dim", text: "type `help` · `ls` 로 둘러보기 · `cd story` 로 시작 · 이 창은 끌어서 옮길 수 있습니다" },
+  { kind: "dim", text: "type `help` · `ls` 로 둘러보기 · `cd story` 로 시작 · Tab 자동완성 · 이 창은 끌어서 옮길 수 있습니다" },
 ];
 
 function run(raw: string): { lines: Line[]; clear?: boolean } {
@@ -52,23 +53,23 @@ function run(raw: string): { lines: Line[]; clear?: boolean } {
         lines: [
           { kind: "out", text: "help              이 목록" },
           { kind: "out", text: "ls                둘러볼 곳" },
-          { kind: "out", text: "cd <dir>          이동 — philosophy · story · certifications · stack · guestbook · contact" },
+          { kind: "out", text: "cd <dir>          이동 — whoami(메인) · philosophy · story · certifications · stack · guestbook · contact" },
           { kind: "out", text: "cat README.md     GitHub 프로필 README 를 새 탭으로" },
           { kind: "out", text: "pwd · whoami · uptime · clear" },
-          { kind: "dim", text: "Tab 으로 자동완성, ↑↓ 로 이전 명령" },
+          { kind: "dim", text: "Tab 자동완성 (후보가 여럿이면 목록 표시) · ↑↓ 이전 명령 · Ctrl+L 지우기 · Esc 접기" },
         ],
       };
     case "ls":
       return {
         lines: [
-          ...DIRS.map((d) => ({ kind: "ok" as const, text: `${d}/`.padEnd(14) + DIR_DESC[d] })),
-          ...FILES.map((f) => ({ kind: "out" as const, text: f.padEnd(14) + "GitHub 프로필 README" })),
+          ...DIRS.map((d) => ({ kind: "ok" as const, text: `${d}/`.padEnd(16) + DIR_DESC[d] })),
+          ...FILES.map((f) => ({ kind: "out" as const, text: f.padEnd(16) + "GitHub 프로필 README" })),
         ],
       };
     case "cd": {
-      if (!arg || arg === "~" || arg === "/") {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-        return { lines: [] };
+      if (!arg || arg === "~" || arg === "/" || arg === "~/whoami") {
+        scrollToSection("whoami");
+        return { lines: [{ kind: "dim", text: "→ ~/whoami" }] };
       }
       const target = arg.replace(/^~\//, "").replace(/\/$/, "");
       if ((DIRS as readonly string[]).includes(target) && scrollToSection(target)) {
@@ -107,16 +108,30 @@ function run(raw: string): { lines: Line[]; clear?: boolean } {
   }
 }
 
-function complete(value: string): string {
-  const parts = value.split(/\s+/);
-  if (parts.length <= 1) {
-    const hit = COMMANDS.filter((c) => c.startsWith(value));
-    return hit.length === 1 ? `${hit[0]} ` : value;
+function commonPrefix(list: string[]): string {
+  if (list.length === 0) return "";
+  let p = list[0]!;
+  for (const s of list) while (!s.startsWith(p)) p = p.slice(0, -1);
+  return p;
+}
+
+function complete(value: string): { value: string; candidates: string[] } {
+  const endsWithSpace = /\s$/.test(value);
+  const parts = value.trimStart().split(/\s+/).filter(Boolean);
+  if (parts.length === 0 || (parts.length === 1 && !endsWithSpace)) {
+    const partial = parts[0] ?? "";
+    const hit = COMMANDS.filter((c) => c.startsWith(partial));
+    if (hit.length === 1) return { value: `${hit[0]} `, candidates: [] };
+    if (hit.length > 1) return { value: commonPrefix(hit), candidates: hit };
+    return { value, candidates: [] };
   }
-  const [cmd, partial = ""] = parts;
+  const cmd = parts[0]!;
+  const partial = endsWithSpace ? "" : (parts[1] ?? "");
   const pool = cmd === "cd" ? [...DIRS] : cmd === "cat" || cmd === "open" ? [...FILES] : [];
   const hit = pool.filter((p) => p.startsWith(partial));
-  return hit.length === 1 ? `${cmd} ${hit[0]}` : value;
+  if (hit.length === 1) return { value: `${cmd} ${hit[0]}`, candidates: [] };
+  if (hit.length > 1) return { value: `${cmd} ${commonPrefix(hit)}`, candidates: hit };
+  return { value, candidates: [] };
 }
 
 const LINE_COLOR: Record<Line["kind"], string> = {
@@ -161,7 +176,14 @@ export function Terminal({ active = true }: { active?: boolean }) {
       submit(value);
     } else if (e.key === "Tab") {
       e.preventDefault();
-      setValue(complete(value));
+      const r = complete(value);
+      setValue(r.value);
+      if (r.candidates.length > 1)
+        setLines((prev) => [
+          ...prev,
+          { kind: "in", text: value },
+          { kind: "dim", text: r.candidates.join("   ") },
+        ]);
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
       const next = Math.min(history.length - 1, cursor + 1);

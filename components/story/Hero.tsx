@@ -12,6 +12,7 @@ export function Hero({ ready }: { ready: boolean }) {
 
   return (
     <section
+      id="whoami"
       aria-labelledby="story-hero"
       className="relative flex min-h-svh flex-col justify-center px-4 pb-16 pt-20 sm:px-8"
     >
@@ -75,7 +76,7 @@ export function Hero({ ready }: { ready: boolean }) {
               <span>$</span> open terminal
             </button>
             <span className="text-xs text-term-dim">
-              ls · cd story · cd philosophy · 키보드{" "}
+              ls · cd story · Tab 자동완성 · 키보드{" "}
               <kbd className="border border-term-line px-1 text-term-muted">`</kbd>
             </span>
           </p>

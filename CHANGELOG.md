@@ -16,6 +16,10 @@ Phase는 [ROADMAP.md](./ROADMAP.md)와 매칭되며, 머지 직후 commit hash�
 
 ### Changed
 
+- **Phase 16.2 — 터미널 명령 정합** _(2026-10-14)_
+  - `cd whoami`(= `cd ~`)로 메인 화면(히어로 `id="whoami"`)으로, `ls`에 whoami/ 표시 · 정렬 폭 수정
+  - Tab 자동완성: 공통 접두어까지 채우고 후보가 여럿이면 목록 출력(`cd s` → `cd st` + `story stack`). 배너·help·히어로 힌트에 Tab 안내
+
 - 파비콘을 검정·초록 터미널 프롬프트 `>_`로 정리. 폰트에 의존하지 않는 SVG, 16/32/48px ICO, 180px Apple 아이콘을 같은 디자인으로 제공.
 
 - **Phase 16.1 — 파비콘 · Apple 아이콘 · OG 카드를 터미널 톤으로** _(2026-10-14)_
