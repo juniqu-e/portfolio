@@ -12,6 +12,14 @@ Phase는 [ROADMAP.md](./ROADMAP.md)와 매칭되며, 머지 직후 commit hash�
 
 ### Changed
 
+- **Phase 15.1 — /story 두 철학 반영** _(2026-10-14)_
+  - 모토 확정: 기술 "기술의 가치는 사람이 할 수 있는 일을 넓히는 데 있다." · 삶 "미래를 바꾸려면, 변화의 대가도 선택해야 한다." (`content/story.ts` 신설, CONTENT.md §"/story — 두 철학")
+  - `Philosophy`: About 4문단 공유 → 두 모토 + 연결 3장면으로 교체 (label tech/life/link)
+  - `Story` 신설: `less ~/story.md` — 성장 이야기 3절 (대가를 먼저 배움 → 운영에서 기술의 쓸모 → 두 문장이 만나는 자리)
+  - `Hero`: INFRA 아래 기술 모토 한 줄 · `Whoami`: motto 행 · `data.ts` 타임라인 문구를 정체성 문서 기준으로 정리("비전공으로"·"반 2등" 삭제, RAPA 카드에 선택의 대가 한 줄) · `/story` 메타 description 갱신
+  - 메인(`/`) Hero 모토 반영은 보류 — CONTENT.md Hero 노트 참조
+
+
 - **Phase 14.1 — 단순화** _(2026-10-12)_
   - 모토 폐기: Hero의 try/catch/finally 코드 블록(`CodeBlock.tsx` 삭제)·모토 줄, Footer 모토, 메타·OG 모토 제거. "궁금하면 해 보고…" 문구 제거
   - About: 인프라 철학 4문단만. 숫자 그리드·정체성 요약표 삭제(`Profile`은 `aboutBody`만)
@@ -160,3 +168,8 @@ Phase는 [ROADMAP.md](./ROADMAP.md)와 매칭되며, 머지 직후 commit hash�
 - wedding.tonami-komuro.com 의 구성(프리로더 → 대형 글자 히어로 → 메시지 → 프로필 → 스토리 → 일시·장소 → RSVP → 크레딧)을 커리어로 옮긴 별도 경로 `/story`. 메인(`/`)은 그대로.
 - 터미널 테마(`term.*` 색 토큰), 부팅 프리로더(세션당 1회), INFRA 대형 글자, 철학 4장면, whoami, 가로 고정 타임라인, systemctl status, docker ps 형식 운영 서비스, 연락처, 흐르는 감사 문구.
 - Lenis 부드러운 스크롤 추가. `noindex` — 검색 노출 안 함. reduced-motion이면 프리로더·관성 스크롤 끔.
+
+## Phase 15.1 — /story 두 철학 반영 (2026-10-14)
+
+- 확정한 두 모토(기술·삶)를 `/story`에 먼저 반영: 히어로 모토 줄, `philosophy.md` 3장면, `story.md` 3절, whoami motto 행. 콘텐츠 정본 `content/story.ts` ← CONTENT.md §"/story — 두 철학" ← 볼트 `30-Output/나의 철학 — 두 문장.md`.
+- 다음 결정: 메인(`/`) Hero에 모토 노출 여부 · `/story` `noindex` 해제 시점 · story 서사(타임라인 이전 시기 포함 여부)는 추후.

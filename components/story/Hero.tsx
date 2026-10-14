@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { CAREER_START } from "./data";
+import { MOTTOS } from "@/content/story";
 
 // 참고 사이트의 WEDDING 대형 글자 대응 — INFRA 다섯 글자가 아래에서 차례로 올라온다.
 const WORD = "INFRA".split("");
@@ -90,6 +91,19 @@ export function Hero({ ready }: { ready: boolean }) {
           <span className="block text-xs text-term-dim">since 2024.07 · SSAFY 입과</span>
         </p>
       </motion.div>
+
+      <motion.p
+        initial="off"
+        animate={state}
+        variants={{
+          off: { opacity: 0, y: 12 },
+          on: { opacity: 1, y: 0, transition: { duration: 0.8, ease: EASE, delay: 0.95 } },
+        }}
+        className="mt-10 max-w-2xl break-keep text-lg leading-snug text-term-ink sm:text-2xl"
+      >
+        <span className="mr-3 font-mono text-sm text-term-green sm:text-base">&gt;</span>
+        {MOTTOS.tech}
+      </motion.p>
 
       <motion.a
         href="#philosophy"

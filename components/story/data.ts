@@ -14,13 +14,13 @@ export const CHAPTERS: Chapter[] = [
     date: "2024.07",
     tag: "INFO",
     title: "SSAFY 12기 입과",
-    body: "비전공으로 개발을 처음 배우기 시작. 1,600시간 과정.",
+    body: "개발을 처음 배우기 시작. 화면(프론트엔드·모바일)부터. 1,600시간 과정.",
   },
   {
     date: "2025.01",
     tag: "OK",
     title: "PADING",
-    body: "컨테이너 위에서 코드가 실행·배포되는 경로를 Kubernetes로 구현. 반 2등.",
+    body: "발표를 맡아 백엔드·인프라를 처음 공부. 컨테이너 위에서 코드가 실행·배포되는 경로를 Kubernetes로 구현.",
   },
   {
     date: "2025.06",
@@ -38,7 +38,7 @@ export const CHAPTERS: Chapter[] = [
     date: "2026.07",
     tag: "INFO",
     title: "RAPA 클라우드 보안 과정",
-    body: "네트워크 · 보안 · Windows/Linux Server · AWS를 실장비로 다루는 1,000시간.",
+    body: "개발에 쏟은 시간을 주 무기로 쓰지 못하게 된다는 것을 알면서 고른 길. 네트워크 · 보안 · Windows/Linux Server · AWS 실장비 1,000시간.",
   },
   {
     date: "2026.09",
@@ -50,7 +50,7 @@ export const CHAPTERS: Chapter[] = [
     date: "2026.10",
     tag: "OK",
     title: "CCNA · 인프라 엔지니어로",
-    body: "개발자에서 서버·클라우드를 다루는 인프라 엔지니어로 방향을 정했다.",
+    body: "서버 · 클라우드에서 시작해 플랫폼까지. 사람들이 할 수 있는 일을 넓히는 바탕을 만드는 쪽으로 방향을 정했다.",
   },
   {
     date: "2026.11",

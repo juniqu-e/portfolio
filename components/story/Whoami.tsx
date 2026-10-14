@@ -4,6 +4,7 @@ import { SectionHead, Reveal } from "./Reveal";
 const ROWS: { k: string; v: string; accent?: "green" | "amber" }[] = [
   { k: "name", v: "이준익 (Lee Junik)" },
   { k: "role", v: "Infrastructure Engineer — 서버 · 클라우드", accent: "green" },
+  { k: "motto", v: "할 수 있는 일을 넓힌다 · 변화의 대가도 선택한다" },
   { k: "now", v: "RAPA 클라우드 보안 전문가 양성과정 (2026.07 ~ 2026.12)" },
   { k: "work", v: "SSAFY 13 · 14기 실습코치 (2025.06 ~ 2026.06)" },
   { k: "edu", v: "SSAFY 12기 Python 트랙 수료 (1,600시간)" },

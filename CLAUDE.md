@@ -6,7 +6,7 @@
 
 **wnsdlr.com** — 이준익 (Lee Junik) 개인 포트폴리오. **인프라 엔지니어(서버·클라우드) 구직 목적** (2026-10-12 개편. 이전: DevOps / Platform Engineer).
 
-**모토**: Try the code, Catch the people, Finally make it reliable.
+**모토 (2026-10-14 확정)**: 기술 — "기술의 가치는 사람이 할 수 있는 일을 넓히는 데 있다." · 삶 — "미래를 바꾸려면, 변화의 대가도 선택해야 한다." (본인 문장, 인용 아님. 옛 try/catch/finally 모토는 2026-10-12 폐기)
 
 ## Source of Truth
 
@@ -144,7 +144,7 @@ pnpm format       # Prettier 적용 (설정 후)
 본 사용자에 대한 영속 메모리는 `~/.claude/projects/-home-zz262zz-homeserver/memory/`에 있다.
 - 이름: 이준익 (juniqu-e)
 - 역할: 인프라 엔지니어 (서버·클라우드) 지향 — 2026-10-12 개편. 가상화는 수업 전이라 싣지 않는다
-- 모토: try/catch/finally
+- 모토: 위 두 문장 (`content/story.ts`). try/catch/finally는 폐기
 - 학력: 정치외교학과 → SSAFY 12기
 - 디자인 선호: 차분한 베이스 + 다이나믹 인터랙션, 시각/아이콘 중심, AI 클리셰 혐오
 

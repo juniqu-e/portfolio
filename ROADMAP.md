@@ -215,3 +215,7 @@
 | 10 — 방명록 + /api/health                            | ✅ 완료 (SQLite + Zod + rate-limit + admin auth, 라이브 검증)  |
 | 11 — 방명록 admin UI                                 | ✅ 완료 (/admin/guestbook + AdminGate + 4-탭 + admin API)      |
 | 12 — admin 세션 인증 (ID+PW + 쿠키)                  | ✅ 완료 (/admin/login + middleware + bcrypt + HMAC 24h 세션)   |
+| 13 — CI/CD 자동 배포 | ✅ 완료 (GitHub Actions → GHCR → Watchtower) |
+| 14 · 14.1 · 14.2 — 인프라 엔지니어 포지셔닝 · 단순화 · About 장면 전환 | ✅ 완료 (2026-10-12) |
+| 15 — /story 터미널 컨셉 (실험, noindex) | ✅ 완료 (2026-10-12) |
+| 15.1 — /story 두 철학 반영 | ✅ 완료 (2026-10-14) — 메인 Hero 모토 · noindex 해제는 보류 |

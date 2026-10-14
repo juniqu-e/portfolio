@@ -2,13 +2,10 @@
 
 import { useRef, useState } from "react";
 import { motion, useMotionValueEvent, useScroll } from "motion/react";
-import { PROFILE } from "@/content/profile";
+import { PHILOSOPHY_SCENES } from "@/content/story";
 
-// 참고 사이트의 Message 대응 — 화면 고정 후 철학 4장면. 강조 구절을 큰 제목으로 꺼내 쓴다.
-const SCENES = PROFILE.aboutBody.map((p) => ({
-  head: p.find((s) => s.emphasis)?.text ?? "",
-  body: p.map((s) => s.text).join(""),
-}));
+// 참고 사이트의 Message 대응 — 화면 고정 후 장면 전환. 두 모토(기술·삶)와 둘의 연결, 3장면.
+const SCENES = PHILOSOPHY_SCENES;
 const COUNT = SCENES.length;
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -24,7 +21,7 @@ export function Philosophy() {
     <section
       ref={ref}
       id="philosophy"
-      aria-label="인프라 철학"
+      aria-label="두 문장 — 기술의 철학과 삶의 철학"
       className="relative"
       style={{ height: `${COUNT * 90 + 10}svh` }}
     >
@@ -41,7 +38,7 @@ export function Philosophy() {
             {SCENES.map((s, i) => {
               const on = i === active;
               return (
-                <div key={i} className="[grid-area:1/1]" aria-hidden={!on}>
+                <div key={s.label} className="[grid-area:1/1]" aria-hidden={!on}>
                   <p className="overflow-hidden font-mono text-sm text-term-amber">
                     <motion.span
                       className="block"
@@ -49,12 +46,12 @@ export function Philosophy() {
                       animate={{ y: on ? "0%" : "110%" }}
                       transition={{ duration: 0.6, ease: EASE }}
                     >
-                      0{i + 1}
+                      0{i + 1} <span className="text-term-dim">·</span> {s.label}
                     </motion.span>
                   </p>
-                  <h2 className="mt-3 overflow-hidden pb-1 text-3xl font-bold leading-tight text-term-ink sm:text-6xl">
+                  <h2 className="mt-3 overflow-hidden pb-1 text-3xl font-bold leading-tight text-term-ink sm:text-5xl lg:text-6xl">
                     <motion.span
-                      className="block"
+                      className="block break-keep"
                       initial={false}
                       animate={{ y: on ? "0%" : i < active ? "-110%" : "110%" }}
                       transition={{ duration: 0.8, ease: EASE }}
@@ -66,7 +63,7 @@ export function Philosophy() {
                     initial={false}
                     animate={{ opacity: on ? 1 : 0, y: on ? 0 : 12 }}
                     transition={{ duration: 0.6, ease: EASE, delay: on ? 0.15 : 0 }}
-                    className="mt-8 max-w-2xl text-base leading-relaxed text-term-muted sm:text-lg"
+                    className="mt-8 max-w-2xl break-keep text-base leading-relaxed text-term-muted sm:text-lg"
                   >
                     {s.body}
                   </motion.p>
