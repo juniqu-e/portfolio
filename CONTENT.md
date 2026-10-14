@@ -130,7 +130,7 @@ SSAFY 12기 수료 후 두 기수를 연속으로 지원했습니다. 교육생 
 
 ### 구성 (`/story`)
 
-부팅 → INFRA 히어로 + **떠 있는 터미널 창**(어디서든 z-50, 머리띠 드래그로 이동, 접으면 프롬프트 알약, 백틱 ` 로 토글, Esc 로 접기 · **처음엔 접힘**(히어로의 프롬프트 힌트 + 알약 3회 강조) · 같은 탭에선 마지막 상태 · 명령: `help` `ls` `cd <섹션>` `cat README.md|philosophy.md` `pwd` `whoami` `uptime` `clear`, Tab 자동완성·↑↓ 이력, `cd story` 등은 Lenis 스크롤로 이동) → `cat ~/philosophy.md` **2장면**(tech · life) → journalctl 타임라인 **11장**(카드 클릭 → 상세 모달) → certifications(운전면허 제외, 최신 위) → stack(`skills.ts` 4그룹) → guestbook → contact → credits(전광판 — JS 프레임 구동 60px/s, OS 동작 줄이기와 무관, "served from GMKtec G3 · Intel N100 홈서버 · Cloudflare" · "deployed by GitHub Actions → GHCR"). 좌상단 프롬프트 `junik@homeserver:~/whoami$`. `noindex` 유지.
+부팅 → INFRA 히어로 + **떠 있는 터미널 창**(어디서든 z-50, 머리띠 드래그로 이동, 접으면 프롬프트 알약, 백틱 ` 로 토글, Esc 로 접기 · **처음엔 접힘**(히어로의 프롬프트 힌트 + 알약 3회 강조) · 같은 탭에선 마지막 상태 · 명령(배너는 name · role 두 줄, `ls`의 philosophy/ = "기술과 삶의 철학", certifications/ = "자격증", `cat README.md` = GitHub 프로필을 새 탭으로): `help` `ls` `cd <섹션>` `cat README.md|philosophy.md` `pwd` `whoami` `uptime` `clear`, Tab 자동완성·↑↓ 이력, `cd story` 등은 Lenis 스크롤로 이동) → `cat ~/philosophy.md` **2장면**(tech · life) → journalctl 타임라인 **11장**(카드 클릭 → 상세 모달) → certifications(운전면허 제외, 최신 위) → stack(`skills.ts` 4그룹) → guestbook → contact → credits(전광판 — JS 프레임 구동 60px/s, OS 동작 줄이기와 무관, "served from GMKtec G3 · Intel N100 홈서버 · Cloudflare" · "deployed by GitHub Actions → GHCR"). 좌상단 프롬프트 `junik@homeserver:~/whoami$`. `noindex` 유지.
 
 > 2026-10-14 2차 개편: 03 link 장면·`story.md` 절 삭제, 모토는 **"~라고 믿습니다 / 생각합니다" 어조**로(단정형 금지), 카드 문구도 합니다체. "now"·"running" 섹션 삭제, 방명록 추가, 연락처 마지막.
 

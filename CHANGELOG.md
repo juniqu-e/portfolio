@@ -12,6 +12,9 @@ Phase는 [ROADMAP.md](./ROADMAP.md)와 매칭되며, 머지 직후 commit hash�
 
 ### Changed
 
+- **Phase 15.7 — 터미널 정리** _(2026-10-14)_
+  - 배너에서 motto 줄 삭제(name · role만) · `ls` 설명: philosophy/ "기술과 삶의 철학", certifications/ "자격증" · `philosophy.md` 삭제 · `cat README.md`(또는 `open`)는 GitHub 프로필 README를 새 탭으로
+
 - **Phase 15.6 — /story 스택 섹션 · certifications · 문구 정정** _(2026-10-14)_
   - `Stack.tsx` 신설(`skills.ts` 4그룹, 터미널 톤) · `Whoami` → `Certifications`(운전면허 제외, 최신 위) · 터미널 `cd certifications` · `cd stack`
   - 히어로: 터미널 힌트 문장을 `open terminal` 버튼 옆으로 모음(가짜 프롬프트 줄 삭제)

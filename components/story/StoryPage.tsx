@@ -10,6 +10,7 @@ import { Chrome } from "./Chrome";
 import { Hero } from "./Hero";
 import { Contact, Credits } from "./Outro";
 import { Philosophy } from "./Philosophy";
+import { PhilosophyFilm } from "./PhilosophyFilm";
 import { Guestbook } from "./Guestbook";
 import { TerminalWindow } from "./TerminalWindow";
 import { Timeline } from "./Timeline";
@@ -18,7 +19,7 @@ import { Stack } from "./Stack";
 import { lenisRef } from "./lenis";
 
 // /story — wedding.tonami-komuro.com 의 구성을 커리어로 옮긴 실험 페이지.
-// 부팅 → INFRA → 두 문장(철학) → 타임라인(카드 → 상세) → certifications → stack → 방명록 → 연락처 → 크레딧. 터미널은 떠 있는 창(TerminalWindow)으로 어디서든.
+// 부팅 → INFRA → 15초 영상 → 두 문장(철학) → 타임라인(카드 → 상세) → certifications → stack → 방명록 → 연락처 → 크레딧. 터미널은 떠 있는 창(TerminalWindow)으로 어디서든.
 function useSmoothScroll() {
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -48,6 +49,7 @@ export function StoryPage() {
         <TerminalWindow />
         <main id="main" className="relative z-10">
           <Hero ready={ready} />
+          <PhilosophyFilm />
           <Philosophy />
           <Timeline />
           <Certifications />

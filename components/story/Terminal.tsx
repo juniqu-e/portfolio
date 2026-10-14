@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
-import { MOTTOS } from "@/content/story";
 import { CAREER_START } from "./data";
 import { scrollToSection } from "./lenis";
 import { terminalBus } from "./terminal-bus";
@@ -14,15 +13,16 @@ type Line = { kind: "in" | "out" | "ok" | "err" | "dim"; text: string };
 const DIRS = ["philosophy", "story", "certifications", "stack", "guestbook", "contact"] as const;
 type Dir = (typeof DIRS)[number];
 const DIR_DESC: Record<Dir, string> = {
-  philosophy: "두 문장 — 기술의 철학과 삶의 철학",
+  philosophy: "기술과 삶의 철학",
   story: "2024.07부터의 타임라인 (카드를 누르면 자세히)",
-  certifications: "자격",
+  certifications: "자격증",
   stack: "기술 스택",
   guestbook: "방명록",
   contact: "연락처",
 };
-const COMMANDS = ["help", "ls", "cd", "cat", "pwd", "whoami", "uptime", "clear"] as const;
-const FILES = ["README.md", "philosophy.md"] as const;
+const COMMANDS = ["help", "ls", "cd", "cat", "open", "pwd", "whoami", "uptime", "clear"] as const;
+const FILES = ["README.md"] as const;
+const GITHUB_README = "https://github.com/juniqu-e";
 
 function uptimeText(): string {
   const s = Math.floor((Date.now() - new Date(CAREER_START).getTime()) / 1000);
@@ -37,7 +37,6 @@ const BANNER: Line[] = [
   { kind: "dim", text: "Welcome to homeserver (Ubuntu 24.04 · N100 · 16GB)" },
   { kind: "out", text: "name    이준익 (Lee Junik)" },
   { kind: "out", text: "role    Infrastructure Engineer — 서버 · 클라우드" },
-  { kind: "out", text: `motto   ${MOTTOS.tech}` },
   { kind: "dim", text: "type `help` · `ls` 로 둘러보기 · `cd story` 로 시작 · 이 창은 끌어서 옮길 수 있습니다" },
 ];
 
@@ -54,7 +53,7 @@ function run(raw: string): { lines: Line[]; clear?: boolean } {
           { kind: "out", text: "help              이 목록" },
           { kind: "out", text: "ls                둘러볼 곳" },
           { kind: "out", text: "cd <dir>          이동 — philosophy · story · certifications · stack · guestbook · contact" },
-          { kind: "out", text: "cat <file>        README.md · philosophy.md" },
+          { kind: "out", text: "cat README.md     GitHub 프로필 README 를 새 탭으로" },
           { kind: "out", text: "pwd · whoami · uptime · clear" },
           { kind: "dim", text: "Tab 으로 자동완성, ↑↓ 로 이전 명령" },
         ],
@@ -63,7 +62,7 @@ function run(raw: string): { lines: Line[]; clear?: boolean } {
       return {
         lines: [
           ...DIRS.map((d) => ({ kind: "ok" as const, text: `${d}/`.padEnd(14) + DIR_DESC[d] })),
-          ...FILES.map((f) => ({ kind: "out" as const, text: f })),
+          ...FILES.map((f) => ({ kind: "out" as const, text: f.padEnd(14) + "GitHub 프로필 README" })),
         ],
       };
     case "cd": {
@@ -77,25 +76,14 @@ function run(raw: string): { lines: Line[]; clear?: boolean } {
       }
       return { lines: [{ kind: "err", text: `bash: cd: ${arg}: No such file or directory` }] };
     }
-    case "cat": {
-      if (arg === "philosophy.md")
-        return {
-          lines: [
-            { kind: "out", text: `01  ${MOTTOS.tech}` },
-            { kind: "out", text: `02  ${MOTTOS.life}` },
-            { kind: "dim", text: "자세히: cd philosophy" },
-          ],
-        };
-      if (arg === "README.md")
-        return {
-          lines: [
-            { kind: "out", text: "# 이준익 — Infrastructure Engineer" },
-            { kind: "out", text: "서버 · 클라우드에서 시작해 플랫폼까지 넓혀 가려 합니다." },
-            { kind: "out", text: "집에 리눅스 서버 한 대를 두고 20여 개 서비스를 운영합니다. 이 페이지도 거기서 뜹니다." },
-            { kind: "dim", text: "자세히: cd story" },
-          ],
-        };
-      return { lines: [{ kind: "err", text: `cat: ${arg || "(없음)"}: No such file or directory` }] };
+    case "cat":
+    case "open":
+    case "xdg-open": {
+      if (arg === "README.md" || arg === "readme") {
+        window.open(GITHUB_README, "_blank", "noopener,noreferrer");
+        return { lines: [{ kind: "dim", text: `→ ${GITHUB_README.replace("https://", "")} (새 탭)` }] };
+      }
+      return { lines: [{ kind: "err", text: `${cmd}: ${arg || "(없음)"}: No such file or directory` }] };
     }
     case "pwd":
       return { lines: [{ kind: "out", text: "/home/junik/whoami" }] };
@@ -126,7 +114,7 @@ function complete(value: string): string {
     return hit.length === 1 ? `${hit[0]} ` : value;
   }
   const [cmd, partial = ""] = parts;
-  const pool = cmd === "cd" ? [...DIRS] : cmd === "cat" ? [...FILES] : [];
+  const pool = cmd === "cd" ? [...DIRS] : cmd === "cat" || cmd === "open" ? [...FILES] : [];
   const hit = pool.filter((p) => p.startsWith(partial));
   return hit.length === 1 ? `${cmd} ${hit[0]}` : value;
 }
