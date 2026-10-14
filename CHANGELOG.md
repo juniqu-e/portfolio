@@ -24,6 +24,7 @@ Phase는 [ROADMAP.md](./ROADMAP.md)와 매칭되며, 머지 직후 commit hash�
   - 사용자가 확정한 모노그램 원본을 정식 로고로: `public/brand/logo.png`(투명 1254px) · `logo-512.png`. 색은 사이트 토큰과 같다(회녹 ≈ `term.ink`, 초록 ≈ `term.green`)
   - 탭 아이콘은 전체 축소가 아니라 **초록 갈고리 중심 크롭**(`public/brand/mark.png`) → `app/icon.png`(32) · `app/favicon.ico`(16/32/48). `app/apple-icon.png`(180)과 OG 카드 우측은 전체 로고. Phase 16.1의 동적 `icon.tsx`·`apple-icon.tsx` 삭제
   - 상단 크롬 프롬프트 앞에 마크, credits에 로고 + 이름. 다른 세션의 손그림 SVG 시안(`app/icon.svg`)은 원본 채택으로 폐기
+  - (후속) 탭 아이콘·크롬 마크를 크롭이 아닌 **전체 로고**로 — 사용자가 잘려 보인다고 지적. `mark.png` 삭제
 
 - **Phase 16.1 — 파비콘 · Apple 아이콘 · OG 카드를 터미널 톤으로** _(2026-10-14)_
   - `app/icon.tsx`: 흰 바탕 "L" → 검은 바탕(#0A0D0B) 초록 `$` + 커서 블록. `app/apple-icon.tsx`(180px) 신설

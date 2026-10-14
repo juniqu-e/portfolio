@@ -42,7 +42,7 @@ export function Chrome() {
           className="pointer-events-auto flex items-center gap-2 transition-colors hover:text-term-green"
         >
           <Image
-            src="/brand/mark.png"
+            src="/brand/logo-512.png"
             alt=""
             width={18}
             height={18}
