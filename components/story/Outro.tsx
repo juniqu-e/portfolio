@@ -42,7 +42,7 @@ export function Credits() {
       <dl className="mx-auto mt-12 grid max-w-5xl gap-6 px-4 font-mono text-xs text-term-muted sm:grid-cols-3 sm:px-8">
         <div>
           <dt className="text-term-dim">served from</dt>
-          <dd className="mt-1">리눅스 홈서버 1대 · Cloudflare Tunnel</dd>
+          <dd className="mt-1">GMKtec G3 · Intel N100 홈서버 · Cloudflare</dd>
         </div>
         <div>
           <dt className="text-term-dim">deployed by</dt>

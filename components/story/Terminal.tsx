@@ -11,12 +11,13 @@ export const PROMPT = "junik@homeserver:~/whoami$";
 
 type Line = { kind: "in" | "out" | "ok" | "err" | "dim"; text: string };
 
-const DIRS = ["philosophy", "story", "whoami", "guestbook", "contact"] as const;
+const DIRS = ["philosophy", "story", "certifications", "stack", "guestbook", "contact"] as const;
 type Dir = (typeof DIRS)[number];
 const DIR_DESC: Record<Dir, string> = {
   philosophy: "두 문장 — 기술의 철학과 삶의 철학",
   story: "2024.07부터의 타임라인 (카드를 누르면 자세히)",
-  whoami: "자격",
+  certifications: "자격",
+  stack: "기술 스택",
   guestbook: "방명록",
   contact: "연락처",
 };
@@ -52,7 +53,7 @@ function run(raw: string): { lines: Line[]; clear?: boolean } {
         lines: [
           { kind: "out", text: "help              이 목록" },
           { kind: "out", text: "ls                둘러볼 곳" },
-          { kind: "out", text: "cd <dir>          이동 — philosophy · story · whoami · guestbook · contact" },
+          { kind: "out", text: "cd <dir>          이동 — philosophy · story · certifications · stack · guestbook · contact" },
           { kind: "out", text: "cat <file>        README.md · philosophy.md" },
           { kind: "out", text: "pwd · whoami · uptime · clear" },
           { kind: "dim", text: "Tab 으로 자동완성, ↑↓ 로 이전 명령" },

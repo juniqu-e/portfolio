@@ -48,21 +48,6 @@ export function Hero({ ready }: { ready: boolean }) {
         ))}
       </div>
 
-      <motion.p
-        initial="off"
-        animate={state}
-        variants={{
-          off: { opacity: 0 },
-          on: { opacity: 1, transition: { duration: 0.6, delay: 0.7 } },
-        }}
-        className="mt-6 font-mono text-xs text-term-muted sm:text-sm"
-      >
-        <span className="text-term-green">junik@homeserver</span>:<span className="text-term-cyan">~/whoami</span>${" "}
-        <span className="text-term-ink">help</span>
-        <span className="story-cursor ml-1 inline-block h-3.5 w-2 translate-y-0.5 bg-term-green" />
-        <span className="ml-3 text-term-dim">— 이 페이지는 터미널로 돌아다닐 수 있습니다: ls · cd story · cd philosophy</span>
-      </motion.p>
-
       <motion.div
         initial="off"
         animate={state}
@@ -79,19 +64,22 @@ export function Hero({ ready }: { ready: boolean }) {
           <span className="text-term-ink">2024</span> → <span className="text-term-ink">2026</span>
           <span className="block text-xs text-term-dim">서버 · 클라우드 — 인프라 엔지니어</span>
         </p>
-        <p className="text-sm text-term-muted sm:text-right">
-          <button
-            type="button"
-            onClick={() => terminalBus.open?.()}
-            className="border border-term-line px-3 py-1.5 text-xs text-term-muted transition-colors duration-200 ease-out hover:border-term-green hover:text-term-green"
-          >
-            <span className="text-term-green">$</span> open terminal
-          </button>
-          <span className="block pt-1 text-xs text-term-dim">
-            오른쪽 아래 <span className="text-term-green">$ _</span> 에 터미널이 접혀 있습니다 · 키보드{" "}
-            <kbd className="border border-term-line px-1 text-term-muted">`</kbd> 로도 열립니다
-          </span>
-        </p>
+        <div className="text-sm text-term-muted sm:text-right">
+          <p className="text-xs text-term-ink">이 페이지는 터미널로 돌아다닐 수 있습니다.</p>
+          <p className="mt-2 flex flex-wrap items-center gap-2 sm:justify-end">
+            <button
+              type="button"
+              onClick={() => terminalBus.open?.()}
+              className="border border-term-green/60 px-3 py-1.5 text-xs text-term-green transition-colors duration-200 ease-out hover:bg-term-green hover:text-term-bg"
+            >
+              <span>$</span> open terminal
+            </button>
+            <span className="text-xs text-term-dim">
+              ls · cd story · cd philosophy · 키보드{" "}
+              <kbd className="border border-term-line px-1 text-term-muted">`</kbd>
+            </span>
+          </p>
+        </div>
       </motion.div>
     </section>
   );

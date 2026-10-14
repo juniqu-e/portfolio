@@ -1,14 +1,18 @@
 import { CERTIFICATIONS } from "@/content/certifications";
 import { SectionHead, Reveal } from "./Reveal";
 
-// whoami — 자격만. 나머지는 스토리 카드가 채운다 (2026-10-14).
-export function Whoami() {
+// certifications — 운전면허는 빼고, 최신이 위 (2026-10-14).
+const ROWS = CERTIFICATIONS.filter((c) => !c.title.includes("운전면허")).sort((a, b) =>
+  b.date.localeCompare(a.date),
+);
+
+export function Certifications() {
   return (
-    <section id="whoami" aria-label="자격" className="relative px-4 py-32 sm:px-8">
+    <section id="certifications" aria-label="자격" className="relative px-4 py-32 sm:px-8">
       <div className="mx-auto max-w-5xl">
-        <SectionHead cmd="whoami --certs" title="whoami" />
+        <SectionHead cmd="ls -lt ~/certifications" title="certifications" />
         <ol className="mt-12 border-t border-term-line font-mono text-sm sm:text-base">
-          {CERTIFICATIONS.map((c, i) => {
+          {ROWS.map((c, i) => {
             const running = c.status === "running";
             return (
               <Reveal key={c.title} delay={i * 0.05}>

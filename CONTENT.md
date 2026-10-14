@@ -130,7 +130,7 @@ SSAFY 12기 수료 후 두 기수를 연속으로 지원했습니다. 교육생 
 
 ### 구성 (`/story`)
 
-부팅 → INFRA 히어로 + **떠 있는 터미널 창**(어디서든 z-50, 머리띠 드래그로 이동, 접으면 프롬프트 알약, 백틱 ` 로 토글, Esc 로 접기 · **처음엔 접힘**(히어로의 프롬프트 힌트 + 알약 3회 강조) · 같은 탭에선 마지막 상태 · 명령: `help` `ls` `cd <섹션>` `cat README.md|philosophy.md` `pwd` `whoami` `uptime` `clear`, Tab 자동완성·↑↓ 이력, `cd story` 등은 Lenis 스크롤로 이동) → `cat ~/philosophy.md` **2장면**(tech · life) → journalctl 타임라인 **11장**(카드 클릭 → 상세 모달) → whoami(**자격만**) → guestbook → contact → credits(전광판 — JS 프레임 구동 60px/s, OS 동작 줄이기와 무관, "deployed by GitHub Actions → GHCR"). 좌상단 프롬프트 `junik@homeserver:~/whoami$`. `noindex` 유지.
+부팅 → INFRA 히어로 + **떠 있는 터미널 창**(어디서든 z-50, 머리띠 드래그로 이동, 접으면 프롬프트 알약, 백틱 ` 로 토글, Esc 로 접기 · **처음엔 접힘**(히어로의 프롬프트 힌트 + 알약 3회 강조) · 같은 탭에선 마지막 상태 · 명령: `help` `ls` `cd <섹션>` `cat README.md|philosophy.md` `pwd` `whoami` `uptime` `clear`, Tab 자동완성·↑↓ 이력, `cd story` 등은 Lenis 스크롤로 이동) → `cat ~/philosophy.md` **2장면**(tech · life) → journalctl 타임라인 **11장**(카드 클릭 → 상세 모달) → certifications(운전면허 제외, 최신 위) → stack(`skills.ts` 4그룹) → guestbook → contact → credits(전광판 — JS 프레임 구동 60px/s, OS 동작 줄이기와 무관, "served from GMKtec G3 · Intel N100 홈서버 · Cloudflare" · "deployed by GitHub Actions → GHCR"). 좌상단 프롬프트 `junik@homeserver:~/whoami$`. `noindex` 유지.
 
 > 2026-10-14 2차 개편: 03 link 장면·`story.md` 절 삭제, 모토는 **"~라고 믿습니다 / 생각합니다" 어조**로(단정형 금지), 카드 문구도 합니다체. "now"·"running" 섹션 삭제, 방명록 추가, 연락처 마지막.
 
@@ -139,14 +139,14 @@ SSAFY 12기 수료 후 두 기수를 연속으로 지원했습니다. 교육생 
 | # | 날짜 | 카드 | 상세의 출처 |
 |---|---|---|---|
 | 1 | 2024.07 | SSAFY 12기 입과 | 교육 내용 · CI/CD · 협업 (education.ts와 같은 사실, "비전공" 표현 없음) |
-| 2 | 2025.01 | PADING | `projects.ts` slug `pading` 그대로 |
+| 2 | 2025.01 | PADING | `pading` + **덮어쓰기 — 프론트엔드 담당 · 발표로 백엔드·인프라 이해 · 컨테이너·K8s 환경을 처음 접함** (2026-10-14 사용자 정정: "쿠버네티스를 구현한 것이 아니라 프론트엔드 담당". `projects.ts`·메인 페이지·볼트 이력서의 "컨테이너 실행·서브도메인 배포 구현" 문구는 리빌드 때 함께 고친다) |
 | 3 | 2025.03 | WhistleHub | `whistlehub` + 담당 표 덮어쓰기 |
 | 4 | 2025.04 | Amoverse (À moi) | `amoverse` + 역할 덮어쓰기 — **"모바일 3명 중 아키텍처 설계·디자인 패턴·핵심 기능 주도 (공식 직함 없음)"** (2026-10-14 사용자 확인. `projects.ts`의 "모바일 팀장"은 메인 리빌드 때 함께 고친다) |
 | 5 | 2025.06 | SSAFY 수료 → 실습코치 | experience.ts와 같은 사실 + EKS 개선안 9건 |
 | 6 | 2025.10 | 홈서버 가동 | `homeserver` + **실행 중 서비스 목록** (`HOMESERVER_SERVICES`, 2026-10-14 `docker ps` 27개 기준). 관리 도구(프록시·Portainer·Jenkins·웹 SSH 등)는 **이름만, 주소 없음** |
 | 6.5 | 2026.07 | RAPA 클라우드 보안 과정 입과 | education.ts RAPA 항목과 같은 사실 + "개발 시간을 내려놓고 고른 길" |
 | 7 | 2026.08 | AI 지식관리 워크스테이션 구축 | `ai-knowledge-workstation` + "기록이 귀찮아서 만든 시스템" 서술 |
-| 8 | 2026.09 | 정보처리기사 | 실기 낙방 → 오답 유형 기록 → 합격. 횟수·점수는 적지 않는다 |
+| 8 | 2026.09 | 정보처리기사 | "실기가 어려워 문제은행 사이트를 처음 만들었고 문제는 AI로 생성" — **낙방 횟수·점수는 적지 않는다** |
 | 9 | 2026.10 | CCNA · 문제은행 (카드 아래 `ccna.wnsdlr.com`) | `ccna-quiz` 그대로 + 취득일 10/02 |
 | 10 | 2026.11 | VMware VCP 준비 | 가상화 구간 10/13 시작 · 서버 → 클라우드 → 플랫폼 방향 |
 

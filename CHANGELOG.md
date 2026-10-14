@@ -10,6 +10,14 @@ Phase는 [ROADMAP.md](./ROADMAP.md)와 매칭되며, 머지 직후 commit hash�
 
 ## [Unreleased]
 
+### Changed
+
+- **Phase 15.6 — /story 스택 섹션 · certifications · 문구 정정** _(2026-10-14)_
+  - `Stack.tsx` 신설(`skills.ts` 4그룹, 터미널 톤) · `Whoami` → `Certifications`(운전면허 제외, 최신 위) · 터미널 `cd certifications` · `cd stack`
+  - 히어로: 터미널 힌트 문장을 `open terminal` 버튼 옆으로 모음(가짜 프롬프트 줄 삭제)
+  - 철학 01 본문 · 타임라인 카드 11장 문구를 사용자 문장으로 교체. **PADING은 프론트엔드 담당으로 정정**(K8s 구현 아님), 정보처리기사는 낙방 강조 제거, 워크스테이션은 "효율적으로 기록하기 위해"
+  - served from "GMKtec G3 · Intel N100 홈서버 · Cloudflare"
+
 ### Fixed
 
 - **Phase 15.5 — 전광판이 데스크톱에서 멈추고 모바일에서 너무 빠르던 문제** _(2026-10-14)_
