@@ -1,6 +1,7 @@
 import { CONTACT_LINKS } from "@/content/contact";
 import { MARQUEE } from "./data";
 import { Marquee } from "./Marquee";
+import Image from "next/image";
 import { Reveal, SectionHead } from "./Reveal";
 
 // 참고 사이트의 RSVP · Credits 대응 — 연락처, 이 사이트가 도는 경로, 흐르는 감사 문구.
@@ -39,7 +40,21 @@ export function Credits() {
   return (
     <footer className="relative pb-20 pt-16">
       <Marquee text={MARQUEE.repeat(3)} />
-      <dl className="mx-auto mt-12 grid max-w-5xl gap-6 px-4 font-mono text-xs text-term-muted sm:grid-cols-3 sm:px-8">
+      <div className="mx-auto mt-14 flex max-w-5xl items-center gap-5 px-4 sm:px-8">
+        <Image
+          src="/brand/logo-512.png"
+          alt="Lee Junik 모노그램"
+          width={88}
+          height={88}
+          unoptimized
+          className="h-[72px] w-[72px] select-none sm:h-[88px] sm:w-[88px]"
+        />
+        <p className="font-mono text-xs text-term-dim">
+          <span className="block text-sm text-term-ink">lee junik</span>
+          infrastructure engineer · 서버 · 클라우드
+        </p>
+      </div>
+      <dl className="mx-auto mt-10 grid max-w-5xl gap-6 px-4 font-mono text-xs text-term-muted sm:grid-cols-3 sm:px-8">
         <div>
           <dt className="text-term-dim">served from</dt>
           <dd className="mt-1">GMKtec G3 · Intel N100 홈서버 · Cloudflare</dd>

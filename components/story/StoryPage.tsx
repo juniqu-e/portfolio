@@ -18,7 +18,7 @@ import { Stack } from "./Stack";
 import { lenisRef } from "./lenis";
 
 // /story — wedding.tonami-komuro.com 의 구성을 커리어로 옮긴 실험 페이지.
-// 부팅 → INFRA → 15초 영상 → 두 문장(철학) → 타임라인(카드 → 상세) → certifications → stack → 방명록 → 연락처 → 크레딧. 터미널은 떠 있는 창(TerminalWindow)으로 어디서든.
+// 부팅 → INFRA → 두 문장(철학) → 타임라인(카드 → 상세) → certifications → stack → 방명록 → 연락처 → 크레딧. 터미널은 떠 있는 창(TerminalWindow)으로 어디서든.
 function useSmoothScroll() {
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -41,7 +41,10 @@ export function StoryPage() {
       <noscript>
         <style>{"#boot{display:none}"}</style>
       </noscript>
-      <div id="top" className="relative min-h-svh bg-term-bg text-term-ink selection:bg-term-green selection:text-term-bg">
+      <div
+        id="top"
+        className="relative min-h-svh bg-term-bg text-term-ink selection:bg-term-green selection:text-term-bg"
+      >
         <Boot onDone={onBooted} />
         <Backdrop />
         <Chrome />

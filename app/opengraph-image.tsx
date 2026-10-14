@@ -1,4 +1,6 @@
 import { ImageResponse } from "next/og";
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 
 // 공유 카드 — 메인(터미널 스토리)과 같은 톤 (2026-10-14).
 export const alt = "이준익 (Lee Junik) — Infrastructure Engineer · 서버 · 클라우드";
@@ -14,7 +16,10 @@ const DIM = "#4A584D";
 const GREEN = "#5CF08A";
 const CYAN = "#7CC7FF";
 
-export default function OG() {
+export default async function OG() {
+  // 정식 로고(블랙레터 LJI 모노그램) — public/brand/logo-512.png 를 data URL 로 심는다.
+  const logo = await readFile(join(process.cwd(), "public", "brand", "logo-512.png"));
+  const logoSrc = `data:image/png;base64,${logo.toString("base64")}`;
   return new ImageResponse(
     <div
       style={{
@@ -55,6 +60,7 @@ export default function OG() {
           <span style={{ marginLeft: "auto" }}>wnsdlr.com</span>
         </div>
 
+        <div style={{ display: "flex", flex: 1 }}>
         <div style={{ display: "flex", flexDirection: "column", flex: 1, padding: "28px 40px", gap: 18 }}>
           <div style={{ display: "flex", fontSize: 26, color: MUTED }}>
             <span style={{ color: GREEN }}>junik@homeserver</span>:<span style={{ color: CYAN }}>~/whoami</span>$&nbsp;whoami
@@ -72,6 +78,18 @@ export default function OG() {
           <div style={{ display: "flex", marginTop: "auto", fontSize: 24, color: MUTED }}>
             기술의 가치는 사람이 할 수 있는 일을 넓히는 데 있다고 믿습니다.
           </div>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: 340,
+            borderLeft: `1px solid ${LINE}`,
+          }}
+        >
+          <img src={logoSrc} alt="" width={280} height={280} style={{ width: 280, height: 280 }} />
+        </div>
         </div>
       </div>
     </div>,

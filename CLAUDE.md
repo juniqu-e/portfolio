@@ -4,7 +4,7 @@
 
 ## Project
 
-**wnsdlr.com** — 이준익 (Lee Junik) 개인 포트폴리오. **인프라 엔지니어(서버·클라우드) 구직 목적** (2026-10-12 개편. 이전: DevOps / Platform Engineer). **2026-10-14부터 메인(`/`)은 터미널 스토리 페이지**(`components/story/*`, 콘텐츠 정본 CONTENT.md §"메인 = 터미널 스토리"). 구 섹션형(`components/sections/*`)은 미사용. 커밋은 `git add <경로>`로 — 다른 에이전트의 작업 중 파일을 쓸어 담지 않는다.
+**wnsdlr.com** — 이준익 (Lee Junik) 개인 포트폴리오. **인프라 엔지니어(서버·클라우드) 구직 목적** (2026-10-12 개편. 이전: DevOps / Platform Engineer). **2026-10-14부터 메인(`/`)은 터미널 스토리 페이지**(`components/story/*`, 콘텐츠 정본 CONTENT.md §"메인 = 터미널 스토리"). 구 섹션형(`components/sections/*`)은 미사용. 커밋은 `git add <경로>`로 — 다른 에이전트의 작업 중 파일을 쓸어 담지 않는다. **로고 = `public/brand/logo.png`(블랙레터 LJI 모노그램, 2026-10-14 확정)** — 탭 아이콘은 크롭 `mark.png`. 임의 재디자인 금지(CONTENT.md §브랜드).
 
 **모토 (2026-10-14 확정)**: 기술 — "기술의 가치는 사람이 할 수 있는 일을 넓히는 데 있다." · 삶 — "미래를 바꾸려면, 변화의 대가도 선택해야 한다." (본인 문장, 인용 아님. 옛 try/catch/finally 모토는 2026-10-12 폐기)
 

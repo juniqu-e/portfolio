@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, useScroll, useSpring } from "motion/react";
 
 // 화면 테두리 고정 UI — 상단 프롬프트·상태, 하단 스크롤 진행도. 참고 사이트의 Chrome/Nav 대응.
@@ -36,9 +37,23 @@ export function Chrome() {
   return (
     <>
       <header className="pointer-events-none fixed inset-x-0 top-0 z-40 flex items-center justify-between bg-gradient-to-b from-term-bg via-term-bg/80 to-transparent px-4 pb-6 pt-3 font-mono text-[11px] text-term-muted sm:px-6 sm:text-xs">
-        <Link href="#top" className="pointer-events-auto transition-colors hover:text-term-green">
-          <span className="text-term-green">junik@homeserver</span>:
-          <span className="text-term-cyan">~/whoami</span>$
+        <Link
+          href="#top"
+          className="pointer-events-auto flex items-center gap-2 transition-colors hover:text-term-green"
+        >
+          <Image
+            src="/brand/mark.png"
+            alt=""
+            width={18}
+            height={18}
+            unoptimized
+            priority
+            className="h-[18px] w-[18px] select-none"
+          />
+          <span>
+            <span className="text-term-green">junik@homeserver</span>:
+            <span className="text-term-cyan">~/whoami</span>$
+          </span>
         </Link>
         <p className="flex items-center gap-3">
           <span className="hidden tabular-nums sm:inline">{clock ?? "--:--:--"} KST</span>
