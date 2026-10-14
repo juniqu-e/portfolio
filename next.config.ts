@@ -9,6 +9,10 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ["@phosphor-icons/react", "motion"],
   },
+  // 구 /story 링크 — 메인으로 (2026-10-14)
+  async redirects() {
+    return [{ source: "/story", destination: "/", permanent: true }];
+  },
 };
 
 export default nextConfig;

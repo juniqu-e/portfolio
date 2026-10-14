@@ -11,7 +11,8 @@ export const metadata: Metadata = {
     default: "이준익 / Lee Junik — Infrastructure Engineer",
     template: "%s · 이준익 (Lee Junik)",
   },
-  description: "리눅스 홈서버 운영 · 서버 · 클라우드 — 이준익의 인프라 엔지니어 포트폴리오.",
+  description:
+    "서버 · 클라우드 인프라 엔지니어 이준익의 포트폴리오 — 기술과 삶의 철학, 2024년부터의 타임라인, 홈서버에서 운영 중인 서비스.",
   keywords: [
     "이준익",
     "Lee Junik",
@@ -46,7 +47,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#FFFFFF",
+  themeColor: "#0A0D0B",
   width: "device-width",
   initialScale: 1,
 };

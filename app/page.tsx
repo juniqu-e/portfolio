@@ -1,33 +1,6 @@
-import { About } from "@/components/sections/About";
-import { Awards } from "@/components/sections/Awards";
-import { Certifications } from "@/components/sections/Certifications";
-import { Contact } from "@/components/sections/Contact";
-import { Education } from "@/components/sections/Education";
-import { Experience } from "@/components/sections/Experience";
-import { Footer } from "@/components/sections/Footer";
-import { Guestbook } from "@/components/sections/Guestbook";
-import { Header } from "@/components/sections/Header";
-import { Hero } from "@/components/sections/Hero";
-import { Projects } from "@/components/sections/Projects";
-import { TechStack } from "@/components/sections/TechStack";
+import { StoryPage } from "@/components/story/StoryPage";
 
+// 2026-10-14 — 터미널 스토리 페이지(구 /story)가 메인이 됐다. 이전 섹션형 메인(components/sections/*)은 리빌드 참고용으로만 남긴다.
 export default function HomePage() {
-  return (
-    <>
-      <Header />
-      <main id="main">
-        <Hero />
-        <About />
-        <TechStack />
-        <Experience />
-        <Projects />
-        <Awards />
-        <Education />
-        <Certifications />
-        <Guestbook />
-        <Contact />
-      </main>
-      <Footer />
-    </>
-  );
+  return <StoryPage />;
 }

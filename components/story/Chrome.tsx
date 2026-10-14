@@ -36,7 +36,7 @@ export function Chrome() {
   return (
     <>
       <header className="pointer-events-none fixed inset-x-0 top-0 z-40 flex items-center justify-between bg-gradient-to-b from-term-bg via-term-bg/80 to-transparent px-4 pb-6 pt-3 font-mono text-[11px] text-term-muted sm:px-6 sm:text-xs">
-        <Link href="/" className="pointer-events-auto transition-colors hover:text-term-green">
+        <Link href="#top" className="pointer-events-auto transition-colors hover:text-term-green">
           <span className="text-term-green">junik@homeserver</span>:
           <span className="text-term-cyan">~/whoami</span>$
         </Link>
@@ -57,7 +57,7 @@ export function Chrome() {
         <div className="h-px flex-1 bg-term-line">
           <motion.div className="h-px origin-left bg-term-green" style={{ scaleX: bar }} />
         </div>
-        <Link href="/" className="pointer-events-auto transition-colors hover:text-term-green">
+        <Link href="#top" className="pointer-events-auto transition-colors hover:text-term-green">
           cd ~
         </Link>
       </div>

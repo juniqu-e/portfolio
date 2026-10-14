@@ -12,6 +12,11 @@ Phase는 [ROADMAP.md](./ROADMAP.md)와 매칭되며, 머지 직후 commit hash�
 
 ### Changed
 
+- **Phase 16 — 터미널 스토리 페이지가 메인(`/`)으로** _(2026-10-14)_
+  - `app/page.tsx` → `StoryPage`. `app/story` 라우트 삭제, `next.config.ts`에 `/story → /` 301. 루트 메타데이터 적용(색인 허용), `themeColor` 다크, description 갱신
+  - `PhilosophyFilm`(철학 영상) 메인에서 제외 — d87e60d에 다른 에이전트의 작업 중 파일이 섞여 들어갔던 것을 되돌림. 컴포넌트·`public/media/philosophy/`는 유지(미사용)
+  - 구 섹션형 메인 `components/sections/*`는 미사용 상태로 유지(리빌드 참고)
+
 - **Phase 15.7 — 터미널 정리** _(2026-10-14)_
   - 배너에서 motto 줄 삭제(name · role만) · `ls` 설명: philosophy/ "기술과 삶의 철학", certifications/ "자격증" · `philosophy.md` 삭제 · `cat README.md`(또는 `open`)는 GitHub 프로필 README를 새 탭으로
 

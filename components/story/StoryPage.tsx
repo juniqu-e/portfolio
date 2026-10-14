@@ -10,7 +10,6 @@ import { Chrome } from "./Chrome";
 import { Hero } from "./Hero";
 import { Contact, Credits } from "./Outro";
 import { Philosophy } from "./Philosophy";
-import { PhilosophyFilm } from "./PhilosophyFilm";
 import { Guestbook } from "./Guestbook";
 import { TerminalWindow } from "./TerminalWindow";
 import { Timeline } from "./Timeline";
@@ -42,14 +41,13 @@ export function StoryPage() {
       <noscript>
         <style>{"#boot{display:none}"}</style>
       </noscript>
-      <div className="relative min-h-svh bg-term-bg text-term-ink selection:bg-term-green selection:text-term-bg">
+      <div id="top" className="relative min-h-svh bg-term-bg text-term-ink selection:bg-term-green selection:text-term-bg">
         <Boot onDone={onBooted} />
         <Backdrop />
         <Chrome />
         <TerminalWindow />
         <main id="main" className="relative z-10">
           <Hero ready={ready} />
-          <PhilosophyFilm />
           <Philosophy />
           <Timeline />
           <Certifications />
