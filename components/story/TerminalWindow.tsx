@@ -11,17 +11,23 @@ const KEY = "story-term-open";
 
 export function TerminalWindow() {
   const [open, setOpen] = useState<boolean | null>(null);
+  const [fresh, setFresh] = useState(false);
   const boundsRef = useRef<HTMLDivElement>(null);
   const controls = useDragControls();
 
-  // 첫 상태: 데스크톱은 펼침, 모바일은 접힘. 같은 탭에서는 마지막 상태 유지.
+  // 첫 상태: 접힘 (2026-10-14 결정 — 콘텐츠를 가리지 않게). 같은 탭에서는 마지막 상태 유지.
   useEffect(() => {
-    let initial = window.innerWidth >= 768;
+    let initial = false;
+    let seen = false;
     try {
       const v = sessionStorage.getItem(KEY);
-      if (v !== null) initial = v === "1";
+      if (v !== null) {
+        initial = v === "1";
+        seen = true;
+      }
     } catch {}
     setOpen(initial);
+    setFresh(!seen);
   }, []);
   useEffect(() => {
     if (open === null) return;
@@ -102,10 +108,11 @@ export function TerminalWindow() {
         aria-label="터미널 열기"
         className={`fixed bottom-14 right-2 z-50 flex items-center gap-2 border border-term-line bg-term-panel px-3 py-2 font-mono text-xs text-term-muted transition-colors duration-200 ease-out hover:border-term-green hover:text-term-green sm:right-4 ${
           open ? "pointer-events-none invisible" : ""
-        }`}
+        } ${fresh && !open ? "story-attn border-term-green/60" : ""}`}
       >
         <span className="text-term-green">{PROMPT}</span>
         <span className="story-cursor inline-block h-3.5 w-2 bg-term-green" />
+        <span className="ml-1 hidden text-term-dim sm:inline">terminal</span>
       </button>
     </>
   );

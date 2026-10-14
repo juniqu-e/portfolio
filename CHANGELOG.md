@@ -10,7 +10,16 @@ Phase는 [ROADMAP.md](./ROADMAP.md)와 매칭되며, 머지 직후 commit hash�
 
 ## [Unreleased]
 
+### Fixed
+
+- **Phase 15.5 — 전광판이 데스크톱에서 멈추고 모바일에서 너무 빠르던 문제** _(2026-10-14)_
+  - 원인: CSS `animation` 마퀴 — OS "동작 줄이기"가 켜진 환경에서 globals의 reduced-motion 규칙이 애니메이션을 끄고, 속도가 트랙 길이에 비례해 화면마다 달랐다
+  - 조치: `Marquee.tsx` — Motion `useAnimationFrame`으로 60px/s 일정 속도, 첫 span 너비에서 wrap. CSS 키프레임 제거
+
 ### Changed
+
+- **Phase 15.5 — 터미널 처음엔 접힘 + 힌트** _(2026-10-14)_
+  - 첫 방문은 접힌 알약 상태(이전: 데스크톱 펼침). 알약에 `terminal` 라벨 + 3회 테두리 강조, 히어로에 프롬프트 힌트 줄(`$ help` 커서, ls · cd story · cd philosophy)과 백틱 안내
 
 - **Phase 15.4 — 터미널을 떠 있는 창으로** _(2026-10-14)_
   - `TerminalWindow.tsx`: 페이지 어디서든 z-50에 고정, 머리띠를 잡아 드래그(Motion `useDragControls`, 상·하단 바 사이로 제한), 접기(알약) · 백틱 토글 · Esc, 상태는 sessionStorage. 데스크톱 기본 펼침 / 모바일 기본 접힘

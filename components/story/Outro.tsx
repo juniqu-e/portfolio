@@ -1,5 +1,6 @@
 import { CONTACT_LINKS } from "@/content/contact";
 import { MARQUEE } from "./data";
+import { Marquee } from "./Marquee";
 import { Reveal, SectionHead } from "./Reveal";
 
 // 참고 사이트의 RSVP · Credits 대응 — 연락처, 이 사이트가 도는 경로, 흐르는 감사 문구.
@@ -35,18 +36,9 @@ export function Contact() {
 }
 
 export function Credits() {
-  const text = MARQUEE.repeat(4);
   return (
     <footer className="relative pb-20 pt-16">
-      <div
-        aria-hidden="true"
-        className="overflow-hidden border-y border-term-line bg-term-bg py-4 [mask-image:linear-gradient(90deg,transparent,black_8%,black_92%,transparent)]"
-      >
-        <div className="story-marquee flex w-max whitespace-nowrap font-mono text-2xl font-bold uppercase tracking-[0.25em] text-term-green sm:text-4xl">
-          <span className="pr-10">{text}</span>
-          <span className="pr-10">{text}</span>
-        </div>
-      </div>
+      <Marquee text={MARQUEE.repeat(3)} />
       <dl className="mx-auto mt-12 grid max-w-5xl gap-6 px-4 font-mono text-xs text-term-muted sm:grid-cols-3 sm:px-8">
         <div>
           <dt className="text-term-dim">served from</dt>

@@ -56,14 +56,17 @@
 .story-orb-2 {
   animation: story-drift 24s ease-in-out infinite reverse;
 }
-@keyframes story-marquee {
-  to {
-    transform: translate3d(-50%, 0, 0);
+/* 접힌 터미널 알약 — 처음 방문에서 3번만 테두리가 번진다 */
+@keyframes story-attn {
+  0% {
+    box-shadow: 0 0 0 0 rgba(92, 240, 138, 0.55);
+  }
+  100% {
+    box-shadow: 0 0 0 14px rgba(92, 240, 138, 0);
   }
 }
-.story-marquee {
-  animation: story-marquee 14s linear infinite;
-  will-change: transform;
+.story-attn {
+  animation: story-attn 1.6s ease-out 3;
 }
 @keyframes story-blink {
   0%,

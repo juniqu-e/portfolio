@@ -48,12 +48,27 @@ export function Hero({ ready }: { ready: boolean }) {
         ))}
       </div>
 
+      <motion.p
+        initial="off"
+        animate={state}
+        variants={{
+          off: { opacity: 0 },
+          on: { opacity: 1, transition: { duration: 0.6, delay: 0.7 } },
+        }}
+        className="mt-6 font-mono text-xs text-term-muted sm:text-sm"
+      >
+        <span className="text-term-green">junik@homeserver</span>:<span className="text-term-cyan">~/whoami</span>${" "}
+        <span className="text-term-ink">help</span>
+        <span className="story-cursor ml-1 inline-block h-3.5 w-2 translate-y-0.5 bg-term-green" />
+        <span className="ml-3 text-term-dim">— 이 페이지는 터미널로 돌아다닐 수 있습니다: ls · cd story · cd philosophy</span>
+      </motion.p>
+
       <motion.div
         initial="off"
         animate={state}
         variants={{
           off: { opacity: 0, y: 16 },
-          on: { opacity: 1, y: 0, transition: { duration: 0.8, ease: EASE, delay: 0.75 } },
+          on: { opacity: 1, y: 0, transition: { duration: 0.8, ease: EASE, delay: 0.85 } },
         }}
         className="mt-6 grid gap-6 border-t border-term-line pt-5 font-mono sm:grid-cols-3 sm:items-end"
       >
@@ -73,7 +88,8 @@ export function Hero({ ready }: { ready: boolean }) {
             <span className="text-term-green">$</span> open terminal
           </button>
           <span className="block pt-1 text-xs text-term-dim">
-            help · ls · cd story — 창은 끌어서 옮길 수 있습니다
+            오른쪽 아래 <span className="text-term-green">$ _</span> 에 터미널이 접혀 있습니다 · 키보드{" "}
+            <kbd className="border border-term-line px-1 text-term-muted">`</kbd> 로도 열립니다
           </span>
         </p>
       </motion.div>
