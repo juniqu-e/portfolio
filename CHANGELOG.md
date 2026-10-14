@@ -12,6 +12,10 @@ Phase는 [ROADMAP.md](./ROADMAP.md)와 매칭되며, 머지 직후 commit hash�
 
 ### Changed
 
+- **Phase 16.1 — 파비콘 · Apple 아이콘 · OG 카드를 터미널 톤으로** _(2026-10-14)_
+  - `app/icon.tsx`: 흰 바탕 "L" → 검은 바탕(#0A0D0B) 초록 `$` + 커서 블록. `app/apple-icon.tsx`(180px) 신설
+  - `app/opengraph-image.tsx`: 라이트 카드 → 터미널 창 구성(프롬프트 · INFRA · lee junik · 기술 모토 한 줄)
+
 - **Phase 16 — 터미널 스토리 페이지가 메인(`/`)으로** _(2026-10-14)_
   - `app/page.tsx` → `StoryPage`. `app/story` 라우트 삭제, `next.config.ts`에 `/story → /` 301. 루트 메타데이터 적용(색인 허용), `themeColor` 다크, description 갱신
   - `PhilosophyFilm`(철학 영상) 메인에서 제외 — d87e60d에 다른 에이전트의 작업 중 파일이 섞여 들어갔던 것을 되돌림. 컴포넌트·`public/media/philosophy/`는 유지(미사용)
