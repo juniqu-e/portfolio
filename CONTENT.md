@@ -130,7 +130,24 @@ SSAFY 12기 수료 후 두 기수를 연속으로 지원했습니다. 교육생 
 
 ### 구성 (`/story`)
 
-부팅 → INFRA 히어로(기술 모토 한 줄) → `cat ~/philosophy.md` 3장면 → `less ~/story.md` 3절 → whoami(motto 행) → journalctl 타임라인 → systemctl status → docker ps → contact → credits. `noindex` 유지.
+부팅 → INFRA 히어로(기술 모토 한 줄) → `cat ~/philosophy.md` 3장면 → `less ~/story.md` 3절 → whoami(motto 행) → journalctl 타임라인 10장(**카드 클릭 → 상세 모달**) → guestbook → contact → credits. `noindex` 유지. (2026-10-14 개편: "now(systemctl status)"·"running(docker ps)" 섹션 삭제, 방명록을 /story에 추가, 연락처를 마지막으로.)
+
+### 타임라인 10장 (`components/story/data.ts` — 2026-10-14 확정 순서)
+
+| # | 날짜 | 카드 | 상세의 출처 |
+|---|---|---|---|
+| 1 | 2024.07 | SSAFY 12기 입과 | 교육 내용 · CI/CD · 협업 (education.ts와 같은 사실, "비전공" 표현 없음) |
+| 2 | 2025.01 | PADING | `projects.ts` slug `pading` 그대로 |
+| 3 | 2025.03 | WhistleHub | `whistlehub` + 담당 표 덮어쓰기 |
+| 4 | 2025.04 | Amoverse (À moi) | `amoverse` + 역할 덮어쓰기 — **"모바일 3명 중 아키텍처 설계·디자인 패턴·핵심 기능 주도 (공식 직함 없음)"** (2026-10-14 사용자 확인. `projects.ts`의 "모바일 팀장"은 메인 리빌드 때 함께 고친다) |
+| 5 | 2025.06 | SSAFY 수료 → 실습코치 | experience.ts와 같은 사실 + EKS 개선안 9건 |
+| 6 | 2025.10 | 홈서버 가동 | `homeserver` + **실행 중 서비스 목록** (`HOMESERVER_SERVICES`, 2026-10-14 `docker ps` 27개 기준). 관리 도구(프록시·Portainer·Jenkins·웹 SSH 등)는 **이름만, 주소 없음** |
+| 7 | 2026.08 | AI 지식관리 워크스테이션 구축 | `ai-knowledge-workstation` + "기록이 귀찮아서 만든 시스템" 서술 |
+| 8 | 2026.09 | 정보처리기사 | 실기 낙방 → 오답 유형 기록 → 합격. 횟수·점수는 적지 않는다 |
+| 9 | 2026.10 | CCNA · ccna.wnsdlr.com | `ccna-quiz` 그대로 + 취득일 10/02 |
+| 10 | 2026.11 | VMware VCP 준비 | 가상화 구간 10/13 시작 · 서버 → 클라우드 → 플랫폼 방향 |
+
+> 서비스 목록은 정적 스냅샷이다. 컨테이너가 바뀌면 `HOMESERVER_SERVICES.asOf`와 목록을 같이 고친다. 방명록은 메인과 같은 `/api/guestbook`을 쓰고 `GuestbookForm`·`GuestbookList`의 `tone="term"`으로만 다르다.
 
 ### philosophy.md — 3장면
 

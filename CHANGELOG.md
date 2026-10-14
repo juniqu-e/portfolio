@@ -12,6 +12,14 @@ Phase는 [ROADMAP.md](./ROADMAP.md)와 매칭되며, 머지 직후 commit hash�
 
 ### Changed
 
+- **Phase 15.2 — /story 타임라인 10장 · 카드 상세 모달 · 방명록** _(2026-10-14)_
+  - 타임라인을 10장으로 재구성: SSAFY 입과 → PADING → WhistleHub → Amoverse(À moi) → 실습코치 → 홈서버 → AI 지식관리 워크스테이션 → 정보처리기사 → CCNA·ccna.wnsdlr.com → VCP 준비
+  - 카드 클릭 → `ChapterModal`(터미널 톤 native dialog). 프로젝트 카드는 `content/projects.ts`를 slug로 끌어와 summary · what i did · metrics · stack · 링크를 그대로 보여 주고, 장별 덮어쓰기(`Chapter.detail`) 가능
+  - 홈서버 카드에 **실행 중 서비스 목록**(2026-10-14 `docker ps` 27개, 4그룹) — 공개 주소는 사용자용 서비스만, 관리 도구는 이름만
+  - "now(systemctl status)" · "running(docker ps)" 섹션 삭제(`Status.tsx` 제거). 방명록 섹션을 /story에 추가하고 연락처를 마지막으로
+  - `GuestbookForm` · `GuestbookList`에 `tone` prop("light" 기본 · "term") — 메인 페이지 모양은 그대로
+  - 타임라인 높이 55→45svh/장, 모달 안은 `data-lenis-prevent`로 네이티브 스크롤
+
 - **Phase 15.1 — /story 두 철학 반영** _(2026-10-14)_
   - 모토 확정: 기술 "기술의 가치는 사람이 할 수 있는 일을 넓히는 데 있다." · 삶 "미래를 바꾸려면, 변화의 대가도 선택해야 한다." (`content/story.ts` 신설, CONTENT.md §"/story — 두 철학")
   - `Philosophy`: About 4문단 공유 → 두 모토 + 연결 3장면으로 교체 (label tech/life/link)

@@ -12,11 +12,51 @@ type SubmitState =
 const BODY_MAX = 100;
 const NAME_MAX = 20;
 
+export type GuestbookTone = "light" | "term";
+
 type Props = {
   onSubmitted?: () => void;
+  /** "term" = /story 터미널 테마. 기본은 메인 페이지의 라이트 톤 */
+  tone?: GuestbookTone;
 };
 
-export function GuestbookForm({ onSubmitted }: Props) {
+const FORM_STYLES = {
+  light: {
+    form: "flex flex-col gap-4 rounded-lg border border-line bg-page p-5 sm:p-6",
+    label: "text-xs font-medium text-muted",
+    hint: "font-mono text-subtle",
+    required: "text-accent-pink",
+    input:
+      "rounded border border-line bg-page px-3 py-2 text-sm text-ink transition-colors duration-200 ease-out placeholder:text-subtle hover:border-line-strong focus-visible:border-accent-blue",
+    textarea:
+      "resize-none rounded border border-line bg-page px-3 py-2 text-sm leading-relaxed text-ink transition-colors duration-200 ease-out placeholder:text-subtle hover:border-line-strong focus-visible:border-accent-blue",
+    counter: "self-end font-mono text-xs text-subtle",
+    counterDanger: "self-end font-mono text-xs text-accent-pink",
+    button:
+      "inline-flex min-h-9 items-center justify-center rounded bg-ink px-4 py-2 text-sm font-medium text-page transition-colors duration-200 ease-out hover:bg-ink/85 focus-visible:bg-ink/85 disabled:cursor-not-allowed disabled:bg-subtle",
+    ok: "text-xs text-accent-blue",
+    bad: "text-xs text-accent-pink",
+  },
+  term: {
+    form: "flex flex-col gap-4 border border-term-line bg-term-panel/60 p-5 font-mono sm:p-6",
+    label: "text-xs text-term-muted",
+    hint: "text-term-dim",
+    required: "text-term-amber",
+    input:
+      "border border-term-line bg-term-bg px-3 py-2 text-sm text-term-ink transition-colors duration-200 ease-out placeholder:text-term-dim hover:border-term-muted focus-visible:border-term-green focus-visible:outline-none",
+    textarea:
+      "resize-none border border-term-line bg-term-bg px-3 py-2 text-sm leading-relaxed text-term-ink transition-colors duration-200 ease-out placeholder:text-term-dim hover:border-term-muted focus-visible:border-term-green focus-visible:outline-none",
+    counter: "self-end text-xs text-term-dim",
+    counterDanger: "self-end text-xs text-term-amber",
+    button:
+      "inline-flex min-h-9 items-center justify-center border border-term-green px-4 py-2 text-sm text-term-green transition-colors duration-200 ease-out hover:bg-term-green hover:text-term-bg focus-visible:bg-term-green focus-visible:text-term-bg disabled:cursor-not-allowed disabled:border-term-line disabled:text-term-dim disabled:hover:bg-transparent",
+    ok: "text-xs text-term-green",
+    bad: "text-xs text-term-amber",
+  },
+} as const;
+
+export function GuestbookForm({ onSubmitted, tone = "light" }: Props) {
+  const st = FORM_STYLES[tone];
   const nameId = useId();
   const bodyId = useId();
   const counterId = useId();
@@ -84,11 +124,11 @@ export function GuestbookForm({ onSubmitted }: Props) {
     <form
       onSubmit={handleSubmit}
       noValidate
-      className="flex flex-col gap-4 rounded-lg border border-line bg-page p-5 sm:p-6"
+      className={st.form}
     >
       <div className="flex flex-col gap-1.5">
-        <label htmlFor={nameId} className="text-xs font-medium text-muted">
-          이름 <span className="font-mono text-subtle">(선택)</span>
+        <label htmlFor={nameId} className={st.label}>
+          이름 <span className={st.hint}>(선택)</span>
         </label>
         <input
           id={nameId}
@@ -98,13 +138,13 @@ export function GuestbookForm({ onSubmitted }: Props) {
           maxLength={NAME_MAX}
           placeholder="익명도 OK"
           autoComplete="off"
-          className="rounded border border-line bg-page px-3 py-2 text-sm text-ink transition-colors duration-200 ease-out placeholder:text-subtle hover:border-line-strong focus-visible:border-accent-blue"
+          className={st.input}
         />
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <label htmlFor={bodyId} className="text-xs font-medium text-muted">
-          한 줄 메시지 <span className="text-accent-pink">*</span>
+        <label htmlFor={bodyId} className={st.label}>
+          한 줄 메시지 <span className={st.required}>*</span>
         </label>
         <textarea
           id={bodyId}
@@ -115,16 +155,12 @@ export function GuestbookForm({ onSubmitted }: Props) {
           rows={3}
           placeholder="응원의 한 줄을 남겨주세요"
           aria-describedby={counterId}
-          className="resize-none rounded border border-line bg-page px-3 py-2 text-sm leading-relaxed text-ink transition-colors duration-200 ease-out placeholder:text-subtle hover:border-line-strong focus-visible:border-accent-blue"
+          className={st.textarea}
         />
         <p
           id={counterId}
           aria-live="polite"
-          className={
-            counterDanger
-              ? "self-end font-mono text-xs text-accent-pink"
-              : "self-end font-mono text-xs text-subtle"
-          }
+          className={counterDanger ? st.counterDanger : st.counter}
         >
           {body.length}/{BODY_MAX}
         </p>
@@ -147,11 +183,11 @@ export function GuestbookForm({ onSubmitted }: Props) {
       </div>
 
       <div className="flex items-center justify-between gap-3">
-        <FeedbackMessage state={state} />
+        <FeedbackMessage state={state} ok={st.ok} bad={st.bad} />
         <button
           type="submit"
           disabled={disabled}
-          className="inline-flex min-h-9 items-center justify-center rounded bg-ink px-4 py-2 text-sm font-medium text-page transition-colors duration-200 ease-out hover:bg-ink/85 focus-visible:bg-ink/85 disabled:cursor-not-allowed disabled:bg-subtle"
+          className={st.button}
         >
           {state.kind === "submitting" ? "전송 중…" : "남기기"}
         </button>
@@ -160,26 +196,26 @@ export function GuestbookForm({ onSubmitted }: Props) {
   );
 }
 
-function FeedbackMessage({ state }: { state: SubmitState }) {
+function FeedbackMessage({ state, ok, bad }: { state: SubmitState; ok: string; bad: string }) {
   if (state.kind === "idle" || state.kind === "submitting") {
     return <span className="sr-only">대기 중</span>;
   }
   if (state.kind === "success") {
     return (
-      <p role="status" className="text-xs text-accent-blue">
+      <p role="status" className={ok}>
         {state.message}
       </p>
     );
   }
   if (state.kind === "rate-limited") {
     return (
-      <p role="status" className="text-xs text-accent-pink">
+      <p role="status" className={bad}>
         잠시 후 다시 시도해주세요.
       </p>
     );
   }
   return (
-    <p role="alert" className="text-xs text-accent-pink">
+    <p role="alert" className={bad}>
       {state.message}
     </p>
   );
