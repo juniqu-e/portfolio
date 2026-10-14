@@ -4,8 +4,9 @@ import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import { MOTTOS } from "@/content/story";
 import { CAREER_START } from "./data";
 import { scrollToSection } from "./lenis";
+import { terminalBus } from "./terminal-bus";
 
-// 히어로의 진짜(흉내) 터미널 — 몇 가지 명령을 받고, `cd <섹션>` 으로 페이지를 이동한다.
+// 떠 있는 창 안의 터미널 본체 — 몇 가지 명령을 받고, `cd <섹션>` 으로 페이지를 이동한다. 창(머리띠·드래그)은 TerminalWindow.
 export const PROMPT = "junik@homeserver:~/whoami$";
 
 type Line = { kind: "in" | "out" | "ok" | "err" | "dim"; text: string };
@@ -36,7 +37,7 @@ const BANNER: Line[] = [
   { kind: "out", text: "name    이준익 (Lee Junik)" },
   { kind: "out", text: "role    Infrastructure Engineer — 서버 · 클라우드" },
   { kind: "out", text: `motto   ${MOTTOS.tech}` },
-  { kind: "dim", text: "type `help` · `ls` 로 둘러보기 · `cd story` 로 시작" },
+  { kind: "dim", text: "type `help` · `ls` 로 둘러보기 · `cd story` 로 시작 · 이 창은 끌어서 옮길 수 있습니다" },
 ];
 
 function run(raw: string): { lines: Line[]; clear?: boolean } {
@@ -139,7 +140,7 @@ const LINE_COLOR: Record<Line["kind"], string> = {
 
 const QUICK = ["help", "ls", "cd philosophy", "cd story", "cd whoami", "cd contact"];
 
-export function Terminal() {
+export function Terminal({ active = true }: { active?: boolean }) {
   const [lines, setLines] = useState<Line[]>(BANNER);
   const [value, setValue] = useState("");
   const [history, setHistory] = useState<string[]>([]);
@@ -151,6 +152,11 @@ export function Terminal() {
     const el = bodyRef.current;
     if (el) el.scrollTop = el.scrollHeight;
   }, [lines]);
+
+  // 창이 펼쳐질 때 입력에 포커스 — 모바일은 키보드가 튀어 오르므로 제외
+  useEffect(() => {
+    if (active && window.innerWidth >= 768) inputRef.current?.focus({ preventScroll: true });
+  }, [active]);
 
   const submit = (raw: string) => {
     const { lines: out, clear } = run(raw);
@@ -180,27 +186,25 @@ export function Terminal() {
     } else if (e.key === "l" && e.ctrlKey) {
       e.preventDefault();
       setLines([]);
+    } else if (e.key === "Escape") {
+      e.preventDefault();
+      inputRef.current?.blur();
+      terminalBus.close?.();
     }
   };
 
   return (
     <div
-      className="border border-term-line bg-term-panel/80 font-mono text-[13px] leading-6 sm:text-sm"
+      className="font-mono text-[13px] leading-6 sm:text-sm"
       onClick={() => inputRef.current?.focus()}
     >
-      <div className="flex items-center gap-2 border-b border-term-line px-3 py-2 text-xs text-term-dim">
-        <span className="h-2.5 w-2.5 rounded-full bg-term-red/70" />
-        <span className="h-2.5 w-2.5 rounded-full bg-term-amber/70" />
-        <span className="h-2.5 w-2.5 rounded-full bg-term-green/70" />
-        <span className="ml-2 truncate">{PROMPT.replace("$", "")} — bash</span>
-      </div>
 
       <div
         ref={bodyRef}
         data-lenis-prevent
         role="log"
         aria-live="polite"
-        className="max-h-[38svh] min-h-[11rem] overflow-y-auto px-3 py-3 sm:px-4"
+        className="max-h-[32svh] min-h-[9rem] overflow-y-auto px-3 py-3 sm:max-h-[36svh] sm:px-4"
       >
         {lines.map((l, i) => (
           <p key={i} className={`whitespace-pre-wrap break-words ${LINE_COLOR[l.kind]}`}>

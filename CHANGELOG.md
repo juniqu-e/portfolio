@@ -12,6 +12,10 @@ Phase는 [ROADMAP.md](./ROADMAP.md)와 매칭되며, 머지 직후 commit hash�
 
 ### Changed
 
+- **Phase 15.4 — 터미널을 떠 있는 창으로** _(2026-10-14)_
+  - `TerminalWindow.tsx`: 페이지 어디서든 z-50에 고정, 머리띠를 잡아 드래그(Motion `useDragControls`, 상·하단 바 사이로 제한), 접기(알약) · 백틱 토글 · Esc, 상태는 sessionStorage. 데스크톱 기본 펼침 / 모바일 기본 접힘
+  - 히어로는 INFRA + 이름·기간 요약 + "open terminal" 버튼(`terminal-bus.ts`)
+
 - **Phase 15.3 — /story 터미널 히어로 · 어조 · 구성 정리** _(2026-10-14)_
   - 히어로에 **입력 가능한 터미널**(`Terminal.tsx`): `help` `ls` `cd <섹션>` `cat` `pwd` `whoami` `uptime` `clear`, Tab 자동완성 · ↑↓ 이력 · 빠른 명령 칩. `cd story` 등은 공유 Lenis 인스턴스(`lenis.ts`)로 스크롤
   - 철학 2장면(03 link 삭제), 모토·본문을 "~라고 믿습니다 / 생각합니다" 어조로. `story.md` 절(`Story.tsx`) 삭제

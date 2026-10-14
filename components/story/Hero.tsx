@@ -1,9 +1,9 @@
 "use client";
 
 import { motion } from "motion/react";
-import { Terminal } from "./Terminal";
+import { terminalBus } from "./terminal-bus";
 
-// 메인 화면 — INFRA 대형 글자 + 실제로 명령을 칠 수 있는 터미널.
+// 메인 화면 — INFRA 대형 글자. 터미널은 페이지 어디서든 떠 있는 창(TerminalWindow)이다.
 const WORD = "INFRA".split("");
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -55,9 +55,27 @@ export function Hero({ ready }: { ready: boolean }) {
           off: { opacity: 0, y: 16 },
           on: { opacity: 1, y: 0, transition: { duration: 0.8, ease: EASE, delay: 0.75 } },
         }}
-        className="mt-8"
+        className="mt-6 grid gap-6 border-t border-term-line pt-5 font-mono sm:grid-cols-3 sm:items-end"
       >
-        <Terminal />
+        <p className="text-2xl font-bold text-term-ink sm:text-3xl">
+          lee <span className="text-term-green">junik</span>
+        </p>
+        <p className="text-sm text-term-muted sm:text-center">
+          <span className="text-term-ink">2024</span> → <span className="text-term-ink">2026</span>
+          <span className="block text-xs text-term-dim">서버 · 클라우드 — 인프라 엔지니어</span>
+        </p>
+        <p className="text-sm text-term-muted sm:text-right">
+          <button
+            type="button"
+            onClick={() => terminalBus.open?.()}
+            className="border border-term-line px-3 py-1.5 text-xs text-term-muted transition-colors duration-200 ease-out hover:border-term-green hover:text-term-green"
+          >
+            <span className="text-term-green">$</span> open terminal
+          </button>
+          <span className="block pt-1 text-xs text-term-dim">
+            help · ls · cd story — 창은 끌어서 옮길 수 있습니다
+          </span>
+        </p>
       </motion.div>
     </section>
   );
