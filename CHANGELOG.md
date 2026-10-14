@@ -10,7 +10,13 @@ Phase는 [ROADMAP.md](./ROADMAP.md)와 매칭되며, 머지 직후 commit hash�
 
 ## [Unreleased]
 
+### Removed
+
+- 사용자 요청으로 철학 영상 작업 취소 — 미사용 컴포넌트, MP4, 포스터와 제작 시안을 삭제.
+
 ### Changed
+
+- 파비콘을 검정·초록 터미널 프롬프트 `>_`로 정리. 폰트에 의존하지 않는 SVG, 16/32/48px ICO, 180px Apple 아이콘을 같은 디자인으로 제공.
 
 - **Phase 16.1 — 파비콘 · Apple 아이콘 · OG 카드를 터미널 톤으로** _(2026-10-14)_
   - `app/icon.tsx`: 흰 바탕 "L" → 검은 바탕(#0A0D0B) 초록 `$` + 커서 블록. `app/apple-icon.tsx`(180px) 신설
