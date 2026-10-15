@@ -84,7 +84,7 @@ export default async function OG() {
             }}
           />
           <span style={{ marginLeft: 10 }}>junik@homeserver: ~/whoami — bash</span>
-          <span style={{ marginLeft: "auto" }}>wnsdlr.com</span>
+          <span style={{ marginLeft: "auto" }}>leejunik.com</span>
         </div>
 
         <div style={{ display: "flex", flex: 1 }}>

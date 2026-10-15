@@ -3,7 +3,7 @@ import { jetBrainsMono, pretendard, schibstedGrotesk } from "./fonts";
 import { cn } from "@/lib/utils";
 import "./globals.css";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://wnsdlr.com";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://leejunik.com";
 const ICON_V = "lji2";
 
 export const metadata: Metadata = {
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "ko_KR",
     url: siteUrl,
-    siteName: "wnsdlr.com",
+    siteName: "leejunik.com",
     title: "이준익 / Lee Junik — Infrastructure Engineer",
     description: "이준익의 인프라 엔지니어(서버 · 클라우드) 포트폴리오.",
   },

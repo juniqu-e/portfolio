@@ -2,7 +2,7 @@
 // TELEGRAM_BOT_TOKEN · TELEGRAM_CHAT_ID 가 없으면 아무것도 안 한다. 실패해도 방명록 등록에는 영향 없음.
 // 버튼 응답은 app/api/telegram/webhook/route.ts 가 받는다.
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://wnsdlr.com";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://leejunik.com";
 
 export type GuestbookAction = "approve" | "reject";
 

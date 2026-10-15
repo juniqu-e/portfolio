@@ -85,7 +85,7 @@ export const HOMESERVER_SERVICES: NonNullable<ChapterDetail["services"]> = {
     {
       title: "직접 만든 것",
       items: [
-        { name: "portfolio", role: "이 사이트 (Next.js)", host: "wnsdlr.com", mine: true },
+        { name: "portfolio", role: "이 사이트 (Next.js)", host: "leejunik.com", mine: true },
         { name: "ccna-quiz", role: "CCNA 문제은행 · 동기 22명", host: "ccna.wnsdlr.com", mine: true },
         { name: "rapa-quiz", role: "수업 확인 문항 → 위키 역연결", host: "rapa.wnsdlr.com", mine: true },
         { name: "eip-quiz", role: "정보처리기사 문제 풀이", host: "eip.wnsdlr.com", mine: true },

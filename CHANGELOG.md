@@ -242,3 +242,9 @@ Phase는 [ROADMAP.md](./ROADMAP.md)와 매칭되며, 머지 직후 commit hash�
 - 파비콘: `app/{favicon.ico,icon.png,apple-icon.png}` → `public/` 로 옮기고 `metadata.icons` 에 `?v=lji2` 명시. 브라우저가 페이지별로 캐시한 옛 아이콘을 버리게 함. 로고 바꾸면 `ICON_V` 올릴 것.
 - 방명록 새 글 → 텔레그램 알림 (`lib/notify.ts`, `after()`로 응답 뒤 발송). `TELEGRAM_BOT_TOKEN`·`TELEGRAM_CHAT_ID` 없으면 동작 안 함.
 - 텔레그램 알림에 ✅ 승인 / 🚫 거절 버튼. `POST /api/telegram/webhook` (secret_token 헤더 + 본인 chat id 확인). 거절 = soft delete. 처리 후 메시지를 결과로 갱신하고 버튼 제거.
+
+## Phase 16.5 — 대표 주소 leejunik.com (2026-10-15)
+
+- 사이트 기본 URL(메타데이터 · OG · sitemap · robots · 텔레그램 링크) → `https://leejunik.com`.
+- `middleware.ts`: `wnsdlr.com` · `www.wnsdlr.com` · `www.leejunik.com` → `https://leejunik.com` + 같은 경로로 308. `*.wnsdlr.com` 하위 서비스는 그대로.
+- 텔레그램 웹훅 URL도 leejunik.com 으로 재등록.
