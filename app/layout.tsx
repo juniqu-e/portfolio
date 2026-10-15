@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import "./globals.css";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://wnsdlr.com";
+const ICON_V = "lji2";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -44,6 +45,16 @@ export const metadata: Metadata = {
     description: "이준익의 인프라 엔지니어(서버 · 클라우드) 포트폴리오.",
   },
   robots: { index: true, follow: true },
+  // 파일 규칙(app/icon.png) 대신 명시 + ?v= — 브라우저가 페이지별로 캐시한 옛 아이콘(/admin 등)을 버리게 한다.
+  // 로고를 바꾸면 ICON_V 를 올린다.
+  icons: {
+    icon: [
+      { url: `/favicon.ico?v=${ICON_V}`, sizes: "16x16 32x32 48x48" },
+      { url: `/icon.png?v=${ICON_V}`, type: "image/png", sizes: "32x32" },
+    ],
+    shortcut: `/favicon.ico?v=${ICON_V}`,
+    apple: { url: `/apple-icon.png?v=${ICON_V}`, sizes: "180x180" },
+  },
 };
 
 export const viewport: Viewport = {

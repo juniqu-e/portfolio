@@ -235,3 +235,9 @@ Phase는 [ROADMAP.md](./ROADMAP.md)와 매칭되며, 머지 직후 commit hash�
 
 - 확정한 두 모토(기술·삶)를 `/story`에 먼저 반영: 히어로 모토 줄, `philosophy.md` 3장면, `story.md` 3절, whoami motto 행. 콘텐츠 정본 `content/story.ts` ← CONTENT.md §"/story — 두 철학" ← 볼트 `30-Output/나의 철학 — 두 문장.md`.
 - 다음 결정: 메인(`/`) Hero에 모토 노출 여부 · `/story` `noindex` 해제 시점 · story 서사(타임라인 이전 시기 포함 여부)는 추후.
+
+## Phase 16.4 — /admin 터미널 톤 · 파비콘 버전 고정 · 방명록 텔레그램 알림 (2026-10-15)
+
+- `/admin`, `/admin/login`: 메인과 같은 `term.*` 색, 로고 + `junik@homeserver:~/admin$` 프롬프트 머리(`components/admin/AdminHeader.tsx`), 각진 테두리.
+- 파비콘: `app/{favicon.ico,icon.png,apple-icon.png}` → `public/` 로 옮기고 `metadata.icons` 에 `?v=lji2` 명시. 브라우저가 페이지별로 캐시한 옛 아이콘을 버리게 함. 로고 바꾸면 `ICON_V` 올릴 것.
+- 방명록 새 글 → 텔레그램 알림 (`lib/notify.ts`, `after()`로 응답 뒤 발송). `TELEGRAM_BOT_TOKEN`·`TELEGRAM_CHAT_ID` 없으면 동작 안 함.

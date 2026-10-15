@@ -77,10 +77,10 @@ export function AdminLogin({ onSuccess }: Props) {
     <form
       onSubmit={handleSubmit}
       noValidate
-      className="flex max-w-sm flex-col gap-4 rounded-lg border border-line bg-page p-6"
+      className="rounded-none-none flex max-w-sm flex-col gap-4 border border-term-line bg-term-panel p-6"
     >
       <div className="flex flex-col gap-1.5">
-        <label htmlFor={usernameId} className="text-xs font-medium text-muted">
+        <label htmlFor={usernameId} className="font-mono text-xs text-term-muted">
           아이디
         </label>
         <input
@@ -91,11 +91,11 @@ export function AdminLogin({ onSuccess }: Props) {
           autoComplete="username"
           autoFocus
           aria-describedby={errorMessage ? errorId : undefined}
-          className="rounded border border-line bg-page px-3 py-2 text-sm text-ink transition-colors duration-200 ease-out hover:border-line-strong focus-visible:border-accent-blue focus-visible:outline-none"
+          className="rounded-none border border-term-line bg-term-bg px-3 py-2 font-mono text-sm text-term-ink transition-colors duration-200 ease-out hover:border-term-dim focus-visible:border-term-green focus-visible:outline-none"
         />
       </div>
       <div className="flex flex-col gap-1.5">
-        <label htmlFor={passwordId} className="text-xs font-medium text-muted">
+        <label htmlFor={passwordId} className="font-mono text-xs text-term-muted">
           비밀번호
         </label>
         <input
@@ -105,18 +105,18 @@ export function AdminLogin({ onSuccess }: Props) {
           onChange={(e) => setPassword(e.target.value)}
           autoComplete="current-password"
           aria-describedby={errorMessage ? errorId : undefined}
-          className="rounded border border-line bg-page px-3 py-2 text-sm text-ink transition-colors duration-200 ease-out hover:border-line-strong focus-visible:border-accent-blue focus-visible:outline-none"
+          className="rounded-none border border-term-line bg-term-bg px-3 py-2 font-mono text-sm text-term-ink transition-colors duration-200 ease-out hover:border-term-dim focus-visible:border-term-green focus-visible:outline-none"
         />
       </div>
       <button
         type="submit"
         disabled={disabled}
-        className="inline-flex min-h-9 items-center justify-center rounded bg-ink px-4 py-2 text-sm font-medium text-page transition-colors duration-200 ease-out hover:bg-ink/85 focus-visible:bg-ink/85 disabled:cursor-not-allowed disabled:bg-subtle"
+        className="inline-flex min-h-9 items-center justify-center rounded-none bg-term-green px-4 py-2 text-sm font-medium text-term-bg transition-colors duration-200 ease-out hover:bg-term-green/85 focus-visible:bg-term-green/85 disabled:cursor-not-allowed disabled:bg-term-dim"
       >
         {submitting ? "로그인 중…" : "로그인"}
       </button>
       {errorMessage && (
-        <p id={errorId} role="alert" className="text-xs text-accent-pink">
+        <p id={errorId} role="alert" className="text-xs text-term-red">
           {errorMessage}
         </p>
       )}

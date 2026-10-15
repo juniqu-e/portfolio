@@ -1,6 +1,8 @@
+import { after } from "next/server";
 import { z } from "zod";
 import { getDb, type GuestbookRow } from "@/lib/db";
 import { extractIp, hashIp } from "@/lib/ip-hash";
+import { notifyGuestbookPending } from "@/lib/notify";
 import { checkRateLimit } from "@/lib/rate-limit";
 import type { GuestbookEntry, GuestbookListResponse } from "@/types";
 
@@ -78,10 +80,15 @@ export async function POST(req: Request) {
 
   try {
     const db = getDb();
-    db.prepare(
-      `INSERT INTO guestbook (name, body, ip_hash, approved, deleted, created_at, updated_at)
-       VALUES (?, ?, ?, 0, 0, ?, ?)`,
-    ).run(trimmedName, normalizedBody, ipHash, now, now);
+    const result = db
+      .prepare(
+        `INSERT INTO guestbook (name, body, ip_hash, approved, deleted, created_at, updated_at)
+         VALUES (?, ?, ?, 0, 0, ?, ?)`,
+      )
+      .run(trimmedName, normalizedBody, ipHash, now, now);
+    const id = Number(result.lastInsertRowid);
+    // 응답을 먼저 보내고, 알림은 그 뒤에 (텔레그램이 느려도 방문자는 기다리지 않음)
+    after(() => notifyGuestbookPending({ id, name: trimmedName, body: normalizedBody }));
   } catch {
     return jsonError("INTERNAL_ERROR", "잠시 후 다시 시도해주세요.", 500);
   }

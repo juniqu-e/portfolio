@@ -53,43 +53,102 @@ export default async function OG() {
             fontSize: 20,
           }}
         >
-          <span style={{ display: "block", width: 12, height: 12, borderRadius: 999, backgroundColor: "#FF6B6B", opacity: 0.8 }} />
-          <span style={{ display: "block", width: 12, height: 12, borderRadius: 999, backgroundColor: "#FFB454", opacity: 0.8 }} />
-          <span style={{ display: "block", width: 12, height: 12, borderRadius: 999, backgroundColor: GREEN, opacity: 0.8 }} />
+          <span
+            style={{
+              display: "block",
+              width: 12,
+              height: 12,
+              borderRadius: 999,
+              backgroundColor: "#FF6B6B",
+              opacity: 0.8,
+            }}
+          />
+          <span
+            style={{
+              display: "block",
+              width: 12,
+              height: 12,
+              borderRadius: 999,
+              backgroundColor: "#FFB454",
+              opacity: 0.8,
+            }}
+          />
+          <span
+            style={{
+              display: "block",
+              width: 12,
+              height: 12,
+              borderRadius: 999,
+              backgroundColor: GREEN,
+              opacity: 0.8,
+            }}
+          />
           <span style={{ marginLeft: 10 }}>junik@homeserver: ~/whoami — bash</span>
           <span style={{ marginLeft: "auto" }}>wnsdlr.com</span>
         </div>
 
         <div style={{ display: "flex", flex: 1 }}>
-        <div style={{ display: "flex", flexDirection: "column", flex: 1, padding: "28px 40px", gap: 18 }}>
-          <div style={{ display: "flex", fontSize: 26, color: MUTED }}>
-            <span style={{ color: GREEN }}>junik@homeserver</span>:<span style={{ color: CYAN }}>~/whoami</span>$&nbsp;whoami
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              flex: 1,
+              padding: "28px 40px",
+              gap: 18,
+            }}
+          >
+            <div style={{ display: "flex", fontSize: 26, color: MUTED }}>
+              <span style={{ color: GREEN }}>junik@homeserver</span>:
+              <span style={{ color: CYAN }}>~/whoami</span>$&nbsp;whoami
+            </div>
+            <div
+              style={{
+                display: "flex",
+                fontSize: 150,
+                fontWeight: 800,
+                lineHeight: 0.9,
+                letterSpacing: "-0.04em",
+                color: INK,
+              }}
+            >
+              INFRA
+            </div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "baseline",
+                gap: 18,
+                fontSize: 40,
+                fontWeight: 700,
+              }}
+            >
+              <span>lee</span>
+              <span style={{ color: GREEN }}>junik</span>
+              <span style={{ fontSize: 24, fontWeight: 400, color: MUTED }}>
+                Infrastructure Engineer · 서버 · 클라우드
+              </span>
+            </div>
+            <div style={{ display: "flex", marginTop: "auto", fontSize: 24, color: MUTED }}>
+              기술의 가치는 사람이 할 수 있는 일을 넓히는 데 있다고 믿습니다.
+            </div>
           </div>
-          <div style={{ display: "flex", fontSize: 150, fontWeight: 800, lineHeight: 0.9, letterSpacing: "-0.04em", color: INK }}>
-            INFRA
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: 340,
+              borderLeft: `1px solid ${LINE}`,
+            }}
+          >
+            <img
+              src={logoSrc}
+              alt=""
+              width={280}
+              height={280}
+              style={{ width: 280, height: 280 }}
+            />
           </div>
-          <div style={{ display: "flex", alignItems: "baseline", gap: 18, fontSize: 40, fontWeight: 700 }}>
-            <span>lee</span>
-            <span style={{ color: GREEN }}>junik</span>
-            <span style={{ fontSize: 24, fontWeight: 400, color: MUTED }}>
-              Infrastructure Engineer · 서버 · 클라우드
-            </span>
-          </div>
-          <div style={{ display: "flex", marginTop: "auto", fontSize: 24, color: MUTED }}>
-            기술의 가치는 사람이 할 수 있는 일을 넓히는 데 있다고 믿습니다.
-          </div>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: 340,
-            borderLeft: `1px solid ${LINE}`,
-          }}
-        >
-          <img src={logoSrc} alt="" width={280} height={280} style={{ width: 280, height: 280 }} />
-        </div>
         </div>
       </div>
     </div>,

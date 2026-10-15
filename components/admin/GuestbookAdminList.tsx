@@ -145,7 +145,7 @@ export function GuestbookAdminList({ onUnauthorized }: Props) {
       <div
         role="tablist"
         aria-label="방명록 상태"
-        className="flex flex-wrap gap-1 border-b border-line"
+        className="flex flex-wrap gap-1 border-b border-term-line"
       >
         {TABS.map((tab) => {
           const active = tab.key === activeStatus;
@@ -158,8 +158,8 @@ export function GuestbookAdminList({ onUnauthorized }: Props) {
               onClick={() => setActiveStatus(tab.key)}
               className={
                 active
-                  ? "min-h-9 border-b-2 border-accent-blue px-3 py-2 text-sm font-medium text-ink"
-                  : "min-h-9 border-b-2 border-transparent px-3 py-2 text-sm text-muted transition-colors duration-200 ease-out hover:text-ink"
+                  ? "min-h-9 border-b-2 border-term-green px-3 py-2 text-sm font-medium text-term-ink"
+                  : "min-h-9 border-b-2 border-transparent px-3 py-2 text-sm text-term-muted transition-colors duration-200 ease-out hover:text-term-ink"
               }
             >
               {tab.label}
@@ -175,8 +175,8 @@ export function GuestbookAdminList({ onUnauthorized }: Props) {
         className={
           feedback
             ? feedback.kind === "ok"
-              ? "text-xs text-accent-blue"
-              : "text-xs text-accent-pink"
+              ? "text-xs text-term-green"
+              : "text-xs text-term-red"
             : "sr-only"
         }
       >
@@ -214,26 +214,26 @@ function ListBody({
 }: ListBodyProps) {
   if (state.kind === "loading") {
     return (
-      <p className="font-mono text-xs text-subtle" aria-live="polite">
+      <p className="font-mono text-xs text-term-dim" aria-live="polite">
         로딩 중…
       </p>
     );
   }
   if (state.kind === "error") {
     return (
-      <p role="alert" className="text-sm text-accent-pink">
+      <p role="alert" className="text-sm text-term-red">
         {state.message}
       </p>
     );
   }
   if (state.kind === "empty") {
-    return <p className="text-sm text-muted">표시할 항목이 없습니다.</p>;
+    return <p className="text-sm text-term-muted">표시할 항목이 없습니다.</p>;
   }
 
   const nextCursor = state.nextCursor;
   return (
     <>
-      <p className="font-mono text-xs text-subtle">
+      <p className="font-mono text-xs text-term-dim">
         {state.items.length}건 표시{nextCursor != null ? " · 더 있음" : ""}
       </p>
       <ul className="flex flex-col gap-2">
@@ -252,7 +252,7 @@ function ListBody({
         <button
           type="button"
           onClick={() => onLoadMore(nextCursor)}
-          className="min-h-9 self-start rounded border border-line px-3 py-2 text-sm text-muted transition-colors duration-200 ease-out hover:border-line-strong hover:text-ink"
+          className="min-h-9 self-start rounded-none border border-term-line px-3 py-2 text-sm text-term-muted transition-colors duration-200 ease-out hover:border-term-dim hover:text-term-ink"
         >
           더 보기
         </button>
@@ -272,25 +272,25 @@ type RowProps = {
 function Row({ entry, pending, onApprove, onDelete, onRestore }: RowProps) {
   const tag =
     entry.status === "deleted"
-      ? { label: "삭제", className: "text-subtle" }
+      ? { label: "삭제", className: "text-term-dim" }
       : entry.status === "approved"
-        ? { label: "승인", className: "text-accent-blue" }
-        : { label: "대기", className: "text-accent-pink" };
+        ? { label: "승인", className: "text-term-green" }
+        : { label: "대기", className: "text-term-amber" };
 
   const displayName = entry.name && entry.name.trim() !== "" ? entry.name : "익명";
   const ipTail = entry.ipHash.slice(-8);
 
   return (
-    <li className="grid gap-3 rounded-lg border border-line bg-page p-4 md:grid-cols-[max-content_1fr_auto] md:items-start">
-      <div className="flex flex-col gap-1 font-mono text-xs text-subtle">
-        <span className="text-ink">#{entry.id}</span>
+    <li className="rounded-none-none grid gap-3 border border-term-line bg-term-panel p-4 md:grid-cols-[max-content_1fr_auto] md:items-start">
+      <div className="flex flex-col gap-1 font-mono text-xs text-term-dim">
+        <span className="text-term-ink">#{entry.id}</span>
         <span className={tag.className}>{tag.label}</span>
       </div>
       <div className="flex flex-col gap-2">
-        <p className="whitespace-pre-line break-words text-sm leading-relaxed text-ink">
+        <p className="whitespace-pre-line break-words text-sm leading-relaxed text-term-ink">
           {entry.body}
         </p>
-        <p className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-xs text-subtle">
+        <p className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-xs text-term-dim">
           <span>{displayName}</span>
           <span aria-hidden>·</span>
           <time dateTime={entry.createdAt}>{formatAbsolute(entry.createdAt)}</time>
@@ -304,7 +304,7 @@ function Row({ entry, pending, onApprove, onDelete, onRestore }: RowProps) {
             type="button"
             disabled={pending}
             onClick={onRestore}
-            className="min-h-9 rounded border border-line px-3 py-1.5 text-xs text-muted transition-colors duration-200 ease-out hover:border-line-strong hover:text-ink disabled:cursor-not-allowed disabled:opacity-50"
+            className="min-h-9 rounded-none border border-term-line px-3 py-1.5 text-xs text-term-muted transition-colors duration-200 ease-out hover:border-term-dim hover:text-term-ink disabled:cursor-not-allowed disabled:opacity-50"
           >
             복원
           </button>
@@ -315,7 +315,7 @@ function Row({ entry, pending, onApprove, onDelete, onRestore }: RowProps) {
                 type="button"
                 disabled={pending}
                 onClick={onApprove}
-                className="min-h-9 rounded border border-accent-blue px-3 py-1.5 text-xs text-accent-blue transition-colors duration-200 ease-out hover:bg-accent-blue/10 disabled:cursor-not-allowed disabled:opacity-50"
+                className="min-h-9 rounded-none border border-term-green px-3 py-1.5 text-xs text-term-green transition-colors duration-200 ease-out hover:bg-term-green/10 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 승인
               </button>
@@ -324,7 +324,7 @@ function Row({ entry, pending, onApprove, onDelete, onRestore }: RowProps) {
               type="button"
               disabled={pending}
               onClick={onDelete}
-              className="min-h-9 rounded border border-line px-3 py-1.5 text-xs text-muted transition-colors duration-200 ease-out hover:border-accent-pink hover:text-accent-pink disabled:cursor-not-allowed disabled:opacity-50"
+              className="min-h-9 rounded-none border border-term-line px-3 py-1.5 text-xs text-term-muted transition-colors duration-200 ease-out hover:border-term-red hover:text-term-red disabled:cursor-not-allowed disabled:opacity-50"
             >
               삭제
             </button>
