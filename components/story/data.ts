@@ -3,7 +3,7 @@ import { PROJECTS } from "@/content/projects";
 
 // /story 전용 데이터. 날짜·수치는 content/*.ts 와 같은 출처(CONTENT.md)에서 가져온다.
 // 타임라인 11장 (2026-10-14 확정): SSAFY 입과 → PADING → WhistleHub → À moi → 실습코치
-// → 홈서버 → RAPA 입과 → AI 지식관리 워크스테이션 → 정보처리기사 → CCNA · 문제은행 → VCP 준비.
+// → 홈서버 → RAPA 입과 → AI 지식관리 워크스테이션 → 정보처리기사 → CCNA · 문제은행 → VMware VCP 합격 → AWS SAA 준비.
 // 프로젝트 카드는 content/projects.ts 의 항목을 slug 로 끌어와 상세에 그대로 쓴다.
 
 export const CAREER_START = "2024-07-01T09:00:00+09:00";
@@ -324,22 +324,43 @@ export const CHAPTERS: Chapter[] = [
   },
   {
     id: "vcp",
+    date: "2026.10",
+    tag: "OK",
+    title: "VMware VCP 합격",
+    body: "가상화 수업 열흘째에 응시해 합격했습니다. 중첩 ESXi 4대 설치부터 vCenter, 가상 네트워크, 스토리지까지 실장비로 익힌 뒤였습니다.",
+    detail: {
+      period: "2026.10.22 합격 · VMware vSphere Foundation 9.0 Administrator (2V0-16.25) · 인증서 발급 대기",
+      role: "RAPA 클라우드 보안 전문가 양성과정 가상화 구간 (2026.10.13 ~)",
+      summary: [
+        "RAPA 과정의 서버 가상화 구간이 10월 13일에 시작됐고, 열흘 뒤인 10월 22일에 시험을 봐서 합격했습니다. 중첩 ESXi 8.0 3대와 7.0 1대를 직접 설치하고, VCSA 설치와 VAMI 관리, vSS·vDS와 VLAN, NFS·iSCSI 데이터스토어, KVM까지 수업으로 다룬 범위를 그대로 시험 범위와 겹쳐 놓고 준비했습니다.",
+        "팀 프로젝트에서 vSphere 위 VM 8대로 로드밸런서 이중화를 구성해 본 경험이 있어서, 시험 공부가 개념 암기보다 이미 만져 본 것을 정리하는 쪽에 가까웠습니다. 인증서는 VMware 쪽 발급을 기다리고 있습니다.",
+      ],
+      itemsTitle: "covered",
+      items: [
+        { area: "호스트", detail: "ESXi 설치 · DCUI · Host Client · VMFS6 · esxcli" },
+        { area: "vCenter", detail: "VCSA 설치 · 라이선스 · VAMI(Time · Firewall · Syslog · Backup) · 권한" },
+        { area: "네트워크 · 스토리지", detail: "vSS · vDS · VLAN · 보안 정책 · Teaming · NFS · iSCSI" },
+      ],
+    },
+  },
+  {
+    id: "saa",
     date: "2026.11",
     tag: "RUN",
-    title: "VMware VCP 준비",
-    body: "다음 목표입니다. 현재 가상화에 대해 깊게 공부하고 있습니다.",
+    title: "AWS SAA 준비",
+    body: "다음 목표입니다. 직접 만든 학습 플랫폼에 문제은행을 올려 두고 준비합니다.",
     detail: {
-      period: "2026.10 ~ · RAPA 클라우드 보안 전문가 양성과정 (2026.07 ~ 2026.12) 가상화 구간",
+      period: "2026.11 목표 · AWS Certified Solutions Architect – Associate",
       role: "준비 중",
       summary: [
-        "RAPA 과정의 서버 가상화 구간이 10월 13일에 시작됐습니다. ESXi 설치와 DCUI, Host Client, vCenter로 이어지는 수업을 따라가며 VCP 응시를 준비합니다. 인프라를 고른 선택의 다음 칸입니다.",
-        "당장의 방향은 인프라·서버·시스템 엔지니어입니다. 서버에서 클라우드로, 장기적으로는 사람들이 더 쉽게 만들고 돌릴 수 있는 바탕을 짜는 플랫폼 영역까지 넓히려 합니다. 아직 기본기를 쌓는 중이고, 그 순서를 건너뛰지 않는 것도 선택의 일부입니다.",
+        "퍼블릭 클라우드로 범위를 넓히는 다음 칸입니다. 홈서버에서 운영 중인 학습 플랫폼에 AWS SAA 과목을 추가해 두고, 과정의 AWS 구간(EC2 · VPC · IAM · 부하분산 · 스토리지)과 겹쳐서 준비합니다.",
+        "당장의 방향은 인프라·서버·시스템 엔지니어입니다. 서버에서 클라우드로, 장기적으로는 사람들이 더 쉽게 만들고 돌릴 수 있는 바탕을 짜는 영역까지 넓히려 합니다. 아직 기본기를 쌓는 중이고, 그 순서를 건너뛰지 않는 것도 선택의 일부입니다.",
       ],
       itemsTitle: "on the way",
       items: [
-        { area: "가상화", detail: "vSphere ESXi · vCenter · vSAN · NSX 개요 — 수업 진행 중" },
+        { area: "클라우드", detail: "AWS EC2 · VPC · IAM · 부하분산 · 스토리지 — SAA 준비" },
+        { area: "컨테이너", detail: "홈서버에 k3s를 올려 PADING을 직접 재배포하는 것이 다음 과제" },
         { area: "리눅스", detail: "Ubuntu로 서버 서비스 재구성 중 · RHCSA 준비" },
-        { area: "클라우드", detail: "AWS EC2 · VPC · IAM · 부하분산 — 과정 후반" },
       ],
     },
   },

@@ -120,7 +120,8 @@ SSAFY 12기 수료 후 두 기수를 연속으로 지원했습니다. 교육생 
 | 정보처리기사 | 한국산업인력공단 | 2026.09 | 취득 |
 | CCNA 200-301 | Cisco | 2026.10 | 취득 |
 | 자동차운전면허 2종 보통 | 부산지방경찰청 | 2021.03 | 취득 |
-| VMware VCP | Broadcom | 2026.11 | Running |
+| VMware VCP (vSphere Foundation 9.0 Administrator, 2V0-16.25) | Broadcom | 2026.10 | 취득 — **2026-10-22 시험 합격, 인증서 발급 대기** (번호는 발급 후 기입) |
+| AWS Certified Solutions Architect – Associate | Amazon Web Services | 2026.11 | Running |
 
 ---
 
@@ -140,7 +141,7 @@ SSAFY 12기 수료 후 두 기수를 연속으로 지원했습니다. 교육생 
 
 > 2026-10-14 2차 개편: 03 link 장면·`story.md` 절 삭제, 모토는 **"~라고 믿습니다 / 생각합니다" 어조**로(단정형 금지), 카드 문구도 합니다체. "now"·"running" 섹션 삭제, 방명록 추가, 연락처 마지막.
 
-### 타임라인 11장 (`components/story/data.ts` — 2026-10-14 확정 순서 + RAPA 추가)
+### 타임라인 12장 (`components/story/data.ts` — 2026-10-14 확정 순서 + RAPA 추가 + 2026-10-22 VCP 합격·SAA 카드)
 
 | # | 날짜 | 카드 | 상세의 출처 |
 |---|---|---|---|
@@ -154,7 +155,8 @@ SSAFY 12기 수료 후 두 기수를 연속으로 지원했습니다. 교육생 
 | 7 | 2026.08 | AI 지식관리 워크스테이션 구축 | `ai-knowledge-workstation` + "기록이 귀찮아서 만든 시스템" 서술 |
 | 8 | 2026.09 | 정보처리기사 | "실기가 어려워 문제은행 사이트를 처음 만들었고 문제는 AI로 생성" — **낙방 횟수·점수는 적지 않는다** |
 | 9 | 2026.10 | CCNA · 문제은행 (카드 아래 `ccna.wnsdlr.com`) | `ccna-quiz` 그대로 + 취득일 10/02 |
-| 10 | 2026.11 | VMware VCP 준비 | 가상화 구간 10/13 시작 · 서버 → 클라우드 → 플랫폼 방향 |
+| 10 | 2026.10 | VMware VCP 합격 | 2026-10-22 합격(2V0-16.25) · 수업 범위(중첩 ESXi · VCSA · vSS/vDS · NFS/iSCSI · KVM)와 겹쳐 준비 · **점수는 적지 않는다** · 인증서 발급 대기 (2026-10-22 갱신) |
+| 11 | 2026.11 | AWS SAA 준비 | 다음 목표 · 학습 플랫폼에 SAA 과목 · 과정 AWS 구간과 겹쳐 준비 · 서버 → 클라우드 방향 문단은 여기로 이동 (2026-10-22) |
 
 > 서비스 목록은 정적 스냅샷이다. 컨테이너가 바뀌면 `HOMESERVER_SERVICES.asOf`와 목록을 같이 고친다. 방명록은 메인과 같은 `/api/guestbook`을 쓰고 `GuestbookForm`·`GuestbookList`의 `tone="term"`으로만 다르다.
 

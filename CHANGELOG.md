@@ -10,6 +10,13 @@ Phase는 [ROADMAP.md](./ROADMAP.md)와 매칭되며, 머지 직후 commit hash�
 
 ## [Unreleased]
 
+### Changed
+
+- **Phase 16.6 — VCP 합격 반영 · 다음 목표 AWS SAA** _(2026-10-22)_
+  - certifications: VMware VCP(vSphere Foundation 9.0 Administrator) 2026.10 취득(시험 합격, 인증서 발급 대기), Running = AWS SAA 2026.11
+  - 타임라인 10 "VMware VCP 준비" → "VMware VCP 합격"(OK, 수업 범위 items) · 11 "AWS SAA 준비"(RUN) 신설 → 12장. 점수는 싣지 않음
+  - 소스: 볼트 `04 팩트 시트` §1-4 (Score Report 2026-10-22)
+
 ### Removed
 
 - 사용자 요청으로 철학 영상 작업 취소 — 미사용 컴포넌트, MP4, 포스터와 제작 시안을 삭제.

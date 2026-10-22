@@ -12,5 +12,16 @@ export const CERTIFICATIONS: CertificationEntry[] = [
     date: "2021.03",
     status: "acquired",
   },
-  { title: "VMware VCP", issuer: "Broadcom", date: "2026.11", status: "running" },
+  {
+    title: "VMware VCP (vSphere Foundation 9.0 Administrator)",
+    issuer: "Broadcom",
+    date: "2026.10",
+    status: "acquired",
+  },
+  {
+    title: "AWS Certified Solutions Architect – Associate",
+    issuer: "Amazon Web Services",
+    date: "2026.11",
+    status: "running",
+  },
 ];
